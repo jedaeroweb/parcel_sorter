@@ -25,6 +25,12 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+canvas {
+  display: block;
+  margin: 20px auto;
+  border: 1px solid #555;
+  background: #111;
+}
 
 #sl_ad {
   display: block;

@@ -27,7 +27,6 @@ export default function Game() {
               ref={canvasRef}
               width={1000}
               height={400}
-              className="block w-full h-auto"
           />
 
       </div>
