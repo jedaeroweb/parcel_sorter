@@ -35,6 +35,10 @@ append :linked_dirs,
 # Default value for local_user is ENV['USER']
 # set :local_user, -> { `git config user.name`.chomp }
 
+set :default_env, {
+  PATH: "/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH"
+}
+
 # Default value for keep_releases is 5
 set :keep_releases, 5
 

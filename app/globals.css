@@ -24,3 +24,11 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+#sl_ad {
+  display: block;
+  margin: 20px auto;
+  width: 1000px;
+  text-align: center;
+}
