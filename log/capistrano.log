@@ -1,0 +1,59 @@
+# Logfile created on 2026-06-28 21:45:23 +0900 by logger.rb/v1.7.0
+  INFO ---------------------------------------------------------------------------
+  INFO START 2026-06-28 21:45:23 +0900 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [2ae954c1] Running /usr/bin/env mkdir -p /tmp as deploy@deploy_server
+ DEBUG [2ae954c1] Command: /usr/bin/env mkdir -p /tmp
+  INFO [2ae954c1] Finished in 0.511 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-ae03c382db7cd560855e.sh 0.0%
+  INFO Uploading /tmp/git-ssh-ae03c382db7cd560855e.sh 100.0%
+  INFO [e9ed3e68] Running /usr/bin/env chmod 700 /tmp/git-ssh-ae03c382db7cd560855e.sh as deploy@deploy_server
+ DEBUG [e9ed3e68] Command: /usr/bin/env chmod 700 /tmp/git-ssh-ae03c382db7cd560855e.sh
+  INFO [e9ed3e68] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO [d70497a6] Running /usr/bin/env git ls-remote git@github.com:jedaeroweb/parcel_sorter.git HEAD as deploy@deploy_server
+ DEBUG [d70497a6] Command: ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-ae03c382db7cd560855e.sh" ; /usr/bin/env git ls-remote git@github.com:jedaeroweb/parcel_sorter.git HEAD )
+ DEBUG [d70497a6] 	2371c3c5d0886cdb16487f2508a3d664e130edc1	HEAD
+  INFO [d70497a6] Finished in 2.070 seconds with exit status 0 (successful).
+  INFO [fd78c396] Running /usr/bin/env mkdir -p /home/deploy/sorter/shared /home/deploy/sorter/releases as deploy@deploy_server
+ DEBUG [fd78c396] Command: /usr/bin/env mkdir -p /home/deploy/sorter/shared /home/deploy/sorter/releases
+  INFO [fd78c396] Finished in 0.029 seconds with exit status 0 (successful).
+  INFO [8f953cc2] Running /usr/bin/env mkdir -p /home/deploy/sorter/shared/.next/cache /home/deploy/sorter/shared/node_modules as deploy@deploy_server
+ DEBUG [8f953cc2] Command: /usr/bin/env mkdir -p /home/deploy/sorter/shared/.next/cache /home/deploy/sorter/shared/node_modules
+  INFO [8f953cc2] Finished in 0.074 seconds with exit status 0 (successful).
+ DEBUG [a02941d8] Running [ -f /home/deploy/sorter/current/REVISION ] as deploy@deploy_server
+ DEBUG [a02941d8] Command: [ -f /home/deploy/sorter/current/REVISION ]
+ DEBUG [a02941d8] Finished in 0.078 seconds with exit status 1 (failed).
+ DEBUG [fd8758e0] Running [ -f /home/deploy/sorter/current/REVISION_TIME ] as deploy@deploy_server
+ DEBUG [fd8758e0] Command: [ -f /home/deploy/sorter/current/REVISION_TIME ]
+ DEBUG [fd8758e0] Finished in 0.075 seconds with exit status 1 (failed).
+ DEBUG [a2462e39] Running [ -f /home/deploy/sorter/repo/HEAD ] as deploy@deploy_server
+ DEBUG [a2462e39] Command: [ -f /home/deploy/sorter/repo/HEAD ]
+ DEBUG [a2462e39] Finished in 0.077 seconds with exit status 1 (failed).
+ DEBUG [2ff17320] Running if test ! -d /home/deploy/sorter; then echo "Directory does not exist '/home/deploy/sorter'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [2ff17320] Command: if test ! -d /home/deploy/sorter; then echo "Directory does not exist '/home/deploy/sorter'" 1>&2; false; fi
+ DEBUG [2ff17320] Finished in 0.069 seconds with exit status 0 (successful).
+  INFO [1158b0a2] Running /usr/bin/env git clone --mirror git@github.com:jedaeroweb/parcel_sorter.git /home/deploy/sorter/repo as deploy@deploy_server
+ DEBUG [1158b0a2] Command: cd /home/deploy/sorter && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-ae03c382db7cd560855e.sh" ; /usr/bin/env git clone --mirror git@github.com:jedaeroweb/parcel_sorter.git /home/deploy/sorter/repo )
+ DEBUG [1158b0a2] 	Cloning into bare repository '/home/deploy/sorter/repo'...
+  INFO [1158b0a2] Finished in 2.482 seconds with exit status 0 (successful).
+ DEBUG [085fbacf] Running if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [085fbacf] Command: if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi
+ DEBUG [085fbacf] Finished in 0.030 seconds with exit status 0 (successful).
+  INFO [9ff11e4d] Running /usr/bin/env git remote set-url origin git@github.com:jedaeroweb/parcel_sorter.git as deploy@deploy_server
+ DEBUG [9ff11e4d] Command: cd /home/deploy/sorter/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-ae03c382db7cd560855e.sh" ; /usr/bin/env git remote set-url origin git@github.com:jedaeroweb/parcel_sorter.git )
+  INFO [9ff11e4d] Finished in 0.078 seconds with exit status 0 (successful).
+  INFO [0310be31] Running /usr/bin/env git remote update --prune as deploy@deploy_server
+ DEBUG [0310be31] Command: cd /home/deploy/sorter/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-ae03c382db7cd560855e.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [0310be31] 	Fetching origin
+  INFO [0310be31] Finished in 2.051 seconds with exit status 0 (successful).
+ DEBUG [da09b9c8] Running if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [da09b9c8] Command: if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi
+ DEBUG [da09b9c8] Finished in 0.029 seconds with exit status 0 (successful).
+  INFO [80dc08ff] Running /usr/bin/env mkdir -p /home/deploy/sorter/releases/20260628124526 as deploy@deploy_server
+ DEBUG [80dc08ff] Command: cd /home/deploy/sorter/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-ae03c382db7cd560855e.sh" ; /usr/bin/env mkdir -p /home/deploy/sorter/releases/20260628124526 )
+  INFO [80dc08ff] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [395d2de5] Running /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /home/deploy/sorter/releases/20260628124526 as deploy@deploy_server
+ DEBUG [395d2de5] Command: cd /home/deploy/sorter/repo && ( export GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-ae03c382db7cd560855e.sh" ; /usr/bin/env git archive master | /usr/bin/env tar -x -f - -C /home/deploy/sorter/releases/20260628124526 )
+ DEBUG [395d2de5] 	fatal: not a valid object name: master
+ DEBUG [395d2de5] 	tar: This does not look like a tar archive
+ DEBUG [395d2de5] 	tar: Exiting with failure status due to previous errors
