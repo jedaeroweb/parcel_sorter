@@ -24,7 +24,6 @@ export default async function LocaleLayout({
           {children}
         </main>
 
-        <AdBanner />
         <Footer />
  </NextIntlClientProvider>
   <Script

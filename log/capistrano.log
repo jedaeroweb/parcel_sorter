@@ -1550,3 +1550,205 @@ Run `npm audit` for details.
   INFO [71195b3a] Running /usr/bin/env echo "Branch main (at abfa243377c81f3d904d9f980dd5d12882c9c0b7) deployed as release 20260630093912 by tough" >> /home/deploy/sorter/revisions.log as deploy@deploy_server
  DEBUG [71195b3a] Command: cd /home/deploy/sorter/releases && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env echo "Branch main (at abfa243377c81f3d904d9f980dd5d12882c9c0b7) deployed as release 20260630093912 by tough" >> /home/deploy/sorter/revisions.log )
   INFO [71195b3a] Finished in 0.065 seconds with exit status 0 (successful).
+  INFO ---------------------------------------------------------------------------
+  INFO START 2026-06-30 18:45:30 +0900 cap production deploy
+  INFO ---------------------------------------------------------------------------
+  INFO [a42d3915] Running /usr/bin/env mkdir -p /tmp as deploy@deploy_server
+ DEBUG [a42d3915] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env mkdir -p /tmp )
+  INFO [a42d3915] Finished in 0.387 seconds with exit status 0 (successful).
+ DEBUG Uploading /tmp/git-ssh-666364a70f9adcc4e0ae.sh 0.0%
+  INFO Uploading /tmp/git-ssh-666364a70f9adcc4e0ae.sh 100.0%
+  INFO [63c700e1] Running /usr/bin/env chmod 700 /tmp/git-ssh-666364a70f9adcc4e0ae.sh as deploy@deploy_server
+ DEBUG [63c700e1] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env chmod 700 /tmp/git-ssh-666364a70f9adcc4e0ae.sh )
+  INFO [63c700e1] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [f1a75489] Running /usr/bin/env git ls-remote git@github.com:jedaeroweb/parcel_sorter.git HEAD as deploy@deploy_server
+ DEBUG [f1a75489] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-666364a70f9adcc4e0ae.sh" ; /usr/bin/env git ls-remote git@github.com:jedaeroweb/parcel_sorter.git HEAD )
+ DEBUG [f1a75489] 	d67ad5d5735c80c96148e591e8a4d387ff8ba3a5	HEAD
+  INFO [f1a75489] Finished in 2.051 seconds with exit status 0 (successful).
+  INFO [5b76583c] Running /usr/bin/env mkdir -p /home/deploy/sorter/shared /home/deploy/sorter/releases as deploy@deploy_server
+ DEBUG [5b76583c] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env mkdir -p /home/deploy/sorter/shared /home/deploy/sorter/releases )
+  INFO [5b76583c] Finished in 0.031 seconds with exit status 0 (successful).
+  INFO [6bcc0a81] Running /usr/bin/env mkdir -p /home/deploy/sorter/shared/.next/cache /home/deploy/sorter/shared/node_modules as deploy@deploy_server
+ DEBUG [6bcc0a81] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env mkdir -p /home/deploy/sorter/shared/.next/cache /home/deploy/sorter/shared/node_modules )
+  INFO [6bcc0a81] Finished in 0.081 seconds with exit status 0 (successful).
+ DEBUG [3847cf54] Running [ -f /home/deploy/sorter/current/REVISION ] as deploy@deploy_server
+ DEBUG [3847cf54] Command: [ -f /home/deploy/sorter/current/REVISION ]
+ DEBUG [3847cf54] Finished in 0.083 seconds with exit status 0 (successful).
+ DEBUG [48f3dbf6] Running /usr/bin/env cat /home/deploy/sorter/current/REVISION 2>/dev/null as deploy@deploy_server
+ DEBUG [48f3dbf6] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env cat /home/deploy/sorter/current/REVISION 2>/dev/null )
+ DEBUG [48f3dbf6] 	abfa243377c81f3d904d9f980dd5d12882c9c0b7
+ DEBUG [48f3dbf6] Finished in 0.081 seconds with exit status 0 (successful).
+ DEBUG [6900cf28] Running [ -f /home/deploy/sorter/current/REVISION_TIME ] as deploy@deploy_server
+ DEBUG [6900cf28] Command: [ -f /home/deploy/sorter/current/REVISION_TIME ]
+ DEBUG [6900cf28] Finished in 0.081 seconds with exit status 0 (successful).
+ DEBUG [162c34d2] Running /usr/bin/env cat /home/deploy/sorter/current/REVISION_TIME 2>/dev/null as deploy@deploy_server
+ DEBUG [162c34d2] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env cat /home/deploy/sorter/current/REVISION_TIME 2>/dev/null )
+ DEBUG [162c34d2] 	1782812330
+ DEBUG [162c34d2] Finished in 0.064 seconds with exit status 0 (successful).
+ DEBUG [c47faa07] Running [ -f /home/deploy/sorter/repo/HEAD ] as deploy@deploy_server
+ DEBUG [c47faa07] Command: [ -f /home/deploy/sorter/repo/HEAD ]
+ DEBUG [c47faa07] Finished in 0.074 seconds with exit status 0 (successful).
+  INFO The repository mirror is at /home/deploy/sorter/repo
+ DEBUG [e919f40e] Running if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [e919f40e] Command: if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi
+ DEBUG [e919f40e] Finished in 0.076 seconds with exit status 0 (successful).
+  INFO [72cc551c] Running /usr/bin/env git remote set-url origin git@github.com:jedaeroweb/parcel_sorter.git as deploy@deploy_server
+ DEBUG [72cc551c] Command: cd /home/deploy/sorter/repo && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-666364a70f9adcc4e0ae.sh" ; /usr/bin/env git remote set-url origin git@github.com:jedaeroweb/parcel_sorter.git )
+  INFO [72cc551c] Finished in 0.080 seconds with exit status 0 (successful).
+  INFO [d67c7baa] Running /usr/bin/env git remote update --prune as deploy@deploy_server
+ DEBUG [d67c7baa] Command: cd /home/deploy/sorter/repo && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-666364a70f9adcc4e0ae.sh" ; /usr/bin/env git remote update --prune )
+ DEBUG [d67c7baa] 	Fetching origin
+ DEBUG [d67c7baa] 	From github.com:jedaeroweb/parcel_sorter
+   abfa243..d67ad5d  main       -> main
+  INFO [d67c7baa] Finished in 2.328 seconds with exit status 0 (successful).
+ DEBUG [f77aa8bd] Running if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [f77aa8bd] Command: if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi
+ DEBUG [f77aa8bd] Finished in 0.034 seconds with exit status 0 (successful).
+  INFO [da799433] Running /usr/bin/env mkdir -p /home/deploy/sorter/releases/20260630094533 as deploy@deploy_server
+ DEBUG [da799433] Command: cd /home/deploy/sorter/repo && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-666364a70f9adcc4e0ae.sh" ; /usr/bin/env mkdir -p /home/deploy/sorter/releases/20260630094533 )
+  INFO [da799433] Finished in 0.069 seconds with exit status 0 (successful).
+  INFO [23ded262] Running /usr/bin/env git archive main | /usr/bin/env tar -x -f - -C /home/deploy/sorter/releases/20260630094533 as deploy@deploy_server
+ DEBUG [23ded262] Command: cd /home/deploy/sorter/repo && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-666364a70f9adcc4e0ae.sh" ; /usr/bin/env git archive main | /usr/bin/env tar -x -f - -C /home/deploy/sorter/releases/20260630094533 )
+  INFO [23ded262] Finished in 0.096 seconds with exit status 0 (successful).
+ DEBUG [7ec5daec] Running if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [7ec5daec] Command: if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi
+ DEBUG [7ec5daec] Finished in 0.082 seconds with exit status 0 (successful).
+ DEBUG [c91051df] Running /usr/bin/env git rev-list --max-count=1 main as deploy@deploy_server
+ DEBUG [c91051df] Command: cd /home/deploy/sorter/repo && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-666364a70f9adcc4e0ae.sh" ; /usr/bin/env git rev-list --max-count=1 main )
+ DEBUG [c91051df] 	d67ad5d5735c80c96148e591e8a4d387ff8ba3a5
+ DEBUG [c91051df] Finished in 0.075 seconds with exit status 0 (successful).
+ DEBUG [7841ab48] Running if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [7841ab48] Command: if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi
+ DEBUG [7841ab48] Finished in 0.069 seconds with exit status 0 (successful).
+  INFO [46ba41d3] Running /usr/bin/env echo "d67ad5d5735c80c96148e591e8a4d387ff8ba3a5" > REVISION as deploy@deploy_server
+ DEBUG [46ba41d3] Command: cd /home/deploy/sorter/releases/20260630094533 && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env echo "d67ad5d5735c80c96148e591e8a4d387ff8ba3a5" > REVISION )
+  INFO [46ba41d3] Finished in 0.082 seconds with exit status 0 (successful).
+ DEBUG [86d7afd6] Running if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [86d7afd6] Command: if test ! -d /home/deploy/sorter/repo; then echo "Directory does not exist '/home/deploy/sorter/repo'" 1>&2; false; fi
+ DEBUG [86d7afd6] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [39bea4cc] Running /usr/bin/env git --no-pager log -1 --pretty=format:"%ct" main as deploy@deploy_server
+ DEBUG [39bea4cc] Command: cd /home/deploy/sorter/repo && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" GIT_ASKPASS="/bin/echo" GIT_SSH="/tmp/git-ssh-666364a70f9adcc4e0ae.sh" ; /usr/bin/env git --no-pager log -1 --pretty=format:"%ct" main )
+ DEBUG [39bea4cc] 	1782812713
+ DEBUG [39bea4cc] Finished in 0.082 seconds with exit status 0 (successful).
+ DEBUG [f506f315] Running if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [f506f315] Command: if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi
+ DEBUG [f506f315] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [24fa38ee] Running /usr/bin/env echo "1782812713" > REVISION_TIME as deploy@deploy_server
+ DEBUG [24fa38ee] Command: cd /home/deploy/sorter/releases/20260630094533 && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env echo "1782812713" > REVISION_TIME )
+  INFO [24fa38ee] Finished in 0.100 seconds with exit status 0 (successful).
+  INFO [9b2a595b] Running /usr/bin/env mkdir -p /home/deploy/sorter/releases/20260630094533/.next /home/deploy/sorter/releases/20260630094533 as deploy@deploy_server
+ DEBUG [9b2a595b] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env mkdir -p /home/deploy/sorter/releases/20260630094533/.next /home/deploy/sorter/releases/20260630094533 )
+  INFO [9b2a595b] Finished in 0.078 seconds with exit status 0 (successful).
+ DEBUG [aa4c9cc5] Running [ -L /home/deploy/sorter/releases/20260630094533/.next/cache ] as deploy@deploy_server
+ DEBUG [aa4c9cc5] Command: [ -L /home/deploy/sorter/releases/20260630094533/.next/cache ]
+ DEBUG [aa4c9cc5] Finished in 0.083 seconds with exit status 1 (failed).
+ DEBUG [c9876232] Running [ -d /home/deploy/sorter/releases/20260630094533/.next/cache ] as deploy@deploy_server
+ DEBUG [c9876232] Command: [ -d /home/deploy/sorter/releases/20260630094533/.next/cache ]
+ DEBUG [c9876232] Finished in 0.082 seconds with exit status 1 (failed).
+  INFO [18848a49] Running /usr/bin/env ln -s /home/deploy/sorter/shared/.next/cache /home/deploy/sorter/releases/20260630094533/.next/cache as deploy@deploy_server
+ DEBUG [18848a49] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env ln -s /home/deploy/sorter/shared/.next/cache /home/deploy/sorter/releases/20260630094533/.next/cache )
+  INFO [18848a49] Finished in 0.079 seconds with exit status 0 (successful).
+ DEBUG [2d254792] Running [ -L /home/deploy/sorter/releases/20260630094533/node_modules ] as deploy@deploy_server
+ DEBUG [2d254792] Command: [ -L /home/deploy/sorter/releases/20260630094533/node_modules ]
+ DEBUG [2d254792] Finished in 0.067 seconds with exit status 1 (failed).
+ DEBUG [a742b9ae] Running [ -d /home/deploy/sorter/releases/20260630094533/node_modules ] as deploy@deploy_server
+ DEBUG [a742b9ae] Command: [ -d /home/deploy/sorter/releases/20260630094533/node_modules ]
+ DEBUG [a742b9ae] Finished in 0.084 seconds with exit status 1 (failed).
+  INFO [212dc3cc] Running /usr/bin/env ln -s /home/deploy/sorter/shared/node_modules /home/deploy/sorter/releases/20260630094533/node_modules as deploy@deploy_server
+ DEBUG [212dc3cc] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env ln -s /home/deploy/sorter/shared/node_modules /home/deploy/sorter/releases/20260630094533/node_modules )
+  INFO [212dc3cc] Finished in 0.081 seconds with exit status 0 (successful).
+ DEBUG [1fdbdb98] Running if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [1fdbdb98] Command: if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi
+ DEBUG [1fdbdb98] Finished in 0.077 seconds with exit status 0 (successful).
+  INFO [275e8d4a] Running /usr/bin/env npm install as deploy@deploy_server
+ DEBUG [275e8d4a] Command: cd /home/deploy/sorter/releases/20260630094533 && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env npm install )
+ DEBUG [275e8d4a] 	npm warn reify Removing non-directory /home/deploy/sorter/releases/20260630094533/node_modules
+ DEBUG [275e8d4a] 	
+added 464 packages, and audited 465 packages in 22s
+ DEBUG [275e8d4a] 	
+ DEBUG [275e8d4a] 	162 packages are looking for funding
+ DEBUG [275e8d4a] 	  run `npm fund` for details
+ DEBUG [275e8d4a] 	
+6 vulnerabilities (5 moderate, 1 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+  INFO [275e8d4a] Finished in 22.431 seconds with exit status 0 (successful).
+ DEBUG [aeacb9be] Running if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [aeacb9be] Command: if test ! -d /home/deploy/sorter/releases/20260630094533; then echo "Directory does not exist '/home/deploy/sorter/releases/20260630094533'" 1>&2; false; fi
+ DEBUG [aeacb9be] Finished in 0.083 seconds with exit status 0 (successful).
+  INFO [158988a0] Running /usr/bin/env npm run build as deploy@deploy_server
+ DEBUG [158988a0] Command: cd /home/deploy/sorter/releases/20260630094533 && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env npm run build )
+ DEBUG [158988a0] 	
+> sorter@0.1.0 build
+> next build
+
+ DEBUG [158988a0] 	▲ Next.js 16.2.9 (Turbopack)
+ DEBUG [158988a0] 	
+ DEBUG [158988a0] 	  Creating an optimized production build ...
+ DEBUG [158988a0] 	✓ Compiled successfully in 4.5s
+ DEBUG [158988a0] 	  Running TypeScript ...
+ DEBUG [158988a0] 	  Finished TypeScript in 3.0s ...
+ DEBUG [158988a0] 	  Collecting page data using 3 workers ...
+ DEBUG [158988a0] 	  Generating static pages using 3 workers (0/4) ...
+ DEBUG [158988a0] 	  Generating static pages using 3 workers (1/4) 
+ DEBUG [158988a0] 	  Generating static pages using 3 workers (2/4) 
+ DEBUG [158988a0] 	  Generating static pages using 3 workers (3/4) 
+ DEBUG [158988a0] 	✓ Generating static pages using 3 workers (4/4) in 202ms
+ DEBUG [158988a0] 	  Finalizing page optimization ...
+ DEBUG [158988a0] 	
+ DEBUG [158988a0] 	Route (app)
+┌ ○ /_not-found
+├ ƒ /[locale]
+├ ƒ /[locale]/how-to-play
+├ ƒ /[locale]/tips
+└ ○ /sitemap.xml
+
+
+ƒ Proxy (Middleware)
+ DEBUG [158988a0] 	
+ DEBUG [158988a0] 	○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+ DEBUG [158988a0] 	
+  INFO [158988a0] Finished in 9.749 seconds with exit status 0 (successful).
+  INFO [6ced46c8] Running /usr/bin/env ln -s /home/deploy/sorter/releases/20260630094533 /home/deploy/sorter/releases/current as deploy@deploy_server
+ DEBUG [6ced46c8] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env ln -s /home/deploy/sorter/releases/20260630094533 /home/deploy/sorter/releases/current )
+  INFO [6ced46c8] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [7f8f4486] Running /usr/bin/env mv /home/deploy/sorter/releases/current /home/deploy/sorter as deploy@deploy_server
+ DEBUG [7f8f4486] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env mv /home/deploy/sorter/releases/current /home/deploy/sorter )
+  INFO [7f8f4486] Finished in 0.081 seconds with exit status 0 (successful).
+ DEBUG [de123c62] Running if test ! -d /home/deploy/sorter/current; then echo "Directory does not exist '/home/deploy/sorter/current'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [de123c62] Command: if test ! -d /home/deploy/sorter/current; then echo "Directory does not exist '/home/deploy/sorter/current'" 1>&2; false; fi
+ DEBUG [de123c62] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO [9f18b6dc] Running /usr/bin/env pm2 reload ecosystem.config.js as deploy@deploy_server
+ DEBUG [9f18b6dc] Command: cd /home/deploy/sorter/current && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env pm2 reload ecosystem.config.js )
+ DEBUG [9f18b6dc] 	[PM2] Applying action reloadProcessId on app [sorter](ids: [ 0 ])
+ DEBUG [9f18b6dc] 	[PM2] [sorter](0) ✓
+  INFO [9f18b6dc] Finished in 0.400 seconds with exit status 0 (successful).
+ DEBUG [8aaf210a] Running /usr/bin/env ls -x /home/deploy/sorter/releases as deploy@deploy_server
+ DEBUG [8aaf210a] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env ls -x /home/deploy/sorter/releases )
+ DEBUG [8aaf210a] 	20260628135456	20260628135932	20260630084127	20260630085851	20260630093912
+20260630094533
+ DEBUG [8aaf210a] Finished in 0.082 seconds with exit status 0 (successful).
+  INFO Keeping 5 of 6 deployed releases on deploy_server
+ DEBUG [603ccb76] Running [ -d /home/deploy/sorter/current ] as deploy@deploy_server
+ DEBUG [603ccb76] Command: [ -d /home/deploy/sorter/current ]
+ DEBUG [603ccb76] Finished in 0.080 seconds with exit status 0 (successful).
+ DEBUG [0bc2d7a7] Running /usr/bin/env readlink /home/deploy/sorter/current as deploy@deploy_server
+ DEBUG [0bc2d7a7] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env readlink /home/deploy/sorter/current )
+ DEBUG [0bc2d7a7] 	/home/deploy/sorter/releases/20260630094533
+ DEBUG [0bc2d7a7] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [b614a545] Running /usr/bin/env rm -rf /home/deploy/sorter/releases/20260628135456 as deploy@deploy_server
+ DEBUG [b614a545] Command: ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env rm -rf /home/deploy/sorter/releases/20260628135456 )
+  INFO [b614a545] Finished in 0.634 seconds with exit status 0 (successful).
+ DEBUG [b889caf3] Running if test ! -d /home/deploy/sorter/releases; then echo "Directory does not exist '/home/deploy/sorter/releases'" 1>&2; false; fi as deploy@deploy_server
+ DEBUG [b889caf3] Command: if test ! -d /home/deploy/sorter/releases; then echo "Directory does not exist '/home/deploy/sorter/releases'" 1>&2; false; fi
+ DEBUG [b889caf3] Finished in 0.081 seconds with exit status 0 (successful).
+  INFO [b56025ef] Running /usr/bin/env echo "Branch main (at d67ad5d5735c80c96148e591e8a4d387ff8ba3a5) deployed as release 20260630094533 by tough" >> /home/deploy/sorter/revisions.log as deploy@deploy_server
+ DEBUG [b56025ef] Command: cd /home/deploy/sorter/releases && ( export PATH="/home/deploy/.nvm/versions/node/v22.23.1/bin:$PATH" ; /usr/bin/env echo "Branch main (at d67ad5d5735c80c96148e591e8a4d387ff8ba3a5) deployed as release 20260630094533 by tough" >> /home/deploy/sorter/revisions.log )
+  INFO [b56025ef] Finished in 0.078 seconds with exit status 0 (successful).
