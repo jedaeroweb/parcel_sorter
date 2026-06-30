@@ -24,7 +24,7 @@ export default function AdBanner() {
         display: "block",
       }}
          data-ad-client="ca-pub-5400903051441488"
-      data-ad-slot="1234567890"
+      data-ad-slot="8412654331"
       data-ad-format="auto"
       data-full-width-responsive="true"
     />
