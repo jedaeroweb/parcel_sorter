@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import AdBanner from "@/components/AdBanner";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
+import Script from "next/script";
 
 export default async function LocaleLayout({
     children
@@ -26,6 +27,12 @@ export default async function LocaleLayout({
         <AdBanner />
         <Footer />
  </NextIntlClientProvider>
+  <Script
+          async
+          strategy="afterInteractive"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5400903051441488"
+          crossOrigin="anonymous"
+        />
       </body>
     </html>
   );
