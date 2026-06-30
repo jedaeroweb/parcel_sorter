@@ -9,19 +9,21 @@ declare global {
 }
 
 export default function AdBanner() {
-  useEffect(() => {
+useEffect(() => {
+  if (window.adsbygoogle) {
     try {
-      (window.adsbygoogle = window.adsbygoogle || []).push({});
-    } catch (e) {
-      console.log(e);
-    }
-  }, []);
+      window.adsbygoogle.push({});
+    } catch {}
+  }
+}, []);
 
   return (
     <ins
       className="adsbygoogle"
       style={{
         display: "block",
+         width: "100%",
+         height: "280px"
       }}
          data-ad-client="ca-pub-5400903051441488"
       data-ad-slot="8412654331"
