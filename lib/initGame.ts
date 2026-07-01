@@ -1,6 +1,11 @@
 // @ts-nocheck
 
-export function initGame(canvas: HTMLCanvasElement) {
+import { beep, playCorrectSound, playWrongSound } from "./sound";
+
+export function initGame(
+  canvas: HTMLCanvasElement,
+  onGameOver: () => void
+) {
  const ctx = canvas.getContext("2d")!;
   if (!ctx) return () => {};
 
@@ -68,8 +73,6 @@ const STACK_COLS = 3;
 const STACK_ROWS = 10;
 const STACK_SPACING = 40;
 const MAX_STACK = STACK_COLS * STACK_ROWS;
-
-let gameOver = false;
 
 // 아이템 생성
 function spawnItem() {
@@ -223,8 +226,6 @@ function getAccuracy() {
 
 function startSpawner() {
 
-    if (gameOver) return;
-
     const count =
         Math.random() < 0.25
             ? Math.floor(Math.random() * 4) + 2
@@ -249,24 +250,6 @@ function startSpawner() {
 
 startSpawner();
 
-
-function drawGameOver() {
-
-  if (!gameOver) return;
-
-  ctx.fillStyle = "rgba(0,0,0,0.7)";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.fillStyle = "#fff";
-  ctx.font = "bold 60px Arial";
-  ctx.textAlign = "center";
-
-  ctx.fillText(
-    "GAME OVER",
-    canvas.width / 2,
-    canvas.height / 2
-  );
-}
 
 function restackWarehouse() {
 
@@ -478,11 +461,11 @@ if (realIndex >= 0) {
   // GAME OVER
   // =========================
   if (
-    !gameOver &&
     stackedItems.length >= MAX_STACK &&
     blockedAtEntrance
   ) {
-    gameOver = true;
+    onGameOver();
+    return;
   }
 }
 
@@ -707,12 +690,12 @@ if (zone.count >= zone.capacity) {
 zone.count++;
 
 if (draggingItem.itemNo === zone.itemNo) {
-
+playCorrectSound();
   zone.success++;
   dropSuccess++;
 
 } else {
-
+playWrongSound();
   zone.fail++;
   dropFail++;
 
@@ -788,15 +771,10 @@ function loop() {
 
   drawConveyor();
   drawWarehouse();
-
-  if (!gameOver) {
-    updateItems();
-  }
-
+  updateItems();
   drawItems();
   drawStackedItems();
   drawDropZones();
-  drawGameOver();
 
   animationId = requestAnimationFrame(loop);
 }
