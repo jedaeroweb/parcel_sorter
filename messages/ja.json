@@ -5,6 +5,16 @@
     "how-to-play": "遊び方",
     "tips": "ヒント"
   },
+  "HowToPlay": {
+    "title": "遊び方",
+    "heading": "遊び方",
+    "introduction": "紹介",
+    "description": "Sorterは、制限時間内にコンベアベルト上のアイテムを分類する無料のウェブゲームです。",
+    "how-to-play": "遊び方",
+    "drag-items": "アイテムをドラッグします。",
+    "group-similar": "似たアイテムをまとめます。",
+    "achieve-high-score": "高得点を目指しましょう。"
+  },
   "Tips": {
     "title": "ヒント",
     "heading": "ヒント",

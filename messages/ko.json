@@ -5,6 +5,16 @@
     "how-to-play": "플레이 방법",
     "tips": "팁"
   },
+  "HowToPlay": {
+    "title": "플레이 방법",
+    "heading": "플레이 방법",
+    "introduction": "소개",
+    "description": "Sorter는 컨베이어 벨트 위의 물건을 제한된 시간 안에 분류하는 무료 웹게임입니다.",
+    "how-to-play": "플레이 방법",
+    "drag-items": "아이템을 드래그합니다.",
+    "group-similar": "같은 종류끼리 모읍니다.",
+    "achieve-high-score": "높은 점수를 노립니다."
+  },
   "Tips": {
     "title": "팁",
     "heading": "팁",

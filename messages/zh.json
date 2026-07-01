@@ -5,6 +5,16 @@
     "how-to-play": "游戏玩法",
     "tips": "技巧"
   },
+  "HowToPlay": {
+    "title": "游戏玩法",
+    "heading": "游戏玩法",
+    "introduction": "介绍",
+    "description": "Sorter是一款免费的网页游戏，玩家需要在有限的时间内对传送带上的物品进行分类。",
+    "how-to-play": "游戏玩法",
+    "drag-items": "拖动物品。",
+    "group-similar": "将相似的物品归类整理。",
+    "achieve-high-score": "争取高分。"
+  },
   "Tips": {
     "title": "技巧",
     "heading": "技巧",
