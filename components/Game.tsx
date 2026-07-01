@@ -21,7 +21,7 @@ export default function Game() {
 
   return (
 
-      <div className="rounded-xl overflow-hidden shadow-2xl bg-black">
+      <div className="rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 shadow-xl border border-slate-200 dark:border-zinc-700">
 
           <canvas
               ref={canvasRef}

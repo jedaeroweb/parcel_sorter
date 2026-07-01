@@ -10,12 +10,21 @@
 !.yarn/releases
 !.yarn/versions
 
+.env
+.env*.local
+
 # testing
 /coverage
 
 # next.js
 /.next/
 /out/
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
 
 # production
 /build

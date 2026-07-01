@@ -1,60 +1,151 @@
+"use client";
+
 import Link from "next/link";
+import { Languages, Check } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export default function Footer() {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  const locale = pathname.split("/")[1] || "ko";
+
+  const langs = [
+    { code: "ko", label: "한국어", flag: "🇰🇷" },
+    { code: "en", label: "English", flag: "🇺🇸" },
+    { code: "ja", label: "日本語", flag: "🇯🇵" },
+  ];
+
+  const current = langs.find((l) => l.code === locale) || langs[0];
+
   return (
-    <footer className="mt-auto border-t border-zinc-700 bg-zinc-900 text-gray-400">
+<footer className="bg-slate-50 dark:bg-zinc-900 border-t border-slate-200 dark:border-zinc-700">
 
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-5 px-6 py-6">
+  <div
+    className="
+      mx-auto
+      max-w-7xl
+      px-6
+      py-6
 
-        {/* 언어 선택 */}
-        <div className="flex items-center gap-3">
+      flex
+      flex-col
+      gap-4
 
-          <Link
-            href="/ko"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-800 text-xl transition hover:bg-zinc-700 hover:scale-110"
-            title="한국어"
+      md:flex-row
+      md:items-center
+      md:justify-between
+    "
+  >
+
+    {/* 왼쪽 : 테마 + 언어 */}
+    <div className="flex items-center justify-center gap-3">
+
+      <ThemeSwitcher />
+
+      <div className="relative">
+
+        <button
+          onClick={() => setOpen(!open)}
+          className="
+            flex items-center gap-2
+            rounded-full
+            border border-slate-300 dark:border-zinc-700
+            bg-white dark:bg-zinc-800
+            px-4 py-2
+            shadow-sm
+            hover:bg-slate-100
+            dark:hover:bg-zinc-700
+            transition
+          "
+        >
+          <Languages size={18} />
+          <span>{current.flag}</span>
+          <span>{current.label}</span>
+        </button>
+
+        {open && (
+          <div
+            className="
+              absolute
+              bottom-12
+              left-0
+              w-48
+              rounded-xl
+              border border-slate-200
+              dark:border-zinc-700
+              bg-white
+              dark:bg-zinc-800
+              shadow-xl
+              overflow-hidden
+              z-50
+            "
           >
-            🇰🇷
-          </Link>
+            {langs.map((lang) => (
+              <Link
+                key={lang.code}
+                href={`/${lang.code}`}
+                onClick={() => setOpen(false)}
+                className="
+                  flex items-center justify-between
+                  px-4 py-3
+                  hover:bg-slate-100
+                  dark:hover:bg-zinc-700
+                  transition
+                "
+              >
+                <span className="flex items-center gap-2">
+                  <span>{lang.flag}</span>
+                  {lang.label}
+                </span>
 
-          <Link
-            href="/en"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-800 text-xl transition hover:bg-zinc-700 hover:scale-110"
-            title="English"
-          >
-            🇺🇸
-          </Link>
-
-          <Link
-            href="/ja"
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-800 text-xl transition hover:bg-zinc-700 hover:scale-110"
-            title="日本語"
-          >
-            🇯🇵
-          </Link>
-
-        </div>
-
-        {/* Copyright */}
-        <address className="not-italic text-center text-sm">
-
-          <a
-            href="https://www.jedaeroweb.co.kr"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold text-gray-300 hover:text-white"
-          >
-            Jedaeroweb
-          </a>
-
-          <span className="mx-2 text-zinc-600">|</span>
-
-          Copyleft © 2020 Jedaeroweb. All wrongs reserved.
-
-        </address>
+                {locale === lang.code && (
+                  <Check size={16} />
+                )}
+              </Link>
+            ))}
+          </div>
+        )}
 
       </div>
 
-    </footer>
+    </div>
+
+    {/* 오른쪽 : Copyright */}
+    <address
+      className="
+        not-italic
+        text-center
+        md:text-right
+        text-sm
+        text-slate-500
+        dark:text-zinc-400
+      "
+    >
+      <a
+        href="https://www.jedaeroweb.co.kr"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="
+          font-semibold
+          text-slate-700
+          dark:text-white
+          hover:text-sky-600
+          dark:hover:text-sky-400
+        "
+      >
+        Jedaeroweb
+      </a>
+
+      <span className="mx-2">|</span>
+
+      Copyleft © 2020 Jedaeroweb. All wrongs reserved.
+    </address>
+
+  </div>
+
+</footer>
   );
 }

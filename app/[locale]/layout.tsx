@@ -1,7 +1,7 @@
-import "../globals.css";
+import "@/app/globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import AdBanner from "@/components/AdBanner";
+import Providers from "@/components/Providers";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import Script from "next/script";
@@ -15,8 +15,9 @@ export default async function LocaleLayout({
     const messages = await getMessages();
 
   return (
-    <html lang="ko">
-      <body className="min-h-screen flex flex-col bg-zinc-900 text-white">
+    <html lang="ko" suppressHydrationWarning>
+      <body className="min-h-screen flex flex-col bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-white">
+ <Providers>
 <NextIntlClientProvider messages={messages}>
         <Header />
 
@@ -32,6 +33,7 @@ export default async function LocaleLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5400903051441488"
           crossOrigin="anonymous"
         />
+        </Providers>
       </body>
     </html>
   );
