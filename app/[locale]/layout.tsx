@@ -7,32 +7,36 @@ import { getMessages } from "next-intl/server";
 import Script from "next/script";
 
 export default async function LocaleLayout({
-    children
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
+  const messages = await getMessages();
 
-    const messages = await getMessages();
+  const isProduction = process.env.NODE_ENV === "production";
 
   return (
     <html lang="ko" suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-white">
- <Providers>
-<NextIntlClientProvider messages={messages}>
-        <Header />
+        <Providers>
+          <NextIntlClientProvider messages={messages}>
+            <Header />
 
-        <main className="flex-1">
-          {children}
-        </main>
+            <main className="flex-1">
+              {children}
+            </main>
 
-        <Footer />
- </NextIntlClientProvider>
-  <Script
-          async
-          strategy="afterInteractive"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5400903051441488"
-          crossOrigin="anonymous"
-        />
+            <Footer />
+          </NextIntlClientProvider>
+
+          {isProduction && (
+            <Script
+              async
+              strategy="afterInteractive"
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5400903051441488"
+              crossOrigin="anonymous"
+            />
+          )}
         </Providers>
       </body>
     </html>

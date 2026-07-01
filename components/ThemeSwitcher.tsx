@@ -20,13 +20,19 @@ export default function ThemeSwitcher() {
     <button
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className="
-        flex items-center justify-center
-        w-10 h-10
-        rounded-full
-        border border-slate-300 dark:border-zinc-700
-        bg-white dark:bg-zinc-800
-        hover:bg-slate-100 dark:hover:bg-zinc-700
-        transition-all duration-300
+flex
+h-11
+w-11
+items-center
+justify-center
+rounded-full
+border border-slate-300 dark:border-zinc-700
+bg-white dark:bg-zinc-800
+shadow-sm
+hover:bg-slate-100
+dark:hover:bg-zinc-700
+transition-all
+duration-200
       "
       aria-label="테마 변경"
     >
