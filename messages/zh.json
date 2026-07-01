@@ -1,8 +1,15 @@
 {
   "Home": {
-    "title": "컨베이어 게임",
-    "play": "게임 시작",
-    "how-to-play": "플레이 방법",
-    "tips": "팁"
+    "title": "传送带游戏",
+    "play": "开始游戏",
+    "how-to-play": "游戏玩法",
+    "tips": "技巧"
+  },
+  "Tips": {
+    "title": "技巧",
+    "heading": "技巧",
+    "plan": "提前规划。",
+    "rush": "不要着急。",
+    "group": "将相似的物品归类整理。"
   }
 }

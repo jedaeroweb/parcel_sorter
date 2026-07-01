@@ -12,19 +12,6 @@ export default function Home() {
         <AdBanner />
       </div>
 
-      <section className="mt-12">
-
-        <h2 className="text-3xl font-bold mb-4">
-          Free Browser Puzzle Game
-        </h2>
-
-        <p className="text-zinc-300 leading-8">
-          Drag packages to the correct conveyor and
-          achieve the highest score.
-        </p>
-
-      </section>
-
     </div>
 
   );
