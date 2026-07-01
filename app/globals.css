@@ -33,6 +33,6 @@ canvas {
 #sl_ad {
   display: block;
   margin: 20px auto;
-  width: 1000px;
+  width: 100%;
   text-align: center;
 }
