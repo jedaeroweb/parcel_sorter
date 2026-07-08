@@ -53,7 +53,7 @@ if (gameStarted && isPortrait) {
         <div className="text-6xl">📱</div>
 
         <h2 className="text-2xl font-bold">
-          가로로 돌려주세요
+          {homeT("rotateToPlay")}
         </h2>
       </div>
     </div>
@@ -103,12 +103,10 @@ if (!gameStarted) {
 
 return (
 
-<div className="px-2 sm:px-4">
   <div
   className="
     relative
     w-full
-    max-w-[1000px]
     mx-auto
     rounded-xl
     overflow-hidden
@@ -122,14 +120,14 @@ return (
 >
 <canvas
   ref={canvasRef}
-  width={1000}
+  width={1200}
   height={400}
   className="
     touch-none
     block
     w-full
     h-auto
-    max-w-[1000px]
+    max-w-[1200px]
   "
 />
 
@@ -254,7 +252,6 @@ return (
         </div>
       </div>
     )}
-  </div>
   </div>
 );
 }

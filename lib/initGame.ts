@@ -10,6 +10,10 @@ export function initGame(
  const ctx = canvas.getContext("2d")!;
   if (!ctx) return () => {};
 
+
+  const WIDTH = canvas.width;
+  const HEIGHT = canvas.height;
+
   const BROKEN_CHANCE = 0.1; // 10%
   const spawnTimers: ReturnType<typeof setTimeout>[] = [];
 
@@ -104,17 +108,28 @@ items.push({
 }
 
 const DROP_ZONE_CAPACITY = 50;
+    const LEFT_PANEL = 250;
+const RIGHT_PANEL = 360;
+
+const PLAY_WIDTH = WIDTH - LEFT_PANEL - RIGHT_PANEL;
 
 const TOP_COUNT =
   Math.ceil(ITEM_NUMBERS.length / 2);
 
 ITEM_NUMBERS.forEach((itemNo, i) => {
 
+
+
 dropZones.push({
   itemNo,
   name: String(itemNo),
 
-  x: 250 + (i % TOP_COUNT) * 80,
+
+
+x:
+  LEFT_PANEL +
+  (i % TOP_COUNT) *
+  (PLAY_WIDTH / TOP_COUNT),
 
   y: i < TOP_COUNT
     ? 20
@@ -371,7 +386,7 @@ ctx.fillText(
 function drawConveyor() {
   const beltY = 180;
   const beltHeight = 100;
-  const BELT_END_X = 820;
+  const BELT_END_X = WIDTH - 380;
 
   // 벨트 본체
   ctx.fillStyle = "#555";
@@ -409,7 +424,7 @@ function drawConveyor() {
 
 // 아이템 이동
 function updateItems() {
-  const WAIT_LINE_X = 840;
+  const WAIT_LINE_X = WIDTH - 360;
   const ITEM_GAP = 28;
 
   let blockedAtEntrance = false;
@@ -440,7 +455,7 @@ for (let i = 0; i < movingItems.length; i++) {
   }
 
 
-const WAREHOUSE_X = 840;
+const WAREHOUSE_X = WIDTH - 360;
 const WAREHOUSE_W = 180;
 
 const col = Math.floor(stackIndex / STACK_ROWS);
@@ -541,7 +556,7 @@ function drawItems() {
 ctx.fillText(
   item.revealed ? item.itemNo : "???",
   item.x + item.size / 2,
-  item.y + item.size / 2+10
+  item.y + 15
 )
 
 if (item.broken) {
@@ -599,8 +614,8 @@ const onClick = (e: PointerEvent) => {
 
   const rect = canvas.getBoundingClientRect();
 
-const scaleX = canvas.width / rect.width;
-const scaleY = canvas.height / rect.height;
+const scaleX = WIDTH  / rect.width;
+const scaleY = HEIGHT / rect.height;
 
 const mx = (e.clientX - rect.left) * scaleX;
 const my = (e.clientY - rect.top) * scaleY;
@@ -640,8 +655,8 @@ if (paused) return;
 canvas.setPointerCapture(e.pointerId);
 const rect = canvas.getBoundingClientRect();
 
-const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
-const my = (e.clientY - rect.top) * (canvas.height / rect.height);
+const mx = (e.clientX - rect.left) * (WIDTH  / rect.width);
+const my = (e.clientY - rect.top) * (HEIGHT / rect.height);
 
 // 창고 아이템 우선 선택
 for (let i = stackedItems.length - 1; i >= 0; i--) {
@@ -709,8 +724,8 @@ const onPointerMove = (e: PointerEvent) => {
 
 const rect = canvas.getBoundingClientRect();
 
-const scaleX = canvas.width / rect.width;
-const scaleY = canvas.height / rect.height;
+const scaleX = WIDTH  / rect.width;
+const scaleY = HEIGHT / rect.height;
 
 const mx = (e.clientX - rect.left) * scaleX;
 const my = (e.clientY - rect.top) * scaleY;
@@ -799,7 +814,7 @@ break;
     !dropped &&
     draggingSource === stackedItems &&
     centerX >= 0 &&
-    centerX <= 820 &&
+    centerX <= 1020 &&
     centerY >= 180 &&
     centerY <= 280
   ) {
@@ -844,7 +859,7 @@ canvas.addEventListener("pointerup", onPointerUp);
 canvas.addEventListener("pointercancel", onPointerUp);
 
 function loop() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
 
   drawConveyor();
   drawWarehouse();
