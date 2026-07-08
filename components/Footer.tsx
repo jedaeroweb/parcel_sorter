@@ -5,6 +5,7 @@ import { Languages, Check } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
+import "flag-icons/css/flag-icons.min.css";
 
 export default function Footer() {
   const pathname = usePathname();
@@ -12,12 +13,12 @@ export default function Footer() {
 
   const locale = pathname.split("/")[1] || "ko";
 
-  const langs = [
-    { code: "ko", label: "한국어", flag: "🇰🇷" },
-    { code: "en", label: "English", flag: "🇺🇸" },
-    { code: "ja", label: "日本語", flag: "🇯🇵" },
-    { code: "zh", label: "中文", flag: "🇨🇳" },
-  ];
+const langs = [
+  { code: "ko", label: "한국어", flag: "kr" },
+  { code: "en", label: "English", flag: "us" },
+  { code: "ja", label: "日本語", flag: "jp" },
+  { code: "zh", label: "中文", flag: "cn" },
+];
 
   const current = langs.find((l) => l.code === locale) || langs[0];
 
@@ -63,8 +64,10 @@ export default function Footer() {
           "
         >
           <Languages size={18} />
-          <span>{current.flag}</span>
-          <span>{current.label}</span>
+<span className="flex items-center gap-2">
+  <span className={`fi fi-${current.flag}`} />
+  {current.label}
+</span>
         </button>
 
         {open && (
@@ -98,7 +101,7 @@ export default function Footer() {
                 "
               >
                 <span className="flex items-center gap-2">
-                  <span>{lang.flag}</span>
+                  <span className={`fi fi-${lang.flag}`} />
                   {lang.label}
                 </span>
 
