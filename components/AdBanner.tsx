@@ -38,8 +38,6 @@ export default function AdBanner() {
     <ins
       className="adsbygoogle mx-auto block"
       style={{
-        display: "block",
-        width: "100%",
         height: "280px",
       }}
       data-ad-client="ca-pub-5400903051441488"
