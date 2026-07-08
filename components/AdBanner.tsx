@@ -36,7 +36,7 @@ export default function AdBanner() {
 
   return (
     <ins
-      className="adsbygoogle mx-auto"
+      className="adsbygoogle mx-auto block"
       style={{
         display: "block",
         width: "100%",
