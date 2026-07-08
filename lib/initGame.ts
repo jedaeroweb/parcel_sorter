@@ -17,6 +17,34 @@ export function initGame(
   const BROKEN_CHANCE = 0.1; // 10%
   const spawnTimers: ReturnType<typeof setTimeout>[] = [];
 
+  const WAREHOUSE_W = 180;
+  const WAREHOUSE_H = 310;
+  const WAREHOUSE_MARGIN = 20;
+
+  const DROP_ZONE_START_X = 250;
+  const DROP_ZONE_END_MARGIN = 40;
+
+  const WAREHOUSE_X = WIDTH - WAREHOUSE_W - WAREHOUSE_MARGIN;  
+
+  const BELT_END_X = WAREHOUSE_X - 20;
+  const WAIT_LINE_X = WAREHOUSE_X;
+
+  const BELT_Y = 180;
+  const BELT_HEIGHT = 100;
+
+  const PLAY_WIDTH =
+  BELT_END_X - DROP_ZONE_START_X - DROP_ZONE_END_MARGIN;
+
+
+  // 아이템 번호 안 보일 확률
+  const ITEM_NUMBER_HIDE = 0.2;
+
+
+  const SPAWN_MIN_DELAY = 700;
+  const SPAWN_RANDOM_DELAY = 1500;
+
+
+  let itemSize = 36;
 
   let animationId = 0;
   let paused = false;
@@ -91,7 +119,7 @@ function spawnItem() {
 items.push({
   x: -30,
   y: 188,
-  size: 36,
+  size: itemSize,
 
   color: ITEM_COLORS[
     Math.floor(Math.random() * ITEM_COLORS.length)
@@ -101,50 +129,36 @@ items.push({
     Math.floor(Math.random() * ITEM_NUMBERS.length)
   ],
 
-  revealed: Math.random() < 0.5, // 절반은 처음부터 공개
+  revealed: Math.random() > ITEM_NUMBER_HIDE,
   revealAttempts: 0,
   broken: false
 });
 }
 
-const DROP_ZONE_CAPACITY = 50;
-    const LEFT_PANEL = 250;
-const RIGHT_PANEL = 360;
-
-const PLAY_WIDTH = WIDTH - LEFT_PANEL - RIGHT_PANEL;
-
 const TOP_COUNT =
   Math.ceil(ITEM_NUMBERS.length / 2);
 
 ITEM_NUMBERS.forEach((itemNo, i) => {
+  dropZones.push({
+    itemNo,
+    name: String(itemNo),
 
+    x:
+      DROP_ZONE_START_X +
+      (i % TOP_COUNT) *
+      (PLAY_WIDTH / TOP_COUNT),
 
+    y: i < TOP_COUNT ? 20 : 320,
 
-dropZones.push({
-  itemNo,
-  name: String(itemNo),
+    w: 70,
+    h: 50,
 
+    count: 0,
+    capacity: 30,
 
-
-x:
-  LEFT_PANEL +
-  (i % TOP_COUNT) *
-  (PLAY_WIDTH / TOP_COUNT),
-
-  y: i < TOP_COUNT
-    ? 20
-    : 320,
-
-  w: 70,
-  h: 50,
-
-  count: 0,
-  capacity: 30,
-
-  success: 0,
-  fail: 0
-});
-
+    success: 0,
+    fail: 0
+  });
 });
 
 
@@ -275,7 +289,7 @@ function startSpawner() {
 
     const count =
         Math.random() < 0.25
-            ? Math.floor(Math.random() * 4) + 2
+            ? Math.floor(Math.random() * 2) + 2
             : 1;
 
     for (let i = 0; i < count; i++) {
@@ -286,8 +300,9 @@ function startSpawner() {
 
     }
 
-    const nextSpawn =
-        300 + Math.random() * 2000;
+const nextSpawn =
+    SPAWN_MIN_DELAY +
+    Math.random() * SPAWN_RANDOM_DELAY;
 
     spawnTimer = setTimeout(
         startSpawner,
@@ -300,7 +315,7 @@ startSpawner();
 
 function restackWarehouse() {
 
-  const WAREHOUSE_X = 840;
+
 
   for (let i = 0; i < stackedItems.length; i++) {
 
@@ -357,10 +372,13 @@ drawBrokenLabel(item);
 }
 
 function drawWarehouse() {
-  const WAREHOUSE_X = 840;
-  const WAREHOUSE_Y = 60;
-  const WAREHOUSE_W = 180;
-  const WAREHOUSE_H = 310;
+const WAREHOUSE_W = 180;
+const WAREHOUSE_H = 310;
+const WAREHOUSE_MARGIN = 20;
+
+const WAREHOUSE_X = WIDTH - WAREHOUSE_W - WAREHOUSE_MARGIN;
+
+const WAREHOUSE_Y = 60;
 
   ctx.fillStyle = "#888";
   ctx.fillRect(
@@ -384,9 +402,8 @@ ctx.fillText(
 
 // 컨베이어 벨트 그리기
 function drawConveyor() {
-  const beltY = 180;
-  const beltHeight = 100;
-  const BELT_END_X = WIDTH - 380;
+  const beltY = BELT_Y;
+  const beltHeight = BELT_HEIGHT;
 
   // 벨트 본체
   ctx.fillStyle = "#555";
@@ -424,7 +441,7 @@ function drawConveyor() {
 
 // 아이템 이동
 function updateItems() {
-  const WAIT_LINE_X = WIDTH - 360;
+  const WAIT_LINE_X = BELT_END_X - 36;
   const ITEM_GAP = 28;
 
   let blockedAtEntrance = false;
@@ -455,8 +472,7 @@ for (let i = 0; i < movingItems.length; i++) {
   }
 
 
-const WAREHOUSE_X = WIDTH - 360;
-const WAREHOUSE_W = 180;
+
 
 const col = Math.floor(stackIndex / STACK_ROWS);
 const row = stackIndex % STACK_ROWS;
@@ -465,7 +481,7 @@ stackedItems.push({
   color: item.color,
   size: item.size,
   itemNo: item.itemNo,
-  revealed: Math.random() < 0.5,
+  revealed: Math.random() > ITEM_NUMBER_HIDE,
   revealAttempts: 0,
   broken: Math.random() < BROKEN_CHANCE,
 
@@ -814,7 +830,7 @@ break;
     !dropped &&
     draggingSource === stackedItems &&
     centerX >= 0 &&
-    centerX <= 1020 &&
+    centerX <= BELT_END_X &&
     centerY >= 180 &&
     centerY <= 280
   ) {
