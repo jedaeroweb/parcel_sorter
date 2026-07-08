@@ -35,6 +35,7 @@ export default function AdBanner() {
   }
 
   return (
+    <div  className="w-full mx-auto max-w-[1200px]">
     <ins
       className="adsbygoogle mx-auto block"
       style={{
@@ -45,5 +46,6 @@ export default function AdBanner() {
       data-ad-format="auto"
       data-full-width-responsive="true"
     />
-  );
+  </div>
+);
 }
