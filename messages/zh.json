@@ -15,6 +15,10 @@
     "group-similar": "将相似的物品归类整理。",
     "achieve-high-score": "争取高分。"
   },
+    "Game": {
+    "resume": "继续",
+    "clickAnywhereToResume": "哪里点击继续"
+  },
   "Tips": {
     "title": "技巧",
     "heading": "技巧",

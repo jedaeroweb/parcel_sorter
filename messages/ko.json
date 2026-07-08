@@ -15,6 +15,11 @@
     "group-similar": "같은 종류끼리 모읍니다.",
     "achieve-high-score": "높은 점수를 노립니다."
   },
+  "Game": {
+    "resume": "계속하기",
+    "clickAnywhereToResume": "아무 곳이나 클릭하여 계속"
+  },
+  
   "Tips": {
     "title": "팁",
     "heading": "팁",

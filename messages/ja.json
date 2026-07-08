@@ -15,6 +15,10 @@
     "group-similar": "似たアイテムをまとめます。",
     "achieve-high-score": "高得点を目指しましょう。"
   },
+    "Game": {
+    "resume": "再開",
+    "clickAnywhereToResume": "どこでもクリックして再開"
+  },
   "Tips": {
     "title": "ヒント",
     "heading": "ヒント",

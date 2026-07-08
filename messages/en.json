@@ -15,6 +15,10 @@
     "group-similar": "Group similar items together.",
     "achieve-high-score": "Aim for a high score."
   },
+    "Game": {
+    "resume": "Resume",
+    "clickAnywhereToResume": "Click anywhere to continue"
+  },
   "Tips": {
     "title": "Tips",
     "heading": "Tips",

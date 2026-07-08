@@ -10,6 +10,8 @@ export function initGame(
   if (!ctx) return () => {};
 
   let animationId = 0;
+  let paused = false;
+  let beltOffset = 0;
   let spawnTimer: ReturnType<typeof setTimeout> | null = null;
   const spawnTimers: ReturnType<typeof setTimeout>[] = [];
 
@@ -225,6 +227,10 @@ function getAccuracy() {
 }
 
 function startSpawner() {
+    if (paused) {
+    spawnTimer = setTimeout(startSpawner, 100);
+    return;
+  }
 
     const count =
         Math.random() < 0.25
@@ -348,7 +354,7 @@ function drawConveyor() {
   );
   ctx.clip();
 
-  const offset = (Date.now() / 20) % 40;
+  const offset = beltOffset;
 
   ctx.strokeStyle = "#777";
   ctx.lineWidth = 2;
@@ -528,6 +534,7 @@ function tryReveal(item) {
 }
 
 const onClick = (e: MouseEvent) => {
+  if (paused) return;
 
   const rect = canvas.getBoundingClientRect();
 
@@ -567,7 +574,7 @@ canvas.addEventListener(
 );
 
 const onMouseDown = (e: MouseEvent) => {
-
+if (paused) return;
 const rect = canvas.getBoundingClientRect();
 
 const mx = e.clientX - rect.left;
@@ -638,7 +645,7 @@ canvas.addEventListener(
 
 
 const onMouseMove = (e: MouseEvent) => {
-
+ if (paused) return;
 if (!draggingItem) return;
 
 const rect = canvas.getBoundingClientRect();
@@ -660,7 +667,8 @@ canvas.addEventListener(
 
 
 const onMouseUp = () => {
-
+ if (paused) return;
+ 
   if (!draggingItem) return;
 
   const centerX =
@@ -766,12 +774,16 @@ canvas.addEventListener(
 );
 
 function loop() {
-
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   drawConveyor();
   drawWarehouse();
-  updateItems();
+
+  if (!paused) {
+     beltOffset = (beltOffset + BELT_SPEED * 2) % 40;
+    updateItems();
+  }
+
   drawItems();
   drawStackedItems();
   drawDropZones();
@@ -781,43 +793,28 @@ function loop() {
 
 loop();
 
-return () => {
+return {
+  pause() {
+    paused = true;
+  },
 
-    cancelAnimationFrame(
-        animationId
-    );
+  resume() {
+    paused = false;
+  },
+
+  destroy() {
+    cancelAnimationFrame(animationId);
 
     if (spawnTimer) {
-
-        clearTimeout(
-            spawnTimer
-        );
-
+      clearTimeout(spawnTimer);
     }
 
-    spawnTimers.forEach(
-        clearTimeout
-    );
+    spawnTimers.forEach(clearTimeout);
 
-    canvas.removeEventListener(
-        "click",
-        onClick
-    );
-
-    canvas.removeEventListener(
-        "mousedown",
-        onMouseDown
-    );
-
-    canvas.removeEventListener(
-        "mousemove",
-        onMouseMove
-    );
-
-    canvas.removeEventListener(
-        "mouseup",
-        onMouseUp
-    );
-
+    canvas.removeEventListener("click", onClick);
+    canvas.removeEventListener("mousedown", onMouseDown);
+    canvas.removeEventListener("mousemove", onMouseMove);
+    canvas.removeEventListener("mouseup", onMouseUp);
+  }
 };
 }
