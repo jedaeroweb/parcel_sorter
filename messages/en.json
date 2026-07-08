@@ -20,13 +20,16 @@
     "gameOver": "GAME OVER",
     "restart": "Restart",
     "resume": "Resume",
-    "clickAnywhereToResume": "Click anywhere to continue"
+    "clickAnywhereToResume": "Click anywhere to continue",
+    "floor": "Dropped",
+    "broken": "Broken"
   },
   "Tips": {
     "title": "Tips",
     "heading": "Tips",
     "plan": "Plan ahead.",
     "rush": "Don't rush.",
-    "group": "Group similar items together."
+    "group": "Group similar items together.",
+    "avoidDroppingItems": "Try to avoid dropping items."
   }
 }

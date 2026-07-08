@@ -32,9 +32,13 @@ useEffect(() => {
   const canvas = canvasRef.current;
   if (!canvas) return;
 
-  gameRef.current = initGame(canvas, () => {
+gameRef.current = initGame(
+  canvas,
+  () => {
     setGameOver(true);
-  });
+  },
+  t
+);
 
   return () => {
     gameRef.current?.destroy();

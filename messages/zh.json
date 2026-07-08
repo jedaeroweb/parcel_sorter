@@ -20,13 +20,16 @@
     "gameOver": "游戏结束",
     "restart": "重新开始",
     "resume": "继续",
-    "clickAnywhereToResume": "哪里点击继续"
+    "clickAnywhereToResume": "哪里点击继续",
+    "floor": "掉落品",
+    "broken": "损坏"
   },
   "Tips": {
     "title": "技巧",
     "heading": "技巧",
     "plan": "提前规划。",
     "rush": "不要着急。",
-    "group": "将相似的物品归类整理。"
+    "group": "将相似的物品归类整理。",
+    "avoidDroppingItems": "尽量避免货物掉落。"
   }
 }

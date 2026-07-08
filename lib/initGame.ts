@@ -4,16 +4,21 @@ import { beep, playCorrectSound, playWrongSound } from "./sound";
 
 export function initGame(
   canvas: HTMLCanvasElement,
-  onGameOver: () => void
+  onGameOver: () => void,
+  t: (key: string) => string
 ) {
  const ctx = canvas.getContext("2d")!;
   if (!ctx) return () => {};
+
+  const BROKEN_CHANCE = 0.1; // 10%
+  const spawnTimers: ReturnType<typeof setTimeout>[] = [];
+
 
   let animationId = 0;
   let paused = false;
   let beltOffset = 0;
   let spawnTimer: ReturnType<typeof setTimeout> | null = null;
-  const spawnTimers: ReturnType<typeof setTimeout>[] = [];
+
 
 type Item = {
   x: number;
@@ -23,6 +28,7 @@ type Item = {
   itemNo: number;
   revealed: boolean;
   revealAttempts: number;
+   broken: boolean;
 };
 
 type DropZone = {
@@ -92,7 +98,8 @@ items.push({
   ],
 
   revealed: Math.random() < 0.5, // 절반은 처음부터 공개
-  revealAttempts: 0
+  revealAttempts: 0,
+  broken: false
 });
 }
 
@@ -124,6 +131,25 @@ dropZones.push({
 });
 
 });
+
+
+dropZones.push({
+  itemNo: -1,           // 파손 전용
+  name: t("broken"),
+
+  x: 20,
+  y: 320,
+
+  w: 100,
+  h: 50,
+
+  count: 0,
+  capacity: 30,
+
+  success: 0,
+  fail: 0
+});
+
 
 let draggingItem: Item | null = null;
 let draggingSource: Item[] | null = null;
@@ -303,7 +329,16 @@ ctx.fillText(
   item.x + item.size / 2,
   item.y + 15
 );
+
+if (item.broken) {
+  ctx.fillStyle = "#ff3333";
+  ctx.font = "bold 11px Arial";
+  ctx.textAlign = "center";
+
+drawBrokenLabel(item);
+
   }
+}
 }
 
 function drawWarehouse() {
@@ -324,12 +359,12 @@ function drawWarehouse() {
   ctx.fillStyle = "#fff";
   ctx.font = "bold 18px Arial";
   ctx.textAlign = "center";
-
-  ctx.fillText(
-    `바닥 (${stackedItems.length}/${MAX_STACK})`,
-    WAREHOUSE_X + WAREHOUSE_W / 2,
-    WAREHOUSE_Y - 15
-  );
+  
+ctx.fillText(
+  `${t("floor")} (${stackedItems.length}/${MAX_STACK})`,
+  WAREHOUSE_X + WAREHOUSE_W / 2,
+  WAREHOUSE_Y - 15
+);
 }
 
 // 컨베이어 벨트 그리기
@@ -417,6 +452,7 @@ stackedItems.push({
   itemNo: item.itemNo,
   revealed: Math.random() < 0.5,
   revealAttempts: 0,
+  broken: Math.random() < BROKEN_CHANCE,
 
   x: WAREHOUSE_X + col * STACK_SPACING,
   y: 350 - row * STACK_SPACING
@@ -507,7 +543,32 @@ ctx.fillText(
   item.x + item.size / 2,
   item.y + item.size / 2+10
 )
+
+if (item.broken) {
+  ctx.fillStyle = "#ff3333";
+  ctx.font = "bold 11px Arial";
+  ctx.textAlign = "center";
+
+drawBrokenLabel(item);
+}
+
   }
+}
+
+function drawBrokenLabel(item: Item) {
+  if (!item.broken) {
+    return;
+  }
+
+  ctx.fillStyle = "#ff3333";
+  ctx.font = "bold 11px Arial";
+  ctx.textAlign = "center";
+
+  ctx.fillText(
+    t("broken"),
+    item.x + item.size / 2,
+    item.y + 30
+  );
 }
 
 function tryReveal(item) {
@@ -690,16 +751,27 @@ if (zone.count >= zone.capacity) {
 
 zone.count++;
 
-if (draggingItem.itemNo === zone.itemNo) {
-playCorrectSound();
-  zone.success++;
-  dropSuccess++;
+let success = false;
 
+// 파손품 전용 존
+if (zone.itemNo === -1) {
+    success = draggingItem.broken;
+}
+// 일반 존
+else {
+    success =
+        !draggingItem.broken &&
+        draggingItem.itemNo === zone.itemNo;
+}
+
+if (success) {
+    playCorrectSound();
+    zone.success++;
+    dropSuccess++;
 } else {
-playWrongSound();
-  zone.fail++;
-  dropFail++;
-
+    playWrongSound();
+    zone.fail++;
+    dropFail++;
 }
 
 const idx =

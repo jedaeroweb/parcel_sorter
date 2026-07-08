@@ -20,7 +20,9 @@
     "gameOver": "게임 오버",
     "restart": "다시하기",
     "resume": "계속하기",
-    "clickAnywhereToResume": "아무 곳이나 클릭하여 계속"
+    "clickAnywhereToResume": "아무 곳이나 클릭하여 계속",
+    "floor": "바닥 떨어짐",
+    "broken": "파손"
   },
   
   "Tips": {
@@ -28,6 +30,7 @@
     "heading": "팁",
     "plan": "미리 계획하세요.",
     "rush": "서두르지 마세요.",
-    "group": "비슷한 물건끼리 모아 정리하세요."
+    "group": "비슷한 물건끼리 모아 정리하세요.",
+    "avoidDroppingItems": "최대한 아이템을 떨어뜨리지 않도록 하세요."
   }  
 }

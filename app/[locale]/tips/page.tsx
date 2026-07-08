@@ -28,6 +28,7 @@ export default async function Tips() {
         <li>{t("plan")}</li>
         <li>{t("rush")}</li>
         <li>{t("group")}</li>
+        <li>{t("avoidDroppingItems")}</li>
       </ul>
     </main>
   );

@@ -20,13 +20,16 @@
     "gameOver": "ゲームオーバー",
     "restart": "リスタート",
     "resume": "再開",
-    "clickAnywhereToResume": "どこでもクリックして再開"
+    "clickAnywhereToResume": "どこでもクリックして再開",
+    "floor": "落下品",
+    "broken": "壊れた"
   },
   "Tips": {
     "title": "ヒント",
     "heading": "ヒント",
     "plan": "事前に計画しましょう。",
     "rush": "急がないでください。",
-    "group": "似たアイテムをまとめましょう。"
+    "group": "似たアイテムをまとめましょう。",
+    "avoidDroppingItems": "できるだけ商品を落とさないようにしましょう。"
   }
 }
