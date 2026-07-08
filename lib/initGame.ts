@@ -533,13 +533,16 @@ function tryReveal(item) {
   return true;
 }
 
-const onClick = (e: MouseEvent) => {
+const onClick = (e: PointerEvent) => {
   if (paused) return;
 
   const rect = canvas.getBoundingClientRect();
 
-  const mx = e.clientX - rect.left;
-  const my = e.clientY - rect.top;
+const scaleX = canvas.width / rect.width;
+const scaleY = canvas.height / rect.height;
+
+const mx = (e.clientX - rect.left) * scaleX;
+const my = (e.clientY - rect.top) * scaleY;
 
 for (const item of items) {
 
@@ -567,18 +570,16 @@ for (const item of stackedItems) {
   }
 }
 };
+canvas.addEventListener("pointerdown", onClick);
 
-canvas.addEventListener(
-    "click",
-    onClick
-);
-
-const onMouseDown = (e: MouseEvent) => {
+const onPointerDown = (e: PointerEvent) => {
 if (paused) return;
+
+canvas.setPointerCapture(e.pointerId);
 const rect = canvas.getBoundingClientRect();
 
-const mx = e.clientX - rect.left;
-const my = e.clientY - rect.top;
+const mx = (e.clientX - rect.left) * (canvas.width / rect.width);
+const my = (e.clientY - rect.top) * (canvas.height / rect.height);
 
 // 창고 아이템 우선 선택
 for (let i = stackedItems.length - 1; i >= 0; i--) {
@@ -637,14 +638,9 @@ if (
 }
 };
 
-canvas.addEventListener(
-    "mousedown",
-    onMouseDown
-);
+canvas.addEventListener("pointerdown", onPointerDown);
 
-
-
-const onMouseMove = (e: MouseEvent) => {
+const onPointerMove = (e: PointerEvent) => {
  if (paused) return;
 if (!draggingItem) return;
 
@@ -660,13 +656,10 @@ draggingItem.x = mx - dragOffsetX;
 draggingItem.y = my - dragOffsetY;
 };
 
-canvas.addEventListener(
-    "mousemove",
-    onMouseMove
-);
 
+canvas.addEventListener("pointermove", onPointerMove);
 
-const onMouseUp = () => {
+const onPointerUp = (e: PointerEvent) => {
  if (paused) return;
  
   if (!draggingItem) return;
@@ -764,14 +757,17 @@ break;
     draggingItem.y = originalY;
   }
 
-  draggingItem = null;
-  draggingSource = null;
+draggingItem = null;
+draggingSource = null;
+
+canvas.releasePointerCapture(e.pointerId);
 };
 
-canvas.addEventListener(
-    "mouseup",
-    onMouseUp
-);
+
+canvas.addEventListener("pointerup", onPointerUp);
+
+
+canvas.addEventListener("pointercancel", onPointerUp);
 
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -811,10 +807,12 @@ return {
 
     spawnTimers.forEach(clearTimeout);
 
-    canvas.removeEventListener("click", onClick);
-    canvas.removeEventListener("mousedown", onMouseDown);
-    canvas.removeEventListener("mousemove", onMouseMove);
-    canvas.removeEventListener("mouseup", onMouseUp);
+canvas.removeEventListener("pointerdown", onClick);
+
+canvas.removeEventListener("pointerdown", onPointerDown);
+canvas.removeEventListener("pointermove", onPointerMove);
+canvas.removeEventListener("pointerup", onPointerUp);
+canvas.removeEventListener("pointercancel", onPointerUp);
   }
 };
 }

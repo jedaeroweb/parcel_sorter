@@ -3,7 +3,8 @@
     "title": "컨베이어 게임",
     "play": "게임 시작",
     "how-to-play": "플레이 방법",
-    "tips": "팁"
+    "tips": "팁",
+    "rotateToPlay": "게임을 하려면 가로로 돌려주세요"
   },
   "HowToPlay": {
     "title": "플레이 방법",
@@ -16,6 +17,8 @@
     "achieve-high-score": "높은 점수를 노립니다."
   },
   "Game": {
+    "gameOver": "게임 오버",
+    "restart": "다시하기",
     "resume": "계속하기",
     "clickAnywhereToResume": "아무 곳이나 클릭하여 계속"
   },

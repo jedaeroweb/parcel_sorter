@@ -3,7 +3,8 @@
     "title": "传送带游戏",
     "play": "开始游戏",
     "how-to-play": "游戏玩法",
-    "tips": "技巧"
+    "tips": "技巧",
+    "rotateToPlay": "游戏开始前请先旋转屏幕"
   },
   "HowToPlay": {
     "title": "游戏玩法",
@@ -15,7 +16,9 @@
     "group-similar": "将相似的物品归类整理。",
     "achieve-high-score": "争取高分。"
   },
-    "Game": {
+  "Game": {
+    "gameOver": "游戏结束",
+    "restart": "重新开始",
     "resume": "继续",
     "clickAnywhereToResume": "哪里点击继续"
   },

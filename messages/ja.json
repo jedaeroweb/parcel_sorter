@@ -3,7 +3,8 @@
     "title": "コンベアゲーム",
     "play": "ゲーム開始",
     "how-to-play": "遊び方",
-    "tips": "ヒント"
+    "tips": "ヒント",
+    "rotateToPlay": "ゲームをするには回転させてください"
   },
   "HowToPlay": {
     "title": "遊び方",
@@ -15,7 +16,9 @@
     "group-similar": "似たアイテムをまとめます。",
     "achieve-high-score": "高得点を目指しましょう。"
   },
-    "Game": {
+  "Game": {
+    "gameOver": "ゲームオーバー",
+    "restart": "リスタート",
     "resume": "再開",
     "clickAnywhereToResume": "どこでもクリックして再開"
   },

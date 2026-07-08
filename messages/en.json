@@ -3,7 +3,8 @@
     "title": "Conveyor Game",
     "play": "Play Game",
     "how-to-play": "How to Play",
-    "tips": "Tips"
+    "tips": "Tips",
+    "rotateToPlay": "Rotate to Play"
   },
   "HowToPlay": {
     "title": "How to Play",
@@ -16,6 +17,8 @@
     "achieve-high-score": "Aim for a high score."
   },
     "Game": {
+    "gameOver": "GAME OVER",
+    "restart": "Restart",
     "resume": "Resume",
     "clickAnywhereToResume": "Click anywhere to continue"
   },

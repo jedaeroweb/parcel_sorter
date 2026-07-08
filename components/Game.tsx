@@ -12,6 +12,7 @@ const canvasRef = useRef<HTMLCanvasElement>(null);
 const gameRef = useRef<any>(null);
 const [paused, setPaused] = useState(false);
 const t = useTranslations("Game");
+const homeT = useTranslations("Home");
 
 useEffect(() => {
   const update = () => {
@@ -65,13 +66,13 @@ if (!gameStarted) {
           <div className="text-6xl">📱</div>
 
           <h2 className="text-2xl font-bold">
-            가로로 돌려주세요
+            {homeT("rotateToPlay")}
           </h2>
         </div>
       ) : (
         <div className="text-center space-y-6">
           <h1 className="text-5xl font-bold">
-            Conveyor
+            {homeT("title")}
           </h1>
 
           <button
@@ -87,7 +88,7 @@ if (!gameStarted) {
               transition
             "
           >
-            ▶ 게임 시작
+            ▶ {homeT("play")}
           </button>
         </div>
       )}
@@ -100,11 +101,12 @@ return (
 
   
   <div className="relative rounded-xl overflow-hidden shadow-2xl bg-black">
-    <canvas
-      ref={canvasRef}
-      width={1000}
-      height={400}
-    />
+<canvas
+    ref={canvasRef}
+    width={1000}
+    height={400}
+    className="touch-none"
+/>
 
 {!paused && (
 <button
@@ -199,7 +201,7 @@ return (
       >
         <div className="text-center space-y-6">
           <h1 className="text-5xl font-bold text-red-500">
-            GAME OVER
+             {t("gameOver")}
           </h1>
 
           <button
@@ -222,7 +224,7 @@ return (
               transition
             "
           >
-            ▶ 다시하기
+            ▶ {t("restart")}
           </button>
         </div>
       </div>
