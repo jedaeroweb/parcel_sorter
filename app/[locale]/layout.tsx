@@ -3,50 +3,45 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Providers from "@/components/Providers";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations  } from "next-intl/server";
 import Script from "next/script";
 
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://www.jedaeroweb.co.kr"),
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
 
-  title: {
-    default: "Conveyor Game",
-    template: "%s | Conveyor Game",
-  },
+  const t = await getTranslations({
+    locale,
+    namespace: "Home",
+  });
 
-  description: "Conveyor puzzle game",
+  const ogLocale = {
+    ko: "ko_KR",
+    en: "en_US",
+    ja: "ja_JP",
+    zh: "zh_CN",
+  }[locale] ?? "en_US";
 
-  applicationName: "Conveyor Game",
-
-  keywords: [
-    "game",
-    "conveyor",
-    "puzzle",
-    "sorting",
-    "brain game",
-  ],
-
-  authors: [
-    {
-      name: "Jedaeroweb",
-      url: "https://www.jedaeroweb.co.kr",
+  return {
+    title: {
+      default: t("title"),
+      template: `%s | ${t("title")}`,
     },
-  ],
 
-  creator: "Jedaeroweb",
+    description: t("description"),
 
-  openGraph: {
-    type: "website",
-    siteName: "Conveyor Game",
-    locale: "ko_KR",
-  },
-
-  twitter: {
-    card: "summary_large_image",
-  },
-};
+    openGraph: {
+      type: "website",
+      siteName: t("title"),
+      locale: ogLocale,
+    },
+  };
+}
 
 
 export default async function LocaleLayout({

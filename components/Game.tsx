@@ -131,7 +131,7 @@ return (
   "
 />
 
-{!paused && (
+{!paused && !gameOver && (
 <button
   onClick={() => {
     gameRef.current?.pause();

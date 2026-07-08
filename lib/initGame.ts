@@ -113,10 +113,12 @@ const BLOCKED_X = 20;
 const ITEM_FONT=  "bold 18px Arial";
 const ITEM_TEXT_ALIGN = "center";
 
-const STACK_COLS = 3;
-const STACK_ROWS = 10;
+
+const MAX_STACK = 30;
+const STACK_COLS = 4;
+const STACK_ROWS = Math.ceil(MAX_STACK / STACK_COLS);
 const STACK_SPACING = 40;
-const MAX_STACK = STACK_COLS * STACK_ROWS;
+
 
 // 아이템 생성
 function spawnItem() {
