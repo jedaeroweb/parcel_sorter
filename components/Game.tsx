@@ -103,13 +103,30 @@ if (!gameStarted) {
 
 return (
 
-  
-  <div className="relative rounded-xl overflow-hidden shadow-2xl bg-black">
+<div className="px-2 sm:px-4">
+  <div
+  className="
+    relative
+    w-full
+    max-w-[1000px]
+    mx-auto
+    rounded-xl
+    overflow-hidden
+    shadow-2xl
+    bg-black
+  "
+>
 <canvas
-    ref={canvasRef}
-    width={1000}
-    height={400}
-    className="touch-none"
+  ref={canvasRef}
+  width={1000}
+  height={400}
+  className="
+    touch-none
+    block
+    w-full
+    h-auto
+    max-w-[1000px]
+  "
 />
 
 {!paused && (
@@ -233,6 +250,7 @@ return (
         </div>
       </div>
     )}
+  </div>
   </div>
 );
 }
