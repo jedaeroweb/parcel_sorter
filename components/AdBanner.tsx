@@ -36,10 +36,7 @@ export default function AdBanner() {
 
   return (
     <ins
-      className="adsbygoogle mx-auto block"
-      style={{
-        height: "280px",
-      }}
+      className="adsbygoogle"
       data-ad-client="ca-pub-5400903051441488"
       data-ad-slot="8412654331"
       data-ad-format="auto"
