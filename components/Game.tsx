@@ -48,7 +48,7 @@ gameRef.current = initGame(
 
 if (gameStarted && isPortrait) {
   return (
-    <div className="flex h-[600px] items-center justify-center">
+    <div className="flex h-[600px] max-w-[1200px] items-center justify-center">
       <div className="space-y-6 text-center">
         <div className="text-6xl">📱</div>
 
@@ -64,7 +64,7 @@ if (gameStarted && isPortrait) {
 
 if (!gameStarted) {
   return (
-    <div className="flex h-[600px] items-center justify-center">
+    <div className="flex h-[600px] max-w-[1200px] items-center justify-center">
       {isPortrait ? (
         <div className="text-center space-y-6">
           <div className="text-6xl">📱</div>
@@ -107,6 +107,7 @@ return (
   className="
     relative
     w-full
+    max-w-[1200px]
     mx-auto
     rounded-xl
     overflow-hidden
@@ -120,14 +121,13 @@ return (
 >
 <canvas
   ref={canvasRef}
-  width={1200}
+  width={1160}
   height={400}
   className="
     touch-none
     block
     w-full
     h-auto
-    max-w-[1200px]
   "
 />
 

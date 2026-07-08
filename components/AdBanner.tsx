@@ -28,7 +28,7 @@ export default function AdBanner() {
 
   if (process.env.NODE_ENV !== "production") {
     return (
-      <div className="flex h-[280px] w-full items-center justify-center rounded-lg bg-red-500 text-white">
+      <div className="flex h-[280px] w-full mx-auto items-center justify-center rounded-lg bg-red-500 text-white" style={{ width: "1200px" }}>
         Adsense
       </div>
     );

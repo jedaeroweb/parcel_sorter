@@ -44,6 +44,10 @@ export function initGame(
   const SPAWN_RANDOM_DELAY = 1500;
 
 
+  const NO_SPAWN_RATE = 0.2;
+  const MULTI_SPAWN_RATE = 0.1;
+
+
   let itemSize = 36;
 
   let animationId = 0;
@@ -286,11 +290,18 @@ function startSpawner() {
     spawnTimer = setTimeout(startSpawner, 100);
     return;
   }
+  
+const r = Math.random();
 
-    const count =
-        Math.random() < 0.25
-            ? Math.floor(Math.random() * 2) + 2
-            : 1;
+let count;
+
+if (r < NO_SPAWN_RATE) {
+  count = 0;
+} else if (r < NO_SPAWN_RATE + MULTI_SPAWN_RATE) {
+  count = Math.floor(Math.random() * 4) + 2;
+} else {
+  count = 1;
+}
 
     for (let i = 0; i < count; i++) {
 
