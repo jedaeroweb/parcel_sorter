@@ -634,6 +634,7 @@ for (const item of stackedItems) {
 canvas.addEventListener("pointerdown", onClick);
 
 const onPointerDown = (e: PointerEvent) => {
+e.preventDefault();
 if (paused) return;
 
 canvas.setPointerCapture(e.pointerId);
@@ -702,8 +703,9 @@ if (
 canvas.addEventListener("pointerdown", onPointerDown);
 
 const onPointerMove = (e: PointerEvent) => {
- if (paused) return;
-if (!draggingItem) return;
+  e.preventDefault();  
+  if (paused) return;
+  if (!draggingItem) return;
 
 const rect = canvas.getBoundingClientRect();
 

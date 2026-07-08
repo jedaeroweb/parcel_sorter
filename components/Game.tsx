@@ -114,6 +114,10 @@ return (
     overflow-hidden
     shadow-2xl
     bg-black
+    select-none
+    touch-none
+    [-webkit-touch-callout:none]
+    [-webkit-user-select:none]
   "
 >
 <canvas
