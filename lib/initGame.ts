@@ -42,7 +42,7 @@ export function initGame(
   
   const STAGES = [
   {
-    time: 20,
+    time: 200,
     itemCount: 6,
     beltSpeed: 1,
     brokenChance: 0.1,
@@ -51,7 +51,7 @@ export function initGame(
     itemHide: 0.2,
   },
   {
-    time: 30,
+    time: 300,
     itemCount: 8,
     beltSpeed: 1.3,
     brokenChance: 0.15,
