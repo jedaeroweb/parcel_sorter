@@ -14,7 +14,6 @@ export function initGame(
   const WIDTH = canvas.width;
   const HEIGHT = canvas.height;
 
-  const BROKEN_CHANCE = 0.1; // 10%
   const spawnTimers: ReturnType<typeof setTimeout>[] = [];
 
   const WAREHOUSE_W = 180;
@@ -36,16 +35,56 @@ export function initGame(
   BELT_END_X - DROP_ZONE_START_X - DROP_ZONE_END_MARGIN;
 
 
-  // 아이템 번호 안 보일 확률
-  const ITEM_NUMBER_HIDE = 0.2;
-
-
-  const SPAWN_MIN_DELAY = 700;
-  const SPAWN_RANDOM_DELAY = 1500;
-
 
   const NO_SPAWN_RATE = 0.2;
   const MULTI_SPAWN_RATE = 0.1;
+
+  
+  const STAGES = [
+  {
+    time: 20,
+    itemCount: 6,
+    beltSpeed: 1,
+    brokenChance: 0.1,
+    spawnMinDelay: 700,
+    spawnRandomDelay: 1500,
+    itemHide: 0.2,
+  },
+  {
+    time: 30,
+    itemCount: 8,
+    beltSpeed: 1.3,
+    brokenChance: 0.15,
+    spawnMinDelay: 500,
+    spawnRandomDelay: 1000,
+    itemHide: 0.3,
+  },
+  {
+    time: 400,
+    itemCount: 12,
+    beltSpeed: 1.7,
+    brokenChance: 0.2,
+    spawnMinDelay: 350,
+    spawnRandomDelay: 700,
+    itemHide: 0.4,
+  }
+];
+
+  let currentStage = 0;
+
+  // 벨트 속도 (모든 아이템 동일)
+  let BELT_SPEED = STAGES[0].beltSpeed;
+
+  let BROKEN_CHANCE = STAGES[0].brokenChance;
+
+    // 아이템 번호 안 보일 확률
+  let ITEM_NUMBER_HIDE = STAGES[0].itemHide;
+
+  let SPAWN_MIN_DELAY = STAGES[0].spawnMinDelay;
+  let SPAWN_RANDOM_DELAY = STAGES[0].spawnRandomDelay;
+
+  let stageStart = Date.now();
+  let remainTime = STAGES[0].time;
 
 
   let itemSize = 36;
@@ -80,12 +119,17 @@ type DropZone = {
   fail: number;
 };
 
-const items: Item[] = [];
-const stackedItems: Item[] = [];
+let ITEM_NUMBERS: string[] = [];
+
 const dropZones: DropZone[] = [];
 
-// 벨트 속도 (모든 아이템 동일)
-const BELT_SPEED = 1;
+changeStage(0);
+updateItemNumbers();
+
+const items: Item[] = [];
+const stackedItems: Item[] = [];
+
+
 
 const ITEM_COLORS = [
   "#ff6b6b",
@@ -95,20 +139,7 @@ const ITEM_COLORS = [
   "#a29bfe"
 ];
 
-const ITEM_NUMBERS = [
-  101,
-  102,
-  103,
-  104,
-  105,
-  106,
-  107,
-  108,
-  109,
-  110,
-  111,
-  112
-];
+
 const BLOCKED_X = 20;
 const ITEM_FONT=  "bold 18px Arial";
 const ITEM_TEXT_ALIGN = "center";
@@ -119,6 +150,16 @@ const STACK_COLS = 4;
 const STACK_ROWS = Math.ceil(MAX_STACK / STACK_COLS);
 const STACK_SPACING = 40;
 
+
+
+function updateItemNumbers() {
+  const count = STAGES[currentStage].itemCount;
+
+  ITEM_NUMBERS = Array.from(
+    { length: count },
+    (_, i) => `${currentStage + 1}${String(i + 1).padStart(2, "0")}`
+  );
+}
 
 // 아이템 생성
 function spawnItem() {
@@ -142,48 +183,47 @@ items.push({
 }
 
 const TOP_COUNT =
-  Math.ceil(ITEM_NUMBERS.length / 2);
+    Math.ceil(ITEM_NUMBERS.length / 2);
 
-ITEM_NUMBERS.forEach((itemNo, i) => {
+function updateDropZones() {
+  dropZones.length = 0;
+
+  const TOP_COUNT = Math.ceil(ITEM_NUMBERS.length / 2);
+
+  ITEM_NUMBERS.forEach((itemNo, i) => {
+    dropZones.push({
+      itemNo,
+      name: String(itemNo),
+
+      x:
+        DROP_ZONE_START_X +
+        (i % TOP_COUNT) * (PLAY_WIDTH / TOP_COUNT),
+
+      y: i < TOP_COUNT ? 20 : 320,
+
+      w: 70,
+      h: 50,
+
+      count: 0,
+      capacity: 30,
+      success: 0,
+      fail: 0,
+    });
+  });
+
   dropZones.push({
-    itemNo,
-    name: String(itemNo),
-
-    x:
-      DROP_ZONE_START_X +
-      (i % TOP_COUNT) *
-      (PLAY_WIDTH / TOP_COUNT),
-
-    y: i < TOP_COUNT ? 20 : 320,
-
-    w: 70,
+    itemNo: -1,
+    name: t("broken"),
+    x: 20,
+    y: 320,
+    w: 100,
     h: 50,
-
     count: 0,
     capacity: 30,
-
     success: 0,
-    fail: 0
+    fail: 0,
   });
-});
-
-
-dropZones.push({
-  itemNo: -1,           // 파손 전용
-  name: t("broken"),
-
-  x: 20,
-  y: 320,
-
-  w: 100,
-  h: 50,
-
-  count: 0,
-  capacity: 30,
-
-  success: 0,
-  fail: 0
-});
+}
 
 
 let draggingItem: Item | null = null;
@@ -228,7 +268,7 @@ function drawDropZones() {
 
   for (const zone of dropZones) {
 
-    ctx.fillStyle = "#444";
+    ctx.fillStyle = "#1b1616";
 
     ctx.fillRect(
       zone.x,
@@ -889,6 +929,25 @@ canvas.addEventListener("pointercancel", onPointerUp);
 
 function loop() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
+ctx.fillStyle = "white";
+ctx.font = "24px Arial";
+ctx.textAlign = "left";
+
+remainTime =
+    STAGES[currentStage].time -
+    Math.floor((Date.now() - stageStart) / 1000);
+
+ctx.fillText(
+    `Stage ${currentStage + 1}`,
+    20,
+    30
+);
+
+ctx.fillText(
+    `${remainTime}s`,
+    20,
+    60
+);
 
   drawConveyor();
   drawWarehouse();
@@ -903,9 +962,34 @@ function loop() {
   drawDropZones();
 
   animationId = requestAnimationFrame(loop);
+
+
+  if (remainTime <= 0) {
+if (currentStage + 1 < STAGES.length) {
+    changeStage(currentStage + 1);
+} else {
+    // 게임 종료 또는 클리어
+}
+  }
 }
 
 loop();
+
+
+function changeStage(stage: number) {
+  currentStage = stage;
+
+  updateItemNumbers();
+  updateDropZones();
+
+  BELT_SPEED = STAGES[stage].beltSpeed;
+  BROKEN_CHANCE = STAGES[stage].brokenChance;
+  SPAWN_MIN_DELAY = STAGES[stage].spawnMinDelay;
+  SPAWN_RANDOM_DELAY = STAGES[stage].spawnRandomDelay;
+
+  stageStart = Date.now();
+}
+
 
 return {
   pause() {
