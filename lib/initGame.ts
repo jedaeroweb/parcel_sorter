@@ -85,7 +85,7 @@ export function initGame(
 
   let stageStart = Date.now();
   let remainTime = STAGES[0].time;
-
+  let lastTick = Date.now();
 
   let itemSize = 36;
 
@@ -121,13 +121,14 @@ type DropZone = {
 
 let ITEM_NUMBERS: string[] = [];
 
-const dropZones: DropZone[] = [];
 
-changeStage(0);
-updateItemNumbers();
 
 const items: Item[] = [];
 const stackedItems: Item[] = [];
+
+const dropZones: DropZone[] = [];
+
+
 
 
 
@@ -239,6 +240,20 @@ let originalY = 0;
 
 let dropSuccess = 0;
 let dropFail = 0;
+
+
+
+
+
+
+
+
+
+changeStage(0);
+updateItemNumbers();
+
+
+
 
 
 function getZoneAccuracy(zone: DropZone) {
@@ -933,9 +948,14 @@ ctx.fillStyle = "white";
 ctx.font = "24px Arial";
 ctx.textAlign = "left";
 
-remainTime =
-    STAGES[currentStage].time -
-    Math.floor((Date.now() - stageStart) / 1000);
+if (!paused) {
+  const now = Date.now();
+
+  if (now - lastTick >= 1000) {
+    remainTime--;
+    lastTick += 1000;
+  }
+}
 
 ctx.fillText(
     `Stage ${currentStage + 1}`,
@@ -943,10 +963,17 @@ ctx.fillText(
     30
 );
 
+remainTime = Math.max(0, remainTime);
+const minutes = Math.floor(remainTime / 60);
+const seconds = remainTime % 60;
+
 ctx.fillText(
-    `${remainTime}s`,
-    20,
-    60
+  t("timeFormat", {
+    minutes,
+    seconds,
+  }),
+  20,
+  60
 );
 
   drawConveyor();
@@ -979,15 +1006,31 @@ loop();
 function changeStage(stage: number) {
   currentStage = stage;
 
+  remainTime = STAGES[stage].time;
+  lastTick = Date.now();
+
+  // 이전 스테이지 벨트 아이템 제거
+  items.length = 0;
+
+  // (선택) 드래그 중인 아이템도 취소
+  draggingItem = null;
+  draggingSource = null;
+
   updateItemNumbers();
   updateDropZones();
 
+  stackedItems.length = 0;
+  restackWarehouse();
+
   BELT_SPEED = STAGES[stage].beltSpeed;
   BROKEN_CHANCE = STAGES[stage].brokenChance;
+  ITEM_NUMBER_HIDE = STAGES[stage].itemHide;
   SPAWN_MIN_DELAY = STAGES[stage].spawnMinDelay;
   SPAWN_RANDOM_DELAY = STAGES[stage].spawnRandomDelay;
 
   stageStart = Date.now();
+
+
 }
 
 
@@ -996,9 +1039,10 @@ return {
     paused = true;
   },
 
-  resume() {
-    paused = false;
-  },
+resume() {
+  paused = false;
+  lastTick = Date.now();
+},
 
   destroy() {
     cancelAnimationFrame(animationId);

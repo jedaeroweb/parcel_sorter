@@ -22,7 +22,8 @@
     "resume": "再開",
     "clickAnywhereToResume": "どこでもクリックして再開",
     "floor": "落下品",
-    "broken": "壊れた"
+    "broken": "壊れた",
+    "timeFormat": "{minutes}分 {seconds}秒"
   },
   "Tips": {
     "title": "ヒント",
