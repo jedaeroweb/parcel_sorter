@@ -35,6 +35,15 @@ export async function generateMetadata({
 
     description: t("description"),
 
+    alternates: {
+languages: {
+ko: "/ko",
+en: "/en",
+ja: "/ja",
+zh: "/zh",
+    },
+  },
+
     openGraph: {
       type: "website",
       siteName: t("title"),
@@ -45,16 +54,19 @@ export async function generateMetadata({
 
 
 export default async function LocaleLayout({
-  children,
+children,
+params,
 }: {
-  children: React.ReactNode;
+children: React.ReactNode;
+params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   const messages = await getMessages();
 
   const isProduction = process.env.NODE_ENV === "production";
 
   return (
-    <html lang="ko" suppressHydrationWarning>
+      <html lang={locale} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-white">
         <Providers>
           <NextIntlClientProvider messages={messages}>
@@ -68,12 +80,16 @@ export default async function LocaleLayout({
           </NextIntlClientProvider>
 
           {isProduction && (
+            <>
             <Script
               async
               strategy="afterInteractive"
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5400903051441488"
               crossOrigin="anonymous"
             />
+<Script async src="https://www.googletagmanager.com/gtag/js?id=G-NHX5BKH9KT"></Script>
+<Script id="google-analytics" strategy="afterInteractive"> {` window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-NHX5BKH9KT'); `} </Script>
+</>
           )}
         </Providers>
       </body>

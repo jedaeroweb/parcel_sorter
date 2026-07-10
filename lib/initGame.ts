@@ -1047,10 +1047,10 @@ remainTime = Math.max(0, remainTime);
 const minutes = Math.floor(remainTime / 60);
 const seconds = remainTime % 60;
 
-const timeText = t("timeFormat", {
-  minutes,
-  seconds,
-});
+const timeText =
+  minutes > 0
+    ? `${minutes}:${String(seconds).padStart(2, "0")}`
+    : String(seconds).padStart(2, "0");
 
 const timeWidth = ctx.measureText(timeText).width;
 

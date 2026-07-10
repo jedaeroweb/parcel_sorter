@@ -29,7 +29,6 @@
     "clickAnywhereToResume": "아무 곳이나 클릭하여 계속",
     "floor": "바닥 떨어짐",
     "broken": "파손",
-    "timeFormat": "{minutes}분 {seconds}초"
   },
     "Rankings": {
     "title": "순위",

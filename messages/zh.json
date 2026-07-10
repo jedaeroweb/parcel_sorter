@@ -28,7 +28,6 @@
     "clickAnywhereToResume": "哪里点击继续",
     "floor": "掉落品",
     "broken": "损坏",
-    "timeFormat": "{minutes}分 {seconds}秒"
   },
   "Rankings": {
     "title": "排行榜",

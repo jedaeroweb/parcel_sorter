@@ -28,7 +28,6 @@
     "clickAnywhereToResume": "Click anywhere to continue",
     "floor": "Dropped",
     "broken": "Broken",
-    "timeFormat": "{minutes}m {seconds}s"
   },
     "Rankings": {
     "title": "Rankings",
