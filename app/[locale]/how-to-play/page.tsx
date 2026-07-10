@@ -74,6 +74,11 @@ export default async function HowToPlay() {
       </li>
 
       <li className="flex gap-3">
+        <span>🔍</span>
+        <span>{t("find-number")}</span>
+      </li>
+
+      <li className="flex gap-3">
         <span>🏆</span>
         <span>{t("achieve-high-score")}</span>
       </li>
