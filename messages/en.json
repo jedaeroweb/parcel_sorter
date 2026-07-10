@@ -14,7 +14,12 @@
     "how-to-play": "How to Play",
     "drag-items": "Drag the items.",
     "group-similar": "Group similar items together.",
-    "achieve-high-score": "Aim for a high score."
+    "achieve-high-score": "Aim for a high score.",
+    "tips": "Tips",
+    "plan": "Plan ahead.",
+    "rush": "Don't rush.",
+    "group": "Group similar items together.",
+    "avoidDroppingItems": "Try to avoid dropping items."
   },
     "Game": {
     "gameOver": "GAME OVER",
@@ -25,12 +30,12 @@
     "broken": "Broken",
     "timeFormat": "{minutes}m {seconds}s"
   },
-  "Tips": {
-    "title": "Tips",
-    "heading": "Tips",
-    "plan": "Plan ahead.",
-    "rush": "Don't rush.",
-    "group": "Group similar items together.",
-    "avoidDroppingItems": "Try to avoid dropping items."
+    "Rankings": {
+    "title": "Rankings",
+    "heading": "Rankings",
+    "nickname": "Nickname",
+    "score": "Score",
+    "stage": "Stage",
+    "accuracy": "Accuracy"
   }
 }

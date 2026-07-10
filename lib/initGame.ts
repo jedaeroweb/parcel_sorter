@@ -5,6 +5,7 @@ import { beep, playCorrectSound, playWrongSound } from "./sound";
 export function initGame(
   canvas: HTMLCanvasElement,
   onGameOver: () => void,
+  onPauseChange: (paused: boolean) => void,
   t: (key: string) => string
 ) {
  const ctx = canvas.getContext("2d")!;
@@ -94,6 +95,22 @@ export function initGame(
   let beltOffset = 0;
   let spawnTimer: ReturnType<typeof setTimeout> | null = null;
 
+  let mouseX = -1;
+  let mouseY = -1;
+
+let pauseButton = {
+  x: 0,
+  y: 28,
+  w: 36,
+  h: 36,
+}
+
+let timeArea = {
+  x: 20,
+  y: 28,
+  w: 0,
+  h: 36,
+};
 
 type Item = {
   x: number;
@@ -694,15 +711,33 @@ function tryReveal(item) {
 }
 
 const onClick = (e: PointerEvent) => {
-  if (paused) return;
-
   const rect = canvas.getBoundingClientRect();
 
-const scaleX = WIDTH  / rect.width;
-const scaleY = HEIGHT / rect.height;
+  const scaleX = WIDTH / rect.width;
+  const scaleY = HEIGHT / rect.height;
 
-const mx = (e.clientX - rect.left) * scaleX;
-const my = (e.clientY - rect.top) * scaleY;
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top) * scaleY;
+
+const clickedPause =
+  (mx >= pauseButton.x &&
+    mx <= pauseButton.x + pauseButton.w &&
+    my >= pauseButton.y &&
+    my <= pauseButton.y + pauseButton.h) ||
+  (mx >= timeArea.x &&
+    mx <= timeArea.x + timeArea.w &&
+    my >= timeArea.y &&
+    my <= timeArea.y + timeArea.h);
+
+if (clickedPause) {
+  paused = true;
+  onPauseChange(true);
+
+  return;
+}
+
+
+  if (paused) return;
 
 for (const item of items) {
 
@@ -802,20 +837,24 @@ if (
 canvas.addEventListener("pointerdown", onPointerDown);
 
 const onPointerMove = (e: PointerEvent) => {
-  e.preventDefault();  
+  e.preventDefault();
+
+  const rect = canvas.getBoundingClientRect();
+
+  const scaleX = WIDTH / rect.width;
+  const scaleY = HEIGHT / rect.height;
+
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top) * scaleY;
+
+  mouseX = mx;
+  mouseY = my;
+
   if (paused) return;
   if (!draggingItem) return;
 
-const rect = canvas.getBoundingClientRect();
-
-const scaleX = WIDTH  / rect.width;
-const scaleY = HEIGHT / rect.height;
-
-const mx = (e.clientX - rect.left) * scaleX;
-const my = (e.clientY - rect.top) * scaleY;
-
-draggingItem.x = mx - dragOffsetX;
-draggingItem.y = my - dragOffsetY;
+  draggingItem.x = mx - dragOffsetX;
+  draggingItem.y = my - dragOffsetY;
 };
 
 
@@ -942,6 +981,47 @@ canvas.addEventListener("pointerup", onPointerUp);
 
 canvas.addEventListener("pointercancel", onPointerUp);
 
+
+function drawPausedButton(
+  pauseHovered: boolean
+) {
+
+
+ctx.save();
+
+ctx.textAlign = "center";
+ctx.textBaseline = "middle";
+
+ctx.fillStyle = pauseHovered
+  ? "#fde047"
+  : "#ffffff";
+
+const barWidth = 6;
+const barHeight = 22;
+const gap = 6;
+
+const centerX = pauseButton.x + pauseButton.w / 2;
+const centerY = pauseButton.y + pauseButton.h / 2;
+
+ctx.fillRect(
+  centerX - gap / 2 - barWidth,
+  centerY - barHeight / 2,
+  barWidth,
+  barHeight
+);
+
+ctx.fillRect(
+  centerX + gap / 2,
+  centerY - barHeight / 2,
+  barWidth,
+  barHeight
+);
+
+ctx.restore();
+
+ctx.textAlign = "left";
+}
+
 function loop() {
   ctx.clearRect(0, 0, WIDTH, HEIGHT);
 ctx.fillStyle = "white";
@@ -967,15 +1047,33 @@ remainTime = Math.max(0, remainTime);
 const minutes = Math.floor(remainTime / 60);
 const seconds = remainTime % 60;
 
-ctx.fillText(
-  t("timeFormat", {
-    minutes,
-    seconds,
-  }),
-  20,
-  60
-);
+const timeText = t("timeFormat", {
+  minutes,
+  seconds,
+});
 
+const timeWidth = ctx.measureText(timeText).width;
+
+timeArea.w = timeWidth;
+
+const pauseHovered =
+  (mouseX >= timeArea.x &&
+    mouseX <= timeArea.x + timeArea.w &&
+    mouseY >= timeArea.y &&
+    mouseY <= timeArea.y + timeArea.h) ||
+  (mouseX >= pauseButton.x &&
+    mouseX <= pauseButton.x + pauseButton.w &&
+    mouseY >= pauseButton.y &&
+    mouseY <= pauseButton.y + pauseButton.h);
+
+ctx.fillStyle = "#ffffff";
+
+ctx.fillText(timeText, 20, 60);
+
+pauseButton.x = 20 + timeWidth + 15;
+pauseButton.y = 34;
+
+drawPausedButton(pauseHovered);
   drawConveyor();
   drawWarehouse();
 
@@ -998,6 +1096,10 @@ if (currentStage + 1 < STAGES.length) {
     // 게임 종료 또는 클리어
 }
   }
+
+  canvas.style.cursor = pauseHovered 
+  ? "pointer"
+  : "default";
 }
 
 loop();
@@ -1035,13 +1137,17 @@ function changeStage(stage: number) {
 
 
 return {
-  pause() {
-    paused = true;
-  },
+pause() {
+  paused = true;
+
+  onPauseChange(true);
+},
 
 resume() {
   paused = false;
   lastTick = Date.now();
+
+  onPauseChange(false);
 },
 
   destroy() {

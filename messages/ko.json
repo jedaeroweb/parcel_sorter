@@ -1,21 +1,26 @@
 {
   "Home": {
     "title": "택배 분류 퍼즐",
-    "description" :"플레이어는 컨베이어 벨트로 쏟아지는 물건을 제한된 시간 안에 분류하는 무료 웹게임입니다.",
+    "description" :"플레이어(노예)는 컨베이어 벨트로 쏟아지는 물건을 제한된 시간 안에 분류하는 무료 웹게임입니다.",
     "play": "게임 시작",
     "how-to-play": "플레이 방법",
-    "tips": "팁",
+    "rankings": "순위",
     "rotateToPlay": "게임을 하려면 가로로 돌려주세요"
   },
   "HowToPlay": {
     "title": "플레이 방법",
     "heading": "플레이 방법",
     "introduction": "소개",
-    "description": "플레이어는 컨베이어 벨트로 쏟아지는 물건을 제한된 시간 안에 분류하는 무료 웹게임입니다.",
+    "description": "플레이어(노예)는 컨베이어 벨트로 쏟아지는 물건을 제한된 시간 안에 분류를 마쳐야 됩니다.",
     "how-to-play": "플레이 방법",
     "drag-items": "아이템을 드래그합니다.",
-    "group-similar": "같은 종류끼리 모읍니다.",
-    "achieve-high-score": "높은 점수를 노립니다."
+    "group-similar": "드래그한 아이템을 해당 운반장치에 넣습니다.",
+    "achieve-high-score": "높은 점수를 노립니다.",
+    "tips": "팁",
+    "plan": "미리 계획하세요.",
+    "rush": "서두르지 마세요.",
+    "group": "비슷한 물건끼리 모아 정리하세요.",
+    "avoidDroppingItems": "최대한 아이템을 떨어뜨리지 않도록 하세요."
   },
   "Game": {
     "gameOver": "게임 오버",
@@ -26,13 +31,12 @@
     "broken": "파손",
     "timeFormat": "{minutes}분 {seconds}초"
   },
-  
-  "Tips": {
-    "title": "팁",
-    "heading": "팁",
-    "plan": "미리 계획하세요.",
-    "rush": "서두르지 마세요.",
-    "group": "비슷한 물건끼리 모아 정리하세요.",
-    "avoidDroppingItems": "최대한 아이템을 떨어뜨리지 않도록 하세요."
+    "Rankings": {
+    "title": "순위",
+    "heading": "순위",
+    "nickname": "별명",
+    "score": "점수",
+    "stage": "단계",
+    "accuracy": "정확도"
   }
 }

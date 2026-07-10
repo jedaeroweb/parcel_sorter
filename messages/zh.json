@@ -14,7 +14,12 @@
     "how-to-play": "游戏玩法",
     "drag-items": "拖动物品。",
     "group-similar": "将相似的物品归类整理。",
-    "achieve-high-score": "争取高分。"
+    "achieve-high-score": "争取高分。",
+    "tips": "技巧",
+    "plan": "提前规划。",
+    "rush": "不要着急。",
+    "group": "将相似的物品归类整理。",
+    "avoidDroppingItems": "尽量避免货物掉落。"
   },
   "Game": {
     "gameOver": "游戏结束",
@@ -25,12 +30,12 @@
     "broken": "损坏",
     "timeFormat": "{minutes}分 {seconds}秒"
   },
-  "Tips": {
-    "title": "技巧",
-    "heading": "技巧",
-    "plan": "提前规划。",
-    "rush": "不要着急。",
-    "group": "将相似的物品归类整理。",
-    "avoidDroppingItems": "尽量避免货物掉落。"
+  "Rankings": {
+    "title": "排行榜",
+    "heading": "排行榜",
+    "nickname": "昵称",
+    "score": "分数",
+    "stage": "关卡",
+    "accuracy": "准确率"
   }
 }

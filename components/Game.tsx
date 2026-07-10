@@ -37,6 +37,7 @@ gameRef.current = initGame(
   () => {
     setGameOver(true);
   },
+  setPaused,
   t
 );
 
@@ -131,33 +132,7 @@ return (
   "
 />
 
-{!paused && !gameOver && (
-<button
-  onClick={() => {
-    gameRef.current?.pause();
-    setPaused(true);
-  }}
-  className="
-    absolute left-4 top-4 z-40
-    text-white
-    hover:text-yellow-300
-    hover:scale-110
-    active:scale-95
-    transition-all
-    drop-shadow-[0_0_10px_rgba(0,0,0,0.9)]
-  "
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="48"
-    height="48"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M6 4h4v16H6zm8 0h4v16h-4z"/>
-  </svg>
-</button>
-)}
+
 
 {paused && !gameOver && (
 <div

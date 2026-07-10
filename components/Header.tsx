@@ -21,12 +21,12 @@ export default function Header() {
 
           <Link href="/"> {t("play")} </Link>
 
-          <Link href="/how-to-play">
-            {t("how-to-play")}
+          <Link href="/rankings">
+            {t("rankings")}
           </Link>
 
-          <Link href="/tips">
-            {t("tips")}
+          <Link href="/how-to-play">
+            {t("how-to-play")}
           </Link>
 
         </nav>

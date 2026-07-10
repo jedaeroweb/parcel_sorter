@@ -14,7 +14,12 @@
     "how-to-play": "遊び方",
     "drag-items": "アイテムをドラッグします。",
     "group-similar": "似たアイテムをまとめます。",
-    "achieve-high-score": "高得点を目指しましょう。"
+    "achieve-high-score": "高得点を目指しましょう。",
+    "tips": "ヒント",
+    "plan": "事前に計画しましょう。",
+    "rush": "急がないでください。",
+    "group": "似たアイテムをまとめましょう。",
+    "avoidDroppingItems": "できるだけ商品を落とさないようにしましょう。"    
   },
   "Game": {
     "gameOver": "ゲームオーバー",
@@ -25,12 +30,12 @@
     "broken": "壊れた",
     "timeFormat": "{minutes}分 {seconds}秒"
   },
-  "Tips": {
-    "title": "ヒント",
-    "heading": "ヒント",
-    "plan": "事前に計画しましょう。",
-    "rush": "急がないでください。",
-    "group": "似たアイテムをまとめましょう。",
-    "avoidDroppingItems": "できるだけ商品を落とさないようにしましょう。"
+  "Rankings": {
+    "title": "ランキング",
+    "heading": "ランキング",
+    "nickname": "ニックネーム",
+    "score": "スコア",
+    "stage": "ステージ",
+    "accuracy": "正確さ"
   }
 }
