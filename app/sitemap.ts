@@ -1,22 +1,22 @@
 import type { MetadataRoute } from "next";
 
+const BASE_URL = "https://sorter.jedaeroweb.co.kr";
+
+const locales = ["ko", "en", "ja", "zh"];
+
 export default function sitemap(): MetadataRoute.Sitemap {
+  const routes = ["", "/rankings", "/how-to-play"];
+
   return [
     {
-      url: "https://www.jedaeroweb.co.kr",
+      url: BASE_URL,
       priority: 1,
     },
-    {
-      url: "https://www.jedaeroweb.co.kr/ko",
-    },
-    {
-      url: "https://www.jedaeroweb.co.kr/en",
-    },
-    {
-      url: "https://www.jedaeroweb.co.kr/ja",
-    },
-    {
-      url: "https://www.jedaeroweb.co.kr/zh",
-    },
+
+    ...locales.flatMap((locale) =>
+      routes.map((route) => ({
+        url: `${BASE_URL}/${locale}${route}`,
+      }))
+    ),
   ];
 }
