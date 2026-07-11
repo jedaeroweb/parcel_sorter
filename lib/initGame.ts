@@ -885,6 +885,22 @@ if (
   draggingItem.y + draggingItem.size > zone.y
 ) {
 
+  // 파손품은 파손 존(-1)에만 드롭 가능
+if (
+  draggingItem.broken &&
+  zone.itemNo !== -1
+) {
+  continue;
+}
+
+// 정상품은 파손 존에 드롭 불가
+if (
+  !draggingItem.broken &&
+  zone.itemNo === -1
+) {
+  continue;
+}
+
 if (zone.count >= zone.capacity) {
   break;
 }
