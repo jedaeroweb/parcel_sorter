@@ -162,13 +162,6 @@ let pauseButton = {
   h: 36,
 }
 
-let stageClearButton = {
-  x: WIDTH / 2 - 100,
-  y: HEIGHT / 2 + 40,
-  w: 200,
-  h: 60,
-};
-
 let timeArea = {
   x: 20,
   y: 28,
@@ -201,11 +194,6 @@ type DropZone = {
 };
 
 let ITEM_NUMBERS: string[] = [];
-
-let stageCleared = false;
-
-
-
 
 
 function updateItemNumbers() {
@@ -645,13 +633,16 @@ if (realIndex >= 0) {
   // =========================
   // GAME OVER
   // =========================
-  if (
-    stackedItems.length >= MAX_STACK &&
-    blockedAtEntrance
-  ) {
-    onGameOver();
-    return;
-  }
+if (
+  stackedItems.length >= MAX_STACK &&
+  blockedAtEntrance
+) {
+  paused = true;
+
+  onGameOver();
+
+  return;
+}
 }
 
 
@@ -746,24 +737,6 @@ const onClick = (e: PointerEvent) => {
   const mx = (e.clientX - rect.left) * scaleX;
   const my = (e.clientY - rect.top) * scaleY;
 
-  if (stageCleared) {
-  const insideButton =
-    mx >= stageClearButton.x &&
-    mx <= stageClearButton.x + stageClearButton.w &&
-    my >= stageClearButton.y &&
-    my <= stageClearButton.y + stageClearButton.h;
-
-  if (insideButton) {
-    stageCleared = false;
-    paused = false;
-
-    changeStage(currentStage + 1);
-
-    onPauseChange(false);
-  }
-
-  return;
-}
 
 const clickedPause =
   (mx >= pauseButton.x &&
