@@ -8,6 +8,8 @@ export default function Game() {
 const [gameStarted, setGameStarted] = useState(false);
 const [isPortrait, setIsPortrait] = useState(false);
 const [gameOver, setGameOver] = useState(false);
+const [stageClear, setStageClear] = useState(false);
+const [stageMessage, setStageMessage] = useState("");
 const canvasRef = useRef<HTMLCanvasElement>(null);
 const gameRef = useRef<any>(null);
 const [paused, setPaused] = useState(false);
@@ -36,6 +38,10 @@ gameRef.current = initGame(
   canvas,
   () => {
     setGameOver(true);
+  },
+  (message: string) => {
+    setStageMessage(message);
+    setStageClear(true);
   },
   setPaused,
   t
@@ -186,6 +192,42 @@ return (
   </p>
 </div>
 </div>
+)}
+
+{stageClear && (
+  <div
+    className="
+      absolute inset-0
+      flex items-center justify-center
+      bg-black/60
+      z-10
+    "
+  >
+    <div className="text-center space-y-6">
+      <h1 className="text-5xl font-bold text-green-400">
+        {stageMessage}
+      </h1>
+
+      <button
+        onClick={() => {
+          setStageClear(false);
+          gameRef.current?.nextStage();
+        }}
+        className="
+          rounded-xl
+          bg-sky-600
+          px-8
+          py-4
+          text-xl
+          text-white
+          hover:bg-sky-700
+          transition
+        "
+      >
+        ▶ {t("nextStage")}
+      </button>
+    </div>
+  </div>
 )}
 
     {gameOver && (

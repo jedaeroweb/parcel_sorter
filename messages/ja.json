@@ -27,6 +27,7 @@
     "gameOver": "ゲームオーバー",
     "restart": "リスタート",
     "resume": "再開",
+    "nextStage": "다음 라인",
     "clickAnywhereToResume": "どこでもクリックして再開",
     "floor": "落下品",
     "broken": "壊れた",
@@ -40,8 +41,7 @@
     "stage_clear_4": "최종 검사 단계입니다.",
     "stage_clear_5": "모든 작업을 마쳤습니다.",
 
-    "click_to_continue": "클릭해서 계속",
-    "game_over": "해고되었습니다"
+    "click_to_continue": "클릭해서 계속"
   },
   "Rankings": {
     "title": "ランキング",

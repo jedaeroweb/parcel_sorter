@@ -27,6 +27,7 @@
     "gameOver": "GAME OVER",
     "restart": "Restart",
     "resume": "Resume",
+    "nextStage": "다음 라인",
     "clickAnywhereToResume": "Click anywhere to continue",
     "floor": "Dropped",
     "broken": "Broken",
@@ -40,8 +41,7 @@
     "stage_clear_4": "최종 검사 단계입니다.",
     "stage_clear_5": "모든 작업을 마쳤습니다.",
 
-    "click_to_continue": "클릭해서 계속",
-    "game_over": "해고되었습니다"
+    "click_to_continue": "클릭해서 계속"
   },
     "Rankings": {
     "title": "Rankings",

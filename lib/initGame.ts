@@ -5,6 +5,7 @@ import { beep, playCorrectSound, playWrongSound } from "./sound";
 export function initGame(
   canvas: HTMLCanvasElement,
   onGameOver: () => void,
+  onStageClear: (message: string) => void,
   onPauseChange: (paused: boolean) => void,
   t: (key: string) => string
 ) {
@@ -160,6 +161,13 @@ let pauseButton = {
   w: 36,
   h: 36,
 }
+
+let stageClearButton = {
+  x: WIDTH / 2 - 100,
+  y: HEIGHT / 2 + 40,
+  w: 200,
+  h: 60,
+};
 
 let timeArea = {
   x: 20,
@@ -730,15 +738,6 @@ function tryReveal(item) {
 }
 
 const onClick = (e: PointerEvent) => {
-if (stageCleared) {
-  stageCleared = false;
-  paused = false;
-
-  changeStage(currentStage + 1);
-
-  return;
-}
-
   const rect = canvas.getBoundingClientRect();
 
   const scaleX = WIDTH / rect.width;
@@ -746,6 +745,25 @@ if (stageCleared) {
 
   const mx = (e.clientX - rect.left) * scaleX;
   const my = (e.clientY - rect.top) * scaleY;
+
+  if (stageCleared) {
+  const insideButton =
+    mx >= stageClearButton.x &&
+    mx <= stageClearButton.x + stageClearButton.w &&
+    my >= stageClearButton.y &&
+    my <= stageClearButton.y + stageClearButton.h;
+
+  if (insideButton) {
+    stageCleared = false;
+    paused = false;
+
+    changeStage(currentStage + 1);
+
+    onPauseChange(false);
+  }
+
+  return;
+}
 
 const clickedPause =
   (mx >= pauseButton.x &&
@@ -1136,53 +1154,20 @@ drawPausedButton(pauseHovered);
 
 if (remainTime <= 0) {
   if (currentStage + 1 < STAGES.length) {
-    stageCleared = true;
     paused = true;
 
-    // 삭제
-    // onPauseChange(true);
+    onStageClear(
+      t(STAGES[currentStage].clearText)
+    );
   }
 }
 
   canvas.style.cursor = pauseHovered 
   ? "pointer"
   : "default";
-
-if (stageCleared) {
-  drawStageClearOverlay();
-}
 }
 
 loop();
-
-function drawStageClearOverlay() {
-  ctx.save();
-
-  ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
-  ctx.fillRect(0, 0, WIDTH, HEIGHT);
-
-  ctx.fillStyle = "#fff";
-  ctx.textAlign = "center";
-
-  ctx.font = "bold 42px Arial";
-
-  ctx.fillText(
-    t(`stage_clear_${currentStage + 1}`),
-    WIDTH / 2,
-    HEIGHT / 2 - 50
-  );
-
-  ctx.font = "24px Arial";
-
-  ctx.fillText(
-    t("click_to_continue"),
-    WIDTH / 2,
-    HEIGHT / 2 + 20
-  );
-
-  ctx.restore();
-}
-
 
 function changeStage(stage: number) {
   currentStage = stage;
@@ -1228,6 +1213,11 @@ resume() {
 
   onPauseChange(false);
 },
+
+  nextStage() {
+    paused = false;
+    changeStage(currentStage + 1);
+  },
 
   destroy() {
     cancelAnimationFrame(animationId);
