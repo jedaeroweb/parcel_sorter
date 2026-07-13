@@ -40,25 +40,75 @@ export function initGame(
   const NO_SPAWN_RATE = 0.2;
   const MULTI_SPAWN_RATE = 0.1;
 
+  const items: Item[] = [];
+const stackedItems: Item[] = [];
+
+const dropZones: DropZone[] = [];
+
+
+
+
+
+const ITEM_COLORS = [
+  "#ff6b6b",
+  "#4ecdc4",
+  "#ffe66d",
+  "#95e1d3",
+  "#a29bfe"
+];
+
+
+const BLOCKED_X = 20;
+const ITEM_FONT=  "bold 18px Arial";
+const ITEM_TEXT_ALIGN = "center";
+
+
+const MAX_STACK = 30;
+const STACK_COLS = 4;
+const STACK_ROWS = Math.ceil(MAX_STACK / STACK_COLS);
+const STACK_SPACING = 40;
+
   
   const STAGES = [
   {
-    time: 200,
-    itemCount: 6,
+    time: 20,
+    itemCount: 4,
     beltSpeed: 1,
     brokenChance: 0.1,
     spawnMinDelay: 700,
     spawnRandomDelay: 1500,
-    itemHide: 0.2,
+    itemHide: 0.1,
+    clearText: "stage_clear_1"
   },
   {
     time: 300,
-    itemCount: 8,
+    itemCount: 6,
     beltSpeed: 1.3,
     brokenChance: 0.15,
     spawnMinDelay: 500,
     spawnRandomDelay: 1000,
-    itemHide: 0.3,
+    itemHide: 0.15,
+    clearText: "stage_clear_2"
+  },
+  {
+    time: 400,
+    itemCount: 8,
+    beltSpeed: 1.7,
+    brokenChance: 0.2,
+    spawnMinDelay: 350,
+    spawnRandomDelay: 700,
+    itemHide: 0.2,
+    clearText: "stage_clear_3"
+  },
+  {
+    time: 400,
+    itemCount: 10,
+    beltSpeed: 1.7,
+    brokenChance: 0.2,
+    spawnMinDelay: 350,
+    spawnRandomDelay: 700,
+    itemHide: 0.2,
+    clearText: "stage_clear_4"
   },
   {
     time: 400,
@@ -67,7 +117,8 @@ export function initGame(
     brokenChance: 0.2,
     spawnMinDelay: 350,
     spawnRandomDelay: 700,
-    itemHide: 0.4,
+    itemHide: 0.2,
+    clearText: "stage_clear_5"
   }
 ];
 
@@ -94,6 +145,11 @@ export function initGame(
   let paused = false;
   let beltOffset = 0;
   let spawnTimer: ReturnType<typeof setTimeout> | null = null;
+
+  let dropSuccess = 0;
+  let dropFail = 0;
+
+  let score = 0;
 
   let mouseX = -1;
   let mouseY = -1;
@@ -138,35 +194,9 @@ type DropZone = {
 
 let ITEM_NUMBERS: string[] = [];
 
+let stageCleared = false;
 
 
-const items: Item[] = [];
-const stackedItems: Item[] = [];
-
-const dropZones: DropZone[] = [];
-
-
-
-
-
-const ITEM_COLORS = [
-  "#ff6b6b",
-  "#4ecdc4",
-  "#ffe66d",
-  "#95e1d3",
-  "#a29bfe"
-];
-
-
-const BLOCKED_X = 20;
-const ITEM_FONT=  "bold 18px Arial";
-const ITEM_TEXT_ALIGN = "center";
-
-
-const MAX_STACK = 30;
-const STACK_COLS = 4;
-const STACK_ROWS = Math.ceil(MAX_STACK / STACK_COLS);
-const STACK_SPACING = 40;
 
 
 
@@ -252,17 +282,6 @@ let dragOffsetY = 0;
 
 let originalX = 0;
 let originalY = 0;
-
-
-
-let dropSuccess = 0;
-let dropFail = 0;
-
-
-
-
-
-
 
 
 
@@ -711,6 +730,15 @@ function tryReveal(item) {
 }
 
 const onClick = (e: PointerEvent) => {
+if (stageCleared) {
+  stageCleared = false;
+  paused = false;
+
+  changeStage(currentStage + 1);
+
+  return;
+}
+
   const rect = canvas.getBoundingClientRect();
 
   const scaleX = WIDTH / rect.width;
@@ -924,10 +952,14 @@ if (success) {
     playCorrectSound();
     zone.success++;
     dropSuccess++;
+
+    score += 5;
 } else {
     playWrongSound();
     zone.fail++;
     dropFail++;
+
+    score -= 5;
 }
 
 const idx =
@@ -1053,18 +1085,18 @@ if (!paused) {
   }
 }
 
-ctx.fillText(
-    `Stage ${currentStage + 1}`,
-    20,
-    30
-);
+const headerText =
+  `${t("line")} ${currentStage + 1} / ${t("performance")}: ${score}`;
+
+
+ctx.fillText(headerText, 20, 30);
 
 remainTime = Math.max(0, remainTime);
 const minutes = Math.floor(remainTime / 60);
 const seconds = remainTime % 60;
 
 const timeText =
-  `${minutes}:${String(seconds).padStart(2, "0")}`;
+  `${t("untilLeaving")} ${minutes}:${String(seconds).padStart(2, "0")}`;
 
 const timeWidth = ctx.measureText(timeText).width;
 
@@ -1102,21 +1134,54 @@ drawPausedButton(pauseHovered);
 
   animationId = requestAnimationFrame(loop);
 
+if (remainTime <= 0) {
+  if (currentStage + 1 < STAGES.length) {
+    stageCleared = true;
+    paused = true;
 
-  if (remainTime <= 0) {
-if (currentStage + 1 < STAGES.length) {
-    changeStage(currentStage + 1);
-} else {
-    // 게임 종료 또는 클리어
-}
+    // 삭제
+    // onPauseChange(true);
   }
+}
 
   canvas.style.cursor = pauseHovered 
   ? "pointer"
   : "default";
+
+if (stageCleared) {
+  drawStageClearOverlay();
+}
 }
 
 loop();
+
+function drawStageClearOverlay() {
+  ctx.save();
+
+  ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+  ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+  ctx.fillStyle = "#fff";
+  ctx.textAlign = "center";
+
+  ctx.font = "bold 42px Arial";
+
+  ctx.fillText(
+    t(`stage_clear_${currentStage + 1}`),
+    WIDTH / 2,
+    HEIGHT / 2 - 50
+  );
+
+  ctx.font = "24px Arial";
+
+  ctx.fillText(
+    t("click_to_continue"),
+    WIDTH / 2,
+    HEIGHT / 2 + 20
+  );
+
+  ctx.restore();
+}
 
 
 function changeStage(stage: number) {

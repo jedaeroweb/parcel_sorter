@@ -29,7 +29,19 @@
     "resume": "Resume",
     "clickAnywhereToResume": "Click anywhere to continue",
     "floor": "Dropped",
-    "broken": "Broken"
+    "broken": "Broken",
+    "line" : "line",
+    "untilLeaving": "Until clock-out",
+    "performance": "Performance",
+
+    "stage_clear_1": "신입 교육 완료!",
+    "stage_clear_2": "숙련 작업자가 되었습니다.",
+    "stage_clear_3": "라인 속도가 빨라집니다.",
+    "stage_clear_4": "최종 검사 단계입니다.",
+    "stage_clear_5": "모든 작업을 마쳤습니다.",
+
+    "click_to_continue": "클릭해서 계속",
+    "game_over": "해고되었습니다"
   },
     "Rankings": {
     "title": "Rankings",
