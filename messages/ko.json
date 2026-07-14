@@ -34,6 +34,8 @@
     "line" : "라인",
     "untilLeaving": "퇴근까지",
     "performance": "성과",
+    "changeRt" : "RT교체", 
+    "changingRt" : "RT 교체중",
     "stage_clear_1": "신입(노예) 교육 완료!",
     "stage_clear_2": "초보 노예가 되었습니다.",
     "stage_clear_3": "쓸만한 노예가 되었습니다.",

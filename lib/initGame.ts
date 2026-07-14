@@ -30,7 +30,7 @@ export function initGame(
   const BELT_END_X = WAREHOUSE_X - 20;
   const WAIT_LINE_X = WAREHOUSE_X;
 
-  const BELT_Y = 180;
+  const BELT_Y = 130;
   const BELT_HEIGHT = 100;
 
   const PLAY_WIDTH =
@@ -65,6 +65,9 @@ const ITEM_TEXT_ALIGN = "center";
 
 
 const MAX_STACK = 30;
+
+const RT_CAPACITY = 3;
+const RT_CHANGE_THRESHOLD = Math.round(RT_CAPACITY * 0.9);
 const STACK_COLS = 4;
 const STACK_ROWS = Math.ceil(MAX_STACK / STACK_COLS);
 const STACK_SPACING = 40;
@@ -72,7 +75,7 @@ const STACK_SPACING = 40;
   
   const STAGES = [
   {
-    time: 20,
+    time: 60,
     itemCount: 4,
     beltSpeed: 1,
     brokenChance: 0.1,
@@ -82,7 +85,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_1"
   },
   {
-    time: 300,
+    time: 100,
     itemCount: 6,
     beltSpeed: 1.3,
     brokenChance: 0.15,
@@ -92,7 +95,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_2"
   },
   {
-    time: 400,
+    time: 140,
     itemCount: 8,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -102,7 +105,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_3"
   },
   {
-    time: 400,
+    time: 180,
     itemCount: 10,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -112,7 +115,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_4"
   },
   {
-    time: 400,
+    time: 220,
     itemCount: 12,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -191,6 +194,11 @@ type DropZone = {
   capacity: number;
   success: number;
   fail: number;
+
+  replacing: boolean;
+  targetX: number;
+  targetY: number;
+  originalY: number;
 };
 
 let ITEM_NUMBERS: string[] = [];
@@ -232,41 +240,77 @@ const TOP_COUNT =
 function updateDropZones() {
   dropZones.length = 0;
 
-  const TOP_COUNT = Math.ceil(ITEM_NUMBERS.length / 2);
+const TOP_COUNT = Math.ceil(ITEM_NUMBERS.length / 2);
 
-  ITEM_NUMBERS.forEach((itemNo, i) => {
-    dropZones.push({
-      itemNo,
-      name: String(itemNo),
+const zoneWidth = 70;
 
-      x:
-        DROP_ZONE_START_X +
-        (i % TOP_COUNT) * (PLAY_WIDTH / TOP_COUNT),
+// 오른쪽 여백
+const brokenZoneWidth = 100;
 
-      y: i < TOP_COUNT ? 20 : 320,
+const rightPadding =
+  brokenZoneWidth + 20;
 
-      w: 70,
-      h: 50,
+// 드롭존 사이 간격
+const gap = 30;
 
-      count: 0,
-      capacity: 30,
-      success: 0,
-      fail: 0,
-    });
-  });
+// 전체 드롭존 묶음 너비
+const totalWidth =
+  TOP_COUNT * zoneWidth +
+  (TOP_COUNT - 1) * gap;
+
+// 전체 묶음의 시작점
+const startX =
+  BELT_END_X -
+  rightPadding -
+  totalWidth;
+
+ITEM_NUMBERS.forEach((itemNo, i) => {
+  const zoneX =
+    startX +
+    (i % TOP_COUNT) * (zoneWidth + gap);
+
+  const zoneY =
+    i < TOP_COUNT ? 20 : 280;
 
   dropZones.push({
-    itemNo: -1,
-    name: t("broken"),
-    x: 20,
-    y: 320,
-    w: 100,
+    itemNo,
+    name: String(itemNo),
+
+    x: zoneX,
+    y: zoneY,
+
+    w: zoneWidth,
     h: 50,
+
     count: 0,
-    capacity: 30,
+    capacity: RT_CAPACITY,
     success: 0,
     fail: 0,
+
+    replacing: false,
+    targetX: zoneX,
+    targetY: zoneY,
+    originalY: zoneY,    
   });
+});
+
+
+
+dropZones.push({
+  itemNo: -1,
+  name: t("broken"),
+
+  x: BELT_END_X - brokenZoneWidth,
+  y: 320,
+
+  w: brokenZoneWidth,
+  h: 50,
+
+  count: 0,
+  capacity: RT_CAPACITY,
+  success: 0,
+  fail: 0,
+});
 }
 
 
@@ -357,6 +401,37 @@ ctx.fillText(
   zone.x + zone.w / 2,
   zone.y + 65
 );
+
+
+if (zone.replacing) {
+  ctx.fillStyle = "#888";
+  ctx.font = "bold 12px Arial";
+
+  ctx.fillText(
+    t("changingRt"),
+    zone.x + zone.w / 2,
+    zone.y + 85
+  );
+} else if (zone.count >= RT_CHANGE_THRESHOLD) {
+  ctx.fillStyle = "#facc15";
+
+  ctx.fillRect(
+    zone.x + 5,
+    zone.y + 72,
+    zone.w - 10,
+    24
+  );
+
+  ctx.fillStyle = "#000";
+  ctx.font = "bold 12px Arial";
+
+  ctx.fillText(
+    t("changeRt"),
+    zone.x + zone.w / 2,
+    zone.y + 88
+  );
+}
+
   }
 }
 
@@ -755,6 +830,26 @@ if (clickedPause) {
   return;
 }
 
+for (const zone of dropZones) {
+  if (
+    zone.count >= RT_CHANGE_THRESHOLD &&
+    !zone.replacing &&
+    mx >= zone.x + 5 &&
+    mx <= zone.x + zone.w - 5 &&
+    my >= zone.y + 72 &&
+    my <= zone.y + 96
+  ) {
+    zone.replacing = true;
+
+    zone.targetY =
+      zone.y < HEIGHT / 2
+        ? -100
+        : HEIGHT + 100;
+
+    return;
+  }
+}
+
 
   if (paused) return;
 
@@ -1138,6 +1233,38 @@ if (remainTime <= 0) {
   canvas.style.cursor = pauseHovered 
   ? "pointer"
   : "default";
+
+
+  for (const zone of dropZones) {
+  if (!zone.replacing) {
+    continue;
+  }
+
+  zone.y += (zone.targetY - zone.y) * 0.1;
+
+if (Math.abs(zone.targetY - zone.y) < 2) {
+  if (
+    zone.targetY < 0 ||
+    zone.targetY > HEIGHT
+  ) {
+    zone.count = 0;
+    zone.success = 0;
+    zone.fail = 0;
+
+    // 반대편에서 다시 등장
+zone.y =
+  zone.originalY < HEIGHT / 2
+    ? -100
+    : HEIGHT + 100;
+
+    zone.targetY = zone.originalY;
+
+  } else {
+    zone.replacing = false;
+    zone.y = zone.originalY;
+  }
+}
+}
 }
 
 loop();

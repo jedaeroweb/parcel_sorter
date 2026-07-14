@@ -34,6 +34,8 @@
     "line" : "line",
     "untilLeaving": "Until clock-out",
     "performance": "Performance",
+    "changeRt" : "RT교체", 
+    "changingRt" : "RT 교체중",
 
     "stage_clear_1": "신입 교육 완료!",
     "stage_clear_2": "숙련 작업자가 되었습니다.",
