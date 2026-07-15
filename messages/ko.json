@@ -3,15 +3,15 @@
     "title": "택배 분류 퍼즐",
     "description" :"플레이어(노예)는 컨베이어 벨트로 쏟아지는 물건을 제한된 시간 안에 분류하는 무료 웹게임입니다.",
     "play": "게임 시작",
-    "how-to-play": "플레이 방법",
+    "introduction": "소개",
     "rankings": "순위",
     "rotateToPlay": "게임을 하려면 가로로 돌려주세요"
   },
-  "HowToPlay": {
-    "title": "플레이 방법",
-    "heading": "플레이 방법",
+  "Introduction": {
+    "title": "소개 | 물류센터 분류 체험 게임",
+    "heading": "소개",
     "introduction": "소개",
-    "description": "플레이어(노예)는 컨베이어 벨트로 쏟아지는 물건을 제한된 시간 안에 분류를 마쳐야 됩니다.",
+    "description": "플레이어(노예)는 물류센터 컨베이어 벨트로 쏟아지는 택배 물품을 제한된 시간 안에 분류를 마쳐야 됩니다.",
     "how-to-play": "플레이 방법",
     "drag-items": "아이템을 드래그합니다.",
     "group-similar": "드래그한 아이템을 해당 번호 운반장치에 넣습니다.",

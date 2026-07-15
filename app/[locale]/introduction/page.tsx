@@ -9,7 +9,7 @@ export async function generateMetadata({
 
   const t = await getTranslations({
     locale,
-    namespace: "HowToPlay",
+    namespace: "Introduction",
   });
 
   return {
@@ -18,7 +18,7 @@ export async function generateMetadata({
 }
 
 export default async function HowToPlay() {
-  const t = await getTranslations("HowToPlay");
+  const t = await getTranslations("Introduction");
 
   return (
     <main className="max-w-7xl mx-auto px-4 py-8">

@@ -29,8 +29,8 @@ export default function Header() {
               {t("rankings")}
             </Link>
 
-            <Link href="/how-to-play">
-              {t("how-to-play")}
+            <Link href="/introduction">
+              {t("introduction")}
             </Link>
           </nav>
 
@@ -81,8 +81,8 @@ export default function Header() {
             {t("rankings")}
           </Link>
 
-          <Link href="/how-to-play" onClick={() => setMenuOpen(false)}>
-            {t("how-to-play")}
+          <Link href="/introduction" onClick={() => setMenuOpen(false)}>
+            {t("introduction")}
           </Link>
         </nav>
       </aside>

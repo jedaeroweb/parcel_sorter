@@ -2,14 +2,14 @@
   "Home": {
     "title": "物流 sorting puzzle game",
     "play": "开始游戏",
-    "how-to-play": "游戏玩法",
+    "introduction": "介绍",
     "tips": "技巧",
     "rankings": "排行榜",
     "rotateToPlay": "请将设备旋转至横屏后进行游戏。"
   },
-  "HowToPlay": {
+  "Introduction": {
     "title": "游戏玩法",
-    "heading": "游戏玩法",
+    "heading": "紹介",
     "introduction": "介绍",
     "description": "玩家（奴隶）必须在规定时间内完成对传送带上不断涌来的物品的分类。",
     "how-to-play": "游戏玩法",

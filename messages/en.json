@@ -2,14 +2,14 @@
   "Home": {
     "title": "Logistics Sorting Puzzle Game",
     "play": "Play Game",
-    "how-to-play": "How to Play",
+    "introduction": "Introduction",
     "tips": "Tips",
     "rankings": "Rankings",
     "rotateToPlay": "Please rotate your device to landscape to play"
   },
-  "HowToPlay": {
+  "Introduction": {
     "title": "How to Play",
-    "heading": "How to Play",
+    "heading": "Introduction",
     "introduction": "Introduction",
     "description": "The player (slave) must sort the items pouring down the conveyor belt within the time limit.",
     "how-to-play": "How to Play",

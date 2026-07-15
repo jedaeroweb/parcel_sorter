@@ -2,14 +2,14 @@
   "Home": {
     "title": "物流仕分けパズルゲーム",
     "play": "ゲーム開始",
-    "how-to-play": "遊び方",
+    "introduction": "紹介",
     "tips": "ヒント",
     "rankings": "ランキング",
     "rotateToPlay": "プレイするには端末を横向きにしてください。"
   },
-  "HowToPlay": {
-    "title": "遊び方",
-    "heading": "遊び方",
+  "Introduction": {
+    "title": "紹介",
+    "heading": "紹介",
     "introduction": "紹介",
     "description": "プレイヤー（奴隷）は、コンベアベルトから流れてくる荷物を制限時間内に仕分けしなければなりません。",
     "how-to-play": "遊び方",
