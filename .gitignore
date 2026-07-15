@@ -29,6 +29,8 @@
 # production
 /build
 
+/db/database.sqlite
+
 # misc
 .DS_Store
 *.pem

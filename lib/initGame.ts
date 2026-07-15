@@ -73,7 +73,7 @@ const ITEM_TEXT_ALIGN = "center";
 
 const MAX_STACK = 30;
 
-const RT_CAPACITY = 3;
+const RT_CAPACITY = 30;
 const RT_CHANGE_THRESHOLD = Math.round(RT_CAPACITY * 0.9);
 const STACK_COLS = 4;
 const STACK_ROWS = Math.ceil(MAX_STACK / STACK_COLS);
@@ -82,7 +82,7 @@ const STACK_SPACING = 40;
   
   const STAGES = [
   {
-    time: 60,
+    time: 120,
     itemCount: 4,
     beltSpeed: 1,
     brokenChance: 0.1,
@@ -92,22 +92,22 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_1"
   },
   {
-    time: 100,
+    time: 140,
     itemCount: 6,
     beltSpeed: 1.3,
     brokenChance: 0.15,
-    spawnMinDelay: 500,
-    spawnRandomDelay: 1000,
+    spawnMinDelay: 600,
+    spawnRandomDelay: 1300,
     itemHide: 0.15,
     clearText: "stage_clear_2"
   },
   {
-    time: 140,
+    time: 160,
     itemCount: 8,
     beltSpeed: 1.7,
     brokenChance: 0.2,
-    spawnMinDelay: 350,
-    spawnRandomDelay: 700,
+    spawnMinDelay: 500,
+    spawnRandomDelay: 1100,
     itemHide: 0.2,
     clearText: "stage_clear_3"
   },
@@ -116,18 +116,18 @@ const STACK_SPACING = 40;
     itemCount: 10,
     beltSpeed: 1.7,
     brokenChance: 0.2,
-    spawnMinDelay: 350,
-    spawnRandomDelay: 700,
+    spawnMinDelay: 400,
+    spawnRandomDelay: 800,
     itemHide: 0.2,
     clearText: "stage_clear_4"
   },
   {
-    time: 220,
+    time: 200,
     itemCount: 12,
     beltSpeed: 1.7,
     brokenChance: 0.2,
     spawnMinDelay: 350,
-    spawnRandomDelay: 700,
+    spawnRandomDelay: 600,
     itemHide: 0.2,
     clearText: "stage_clear_5"
   }
