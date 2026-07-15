@@ -81,6 +81,26 @@ async function submitRanking() {
 }
 
 useEffect(() => {
+  const handleVisibility = () => {
+    if (document.hidden) {
+      gameRef.current?.pause();
+    }
+  };
+
+  document.addEventListener(
+    "visibilitychange",
+    handleVisibility
+  );
+
+  return () => {
+    document.removeEventListener(
+      "visibilitychange",
+      handleVisibility
+    );
+  };
+}, []);
+
+useEffect(() => {
   const update = () => {
     setIsPortrait(window.innerHeight > window.innerWidth);
   };
