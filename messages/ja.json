@@ -1,51 +1,49 @@
 {
   "Home": {
-    "title": "物流仕分けパズルゲーム",
+    "title": "宅配仕分けパズル",
+    "description": "プレイヤー（奴隷）は、コンベアベルトから流れてくる荷物を制限時間内に仕分けする無料ウェブゲームです。",
     "play": "ゲーム開始",
     "introduction": "紹介",
-    "tips": "ヒント",
     "rankings": "ランキング",
-    "rotateToPlay": "プレイするには端末を横向きにしてください。"
+    "rotateToPlay": "ゲームをプレイするには端末を横向きにしてください"
   },
   "Introduction": {
-    "title": "紹介",
+    "title": "紹介 | 物流センター仕分け体験ゲーム",
     "heading": "紹介",
     "introduction": "紹介",
-    "what-is-this" : "이 게임은 무엇인가요?",
-    "description": "プレイヤー（奴隷）は、コンベアベルトから流れてくる荷物を制限時間内に仕分けしなければなりません。",
+    "what-is-this": "このゲームは何ですか？",
+    "description": "コンベアベルトの上の荷物を制限時間内に仕分けするウェブゲームです。\n物流センターのアルバイトや宅配仕分け作業の緊張感を体験してみましょう。",
     "how-to-play": "遊び方",
     "drag-items": "アイテムをドラッグします。",
-    "group-similar": "似たアイテムをまとめます。",
-    "find-number": "???の付いたアイテムをクリックして番号を表示します。",
-    "change-full-RT": "꽉찬 RT는 보내고 새로운 RT로 바꿔주세요",
+    "group-similar": "ドラッグしたアイテムを対応する番号のRTに入れます。",
+    "find-number": "番号が見えないもの（???）はクリックして番号を表示させます。",
+    "change-full-RT": "いっぱいになったRTは送り出し、新しいRTに交換してください。",
     "achieve-high-score": "高得点を目指しましょう。",
     "tips": "ヒント",
     "plan": "事前に計画しましょう。",
-    "rush": "急がないでください。",
-    "group": "似たアイテムをまとめましょう。",
-    "avoidDroppingItems": "できるだけ商品を落とさないようにしましょう。"    
+    "rush": "慌てないでください。",
+    "group": "似た荷物をまとめて整理しましょう。",
+    "avoidDroppingItems": "できるだけ荷物を落とさないようにしましょう。"
   },
   "Game": {
-    "gameOver": "ゲームオーバー",
-    "restart": "リスタート",
+    "gameOver": "解雇されました!!",
+    "restart": "もう一度",
     "resume": "再開",
-    "nextStage": "다음 라인",
-    "clickAnywhereToResume": "どこでもクリックして再開",
-    "floor": "落下品",
-    "broken": "壊れた",
-    "line" : "ライン",
+    "nextStage": "次のライン",
+    "clickAnywhereToResume": "どこかをクリックして続ける",
+    "floor": "床に落下",
+    "broken": "破損",
+    "line": "ライン",
     "untilLeaving": "退勤まで",
     "performance": "成果",
-    "changeRt" : "RT교체", 
-    "changingRt" : "RT 교체중",
-
-    "stage_clear_1": "신입 교육 완료!",
-    "stage_clear_2": "숙련 작업자가 되었습니다.",
-    "stage_clear_3": "라인 속도가 빨라집니다.",
-    "stage_clear_4": "최종 검사 단계입니다.",
-    "stage_clear_5": "모든 작업을 마쳤습니다.",
-
-    "click_to_continue": "클릭해서 계속"
+    "changeRt": "RT交換",
+    "changingRt": "RT交換中",
+    "stage_clear_1": "新人（奴隷）研修完了！",
+    "stage_clear_2": "初心者の奴隷になりました。",
+    "stage_clear_3": "そこそこ使える奴隷になりました。",
+    "stage_clear_4": "本格的な奴隷になりました。",
+    "stage_clear_5": "解雇されない奴隷になりました！！",
+    "click_to_continue": "クリックして続ける"
   },
   "Rankings": {
     "title": "ランキング",
@@ -53,6 +51,6 @@
     "nickname": "ニックネーム",
     "score": "スコア",
     "stage": "ステージ",
-    "accuracy": "正確さ"
+    "accuracy": "正確度"
   }
 }
