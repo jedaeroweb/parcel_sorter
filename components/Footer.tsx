@@ -15,9 +15,12 @@ export default function Footer() {
 
 const langs = [
   { code: "ko", label: "한국어", flag: "kr" },
-  { code: "en", label: "English", flag: "us" },
+  { code: "en", label: "English", flag: "gb" },
   { code: "ja", label: "日本語", flag: "jp" },
   { code: "zh", label: "中文", flag: "cn" },
+  { code: "fr", label: "Français", flag: "fr" },
+  { code: "es", label: "Español", flag: "es" },
+  { code: "de", label: "Deutsch", flag: "de" },
 ];
 
   const current = langs.find((l) => l.code === locale) || langs[0];

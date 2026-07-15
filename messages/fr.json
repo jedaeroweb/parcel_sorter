@@ -1,0 +1,56 @@
+{
+  "Home": {
+    "title": "Puzzle de tri des colis",
+    "description": "Un jeu web gratuit dans lequel le joueur (esclave) doit trier les colis arrivant sur le tapis roulant dans un temps limité.",
+    "play": "Commencer le jeu",
+    "introduction": "Introduction",
+    "rankings": "Classement",
+    "rotateToPlay": "Tournez votre appareil en mode paysage pour jouer"
+  },
+  "Introduction": {
+    "title": "Introduction | Jeu de tri dans un centre logistique",
+    "heading": "Introduction",
+    "introduction": "Introduction",
+    "what-is-this": "Qu'est-ce que ce jeu ?",
+    "description": "Il s'agit d'un jeu web où vous devez trier des objets sur un tapis roulant dans un temps limité.\nDécouvrez la tension du travail temporaire dans un centre logistique et du tri des colis.",
+    "how-to-play": "Comment jouer",
+    "drag-items": "Faites glisser les objets.",
+    "group-similar": "Placez les objets déplacés dans le RT portant le numéro correspondant.",
+    "find-number": "Cliquez sur les objets dont le numéro n'est pas visible (???) pour le révéler.",
+    "change-full-RT": "Envoyez les RT pleins et remplacez-les par de nouveaux.",
+    "achieve-high-score": "Essayez d'obtenir le meilleur score.",
+    "tips": "Conseils",
+    "plan": "Planifiez à l'avance.",
+    "rush": "Ne vous précipitez pas.",
+    "group": "Regroupez et organisez les objets similaires.",
+    "avoidDroppingItems": "Essayez de ne pas laisser tomber les objets."
+  },
+  "Game": {
+    "gameOver": "Vous êtes viré !!",
+    "restart": "Recommencer",
+    "resume": "Continuer",
+    "nextStage": "Ligne suivante",
+    "clickAnywhereToResume": "Cliquez n'importe où pour continuer",
+    "floor": "Tombé au sol",
+    "broken": "Cassé",
+    "line": "Ligne",
+    "untilLeaving": "Jusqu'à la fin du service",
+    "performance": "Performance",
+    "changeRt": "Changer le RT",
+    "changingRt": "Changement du RT",
+    "stage_clear_1": "Formation du nouvel employé (esclave) terminée !",
+    "stage_clear_2": "Vous êtes devenu un esclave débutant.",
+    "stage_clear_3": "Vous êtes devenu un esclave compétent.",
+    "stage_clear_4": "Vous êtes devenu un véritable esclave.",
+    "stage_clear_5": "Vous êtes devenu un esclave qui ne sera pas licencié !!",
+    "click_to_continue": "Cliquez pour continuer"
+  },
+  "Rankings": {
+    "title": "Classement",
+    "heading": "Classement",
+    "nickname": "Pseudo",
+    "score": "Score",
+    "stage": "Niveau",
+    "accuracy": "Précision"
+  }
+}

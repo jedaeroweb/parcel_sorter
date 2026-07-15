@@ -1,0 +1,56 @@
+{
+  "Home": {
+    "title": "Rompecabezas de Clasificación de Paquetes",
+    "description": "Un juego web gratuito en el que el jugador (esclavo) debe clasificar los paquetes que llegan por la cinta transportadora dentro del tiempo límite.",
+    "play": "Comenzar juego",
+    "introduction": "Introducción",
+    "rankings": "Clasificación",
+    "rotateToPlay": "Gira el dispositivo horizontalmente para jugar"
+  },
+  "Introduction": {
+    "title": "Introducción | Juego de clasificación en un centro logístico",
+    "heading": "Introducción",
+    "introduction": "Introducción",
+    "what-is-this": "¿Qué es este juego?",
+    "description": "Es un juego web en el que debes clasificar objetos sobre una cinta transportadora dentro de un tiempo limitado.\nExperimenta la tensión del trabajo temporal en un centro logístico y de clasificación de paquetes.",
+    "how-to-play": "Cómo jugar",
+    "drag-items": "Arrastra los objetos.",
+    "group-similar": "Coloca los objetos arrastrados en el RT con el número correspondiente.",
+    "find-number": "Haz clic en los objetos cuyo número no sea visible (???) para revelarlo.",
+    "change-full-RT": "Envía los RT llenos y sustitúyelos por otros nuevos.",
+    "achieve-high-score": "Intenta conseguir la puntuación más alta.",
+    "tips": "Consejos",
+    "plan": "Planifica con antelación.",
+    "rush": "No te apresures.",
+    "group": "Agrupa y organiza los objetos similares.",
+    "avoidDroppingItems": "Intenta no dejar caer los objetos."
+  },
+  "Game": {
+    "gameOver": "¡¡Despedido!!",
+    "restart": "Reintentar",
+    "resume": "Continuar",
+    "nextStage": "Siguiente línea",
+    "clickAnywhereToResume": "Haz clic en cualquier lugar para continuar",
+    "floor": "Caído al suelo",
+    "broken": "Dañado",
+    "line": "Línea",
+    "untilLeaving": "Hasta la salida",
+    "performance": "Rendimiento",
+    "changeRt": "Cambiar RT",
+    "changingRt": "Cambiando RT",
+    "stage_clear_1": "¡Has completado la formación del nuevo empleado (esclavo)!",
+    "stage_clear_2": "Te has convertido en un esclavo principiante.",
+    "stage_clear_3": "Te has convertido en un esclavo competente.",
+    "stage_clear_4": "Te has convertido en un auténtico esclavo.",
+    "stage_clear_5": "¡¡Te has convertido en un esclavo que no será despedido!!",
+    "click_to_continue": "Haz clic para continuar"
+  },
+  "Rankings": {
+    "title": "Clasificación",
+    "heading": "Clasificación",
+    "nickname": "Apodo",
+    "score": "Puntuación",
+    "stage": "Nivel",
+    "accuracy": "Precisión"
+  }
+}

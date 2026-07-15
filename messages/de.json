@@ -1,0 +1,56 @@
+{
+  "Home": {
+    "title": "Paket-Sortierpuzzle",
+    "description": "Ein kostenloses Webspiel, in dem der Spieler (Sklave) die Pakete auf dem Förderband innerhalb eines begrenzten Zeitraums sortieren muss.",
+    "play": "Spiel starten",
+    "introduction": "Einführung",
+    "rankings": "Bestenliste",
+    "rotateToPlay": "Drehe dein Gerät ins Querformat, um zu spielen"
+  },
+  "Introduction": {
+    "title": "Einführung | Sortierspiel im Logistikzentrum",
+    "heading": "Einführung",
+    "introduction": "Einführung",
+    "what-is-this": "Was ist dieses Spiel?",
+    "description": "Dies ist ein Webspiel, bei dem du Gegenstände auf einem Förderband innerhalb einer begrenzten Zeit sortieren musst.\nErlebe die Anspannung der Arbeit in einem Logistikzentrum und der Paketsortierung.",
+    "how-to-play": "Spielanleitung",
+    "drag-items": "Ziehe die Gegenstände mit der Maus.",
+    "group-similar": "Lege die gezogenen Gegenstände in den RT mit der entsprechenden Nummer.",
+    "find-number": "Klicke auf Gegenstände, deren Nummer nicht sichtbar ist (???), um sie aufzudecken.",
+    "change-full-RT": "Schicke volle RTs weg und ersetze sie durch neue.",
+    "achieve-high-score": "Versuche, eine hohe Punktzahl zu erreichen.",
+    "tips": "Tipps",
+    "plan": "Plane im Voraus.",
+    "rush": "Überstürze nichts.",
+    "group": "Gruppiere und sortiere ähnliche Gegenstände.",
+    "avoidDroppingItems": "Versuche, möglichst keine Gegenstände fallen zu lassen."
+  },
+  "Game": {
+    "gameOver": "Du bist gefeuert!!",
+    "restart": "Neustart",
+    "resume": "Fortsetzen",
+    "nextStage": "Nächste Linie",
+    "clickAnywhereToResume": "Klicke irgendwo, um fortzufahren",
+    "floor": "Auf den Boden gefallen",
+    "broken": "Beschädigt",
+    "line": "Linie",
+    "untilLeaving": "Bis Feierabend",
+    "performance": "Leistung",
+    "changeRt": "RT wechseln",
+    "changingRt": "RT wird gewechselt",
+    "stage_clear_1": "Die Ausbildung des neuen Mitarbeiters (Sklaven) ist abgeschlossen!",
+    "stage_clear_2": "Du bist zu einem Anfänger-Sklaven geworden.",
+    "stage_clear_3": "Du bist zu einem brauchbaren Sklaven geworden.",
+    "stage_clear_4": "Du bist zu einem vollwertigen Sklaven geworden.",
+    "stage_clear_5": "Du bist zu einem Sklaven geworden, der nicht gefeuert wird!!",
+    "click_to_continue": "Klicken, um fortzufahren"
+  },
+  "Rankings": {
+    "title": "Bestenliste",
+    "heading": "Bestenliste",
+    "nickname": "Spitzname",
+    "score": "Punktzahl",
+    "stage": "Stufe",
+    "accuracy": "Genauigkeit"
+  }
+}

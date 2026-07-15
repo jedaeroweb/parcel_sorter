@@ -20,12 +20,16 @@ export async function generateMetadata({
     namespace: "Home",
   });
 
-  const ogLocale = {
-    ko: "ko_KR",
-    en: "en_US",
-    ja: "ja_JP",
-    zh: "zh_CN",
-  }[locale] ?? "en_US";
+const ogLocale = {
+  ko: "ko_KR",
+  en: "en_GB",
+  ja: "ja_JP",
+  zh: "zh_CN",
+
+  fr: "fr_FR",
+  es: "es_ES",
+  de: "de_DE",
+}[locale] ?? "en_GB";
 
   return {
     title: {
@@ -35,12 +39,16 @@ export async function generateMetadata({
 
     description: t("description"),
 
-    alternates: {
-languages: {
-ko: "/ko",
-en: "/en",
-ja: "/ja",
-zh: "/zh",
+  alternates: {
+    languages: {
+      ko: "/ko",
+      en: "/en",
+      ja: "/ja",
+      zh: "/zh",
+
+      fr: "/fr",
+      es: "/es",
+      de: "/de",
     },
   },
 
