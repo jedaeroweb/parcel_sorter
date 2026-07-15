@@ -854,9 +854,9 @@ for (const zone of dropZones) {
   if (
     zone.count >= RT_CHANGE_THRESHOLD &&
     !zone.replacing &&
-    mx >= zone.x + 5 &&
-    mx <= zone.x + zone.w - 5 &&
-    my >= zone.y + 72 &&
+    mx >= zone.x &&
+    mx <= zone.x + zone.w &&
+    my >= zone.y &&
     my <= zone.y + 96
   ) {
     zone.replacing = true;

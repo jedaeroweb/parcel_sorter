@@ -6,6 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://example.com/sitemap.xml",
+
+    sitemap: "https://sorter.jedaeroweb.co.kr/sitemap.xml",
   };
 }

@@ -13,7 +13,7 @@ export async function generateMetadata({
   });
 
   return {
-    title: `${t("title")} | Sorter`,
+    title: `${t("title")}`,
   };
 }
 
@@ -40,10 +40,10 @@ export default async function HowToPlay() {
   "
 >
   <h2 className="mb-4 text-2xl font-bold">
-    {t("introduction")}
+    {t("what-is-this")}
   </h2>
 
-  <p className="mb-8 leading-8 text-zinc-700 dark:text-zinc-300">
+  <p className="mb-8 leading-8 text-zinc-700 dark:text-zinc-300 whitespace-pre-line">
     {t("description")}
   </p>
 
@@ -77,6 +77,11 @@ export default async function HowToPlay() {
         <span>🔍</span>
         <span>{t("find-number")}</span>
       </li>
+
+      <li className="flex gap-3">
+        <span>📤</span>
+        <span>{t("change-full-RT")}</span>
+      </li>      
 
       <li className="flex gap-3">
         <span>🏆</span>

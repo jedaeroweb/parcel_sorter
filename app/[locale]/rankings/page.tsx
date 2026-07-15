@@ -8,6 +8,24 @@ type Props = {
   }>;
 };
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+
+  const t = await getTranslations({
+    locale,
+    namespace: "Rankings",
+  });
+
+  return {
+    title: `${t("title")}`,
+  };
+}
+
+
 export default async function Rankings({
   searchParams,
 }: Props) {
