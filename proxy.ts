@@ -3,7 +3,10 @@ import createMiddleware from 'next-intl/middleware';
 export default createMiddleware({
 
     locales: ['ko', 'en', 'ja', 'zh', 'fr', 'es', 'de'],
-    defaultLocale: 'ko'
+    defaultLocale: 'ko',
+    localeCookie: {
+    name: 'locale'
+  }
 });
 
 export const config = {
