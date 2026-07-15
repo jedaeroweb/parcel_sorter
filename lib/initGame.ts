@@ -4,7 +4,14 @@ import { beep, playCorrectSound, playWrongSound } from "./sound";
 
 export function initGame(
   canvas: HTMLCanvasElement,
-  onGameOver: () => void,
+  onGameOver: (
+    result: {
+      score: number;
+      stage: number;
+      accuracy: number;
+      playTime: number;
+    }
+  ) => void,
   onStageClear: (message: string) => void,
   onPauseChange: (paused: boolean) => void,
   t: (key: string) => string
@@ -712,11 +719,24 @@ if (
   stackedItems.length >= MAX_STACK &&
   blockedAtEntrance
 ) {
-  paused = true;
+paused = true;
 
-  onGameOver();
+const totalPlayTime =
+  STAGES
+    .slice(0, currentStage + 1)
+    .reduce(
+      (sum, stage) => sum + stage.time,
+      0
+    ) - remainTime;
 
-  return;
+onGameOver({
+  score,
+  stage: currentStage + 1,
+  accuracy: Number(getAccuracy()),
+  playTime: totalPlayTime,
+});
+
+return;
 }
 }
 

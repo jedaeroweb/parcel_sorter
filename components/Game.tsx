@@ -10,11 +10,75 @@ const [isPortrait, setIsPortrait] = useState(false);
 const [gameOver, setGameOver] = useState(false);
 const [stageClear, setStageClear] = useState(false);
 const [stageMessage, setStageMessage] = useState("");
+const [rankingModal, setRankingModal] =
+  useState(false);
+
+const [rankingData, setRankingData] =
+  useState<any>(null);
+
+const [nickname, setNickname] =
+  useState("");
+const [score, setScore] = useState(0);  
+  
 const canvasRef = useRef<HTMLCanvasElement>(null);
 const gameRef = useRef<any>(null);
 const [paused, setPaused] = useState(false);
 const t = useTranslations("Game");
 const homeT = useTranslations("Home");
+
+
+async function submitRanking() {
+  if (!rankingData) {
+    return;
+  }
+
+  const nicknameToSend =
+    nickname.trim() || "Anonymous";
+
+  try {
+    const res = await fetch(
+      "/api/rankings",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json",
+        },
+
+        body: JSON.stringify({
+          nickname: nicknameToSend,
+
+          score:
+            rankingData.score,
+
+          stage:
+            rankingData.stage,
+
+          accuracy:
+            rankingData.accuracy,
+
+          playTime:
+            rankingData.playTime,
+        }),
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error(
+        "failed to save ranking"
+      );
+    }
+
+    setRankingModal(false);
+  } catch (err) {
+    console.error(err);
+
+    alert(
+      "랭킹 등록에 실패했습니다."
+    );
+  }
+}
 
 useEffect(() => {
   const update = () => {
@@ -36,14 +100,43 @@ useEffect(() => {
 
 gameRef.current = initGame(
   canvas,
-  () => {
-    setGameOver(true);
-  },
+
+(result) => {
+  setRankingData(result);
+
+  setGameOver(true);
+
+  fetch(
+    "/api/rankings/can-enter",
+    {
+      method: "POST",
+
+      headers: {
+        "Content-Type":
+          "application/json",
+      },
+
+      body: JSON.stringify({
+        score: result.score,
+      }),
+    }
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.canEnter) {
+        setRankingModal(true);
+      }
+    })
+    .catch(console.error);
+},
+
   (message: string) => {
     setStageMessage(message);
     setStageClear(true);
   },
+
   setPaused,
+
   t
 );
 
@@ -108,6 +201,8 @@ if (!gameStarted) {
 }
 
 
+
+
 return (
 
   <div
@@ -138,6 +233,39 @@ return (
   "
 />
 
+
+{rankingModal && (
+  <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center">
+    <div className="rounded-2xl bg-white p-8 text-black w-[360px]">
+
+      <h2 className="mb-4 text-2xl font-bold">
+        🏆 TOP 100
+      </h2>
+
+      <p>성과: {rankingData.score}</p>
+
+      <p>라인: {rankingData.stage}</p>
+
+      <p>정확도: {rankingData.accuracy}%</p>
+
+      <input
+        className="mt-4 w-full border p-2"
+        maxLength={20}
+        value={nickname}
+        onChange={(e) =>
+          setNickname(e.target.value)
+        }
+      />
+
+      <button
+        className="mt-4 w-full rounded bg-blue-600 p-2 text-white"
+        onClick={submitRanking}
+      >
+        등록
+      </button>
+    </div>
+  </div>
+)}
 
 
 {paused && !gameOver && (
