@@ -22,7 +22,7 @@ export default function Header() {
           </Link>
 
           {/* 데스크톱 메뉴 */}
-          <nav className="hidden md:flex gap-6">
+          <nav className="hidden sm:flex gap-6">
             <Link href="/">{t("play")}</Link>
 
             <Link href="/rankings">
@@ -36,7 +36,7 @@ export default function Header() {
 
           {/* 모바일 햄버거 버튼 */}
           <button
-            className="md:hidden text-3xl"
+            className="sm:hidden text-3xl"
             onClick={() => setMenuOpen(true)}
             aria-label="menu"
           >
