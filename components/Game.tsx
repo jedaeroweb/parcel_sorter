@@ -19,13 +19,38 @@ const [rankingData, setRankingData] =
 const [nickname, setNickname] =
   useState("");
 const [score, setScore] = useState(0);  
-  
+const [gameClear, setGameClear] = useState(false);
 const canvasRef = useRef<HTMLCanvasElement>(null);
 const gameRef = useRef<any>(null);
 const [paused, setPaused] = useState(false);
 const t = useTranslations("Game");
 const homeT = useTranslations("Home");
 
+
+async function checkRanking(result: any) {
+  try {
+    const res = await fetch(
+      "/api/rankings/can-enter",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          score: result.score,
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (data.canEnter) {
+      setRankingModal(true);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 async function submitRanking() {
   if (!rankingData) {
@@ -121,35 +146,23 @@ useEffect(() => {
 gameRef.current = initGame(
   canvas,
 
-(result) => {
-  setRankingData(result);
+  // 게임 오버
+  (result) => {
+    setRankingData(result);
+    setGameOver(true);
 
-  setGameOver(true);
+    checkRanking(result);
+  },
 
-  fetch(
-    "/api/rankings/can-enter",
-    {
-      method: "POST",
+  // 게임 클리어
+  (result) => {
+    setRankingData(result);
+    setGameClear(true);
 
-      headers: {
-        "Content-Type":
-          "application/json",
-      },
+    checkRanking(result);
+  },
 
-      body: JSON.stringify({
-        score: result.score,
-      }),
-    }
-  )
-    .then((res) => res.json())
-    .then((data) => {
-      if (data.canEnter) {
-        setRankingModal(true);
-      }
-    })
-    .catch(console.error);
-},
-
+  // 스테이지 클리어
   (message: string) => {
     setStageMessage(message);
     setStageClear(true);
@@ -287,8 +300,51 @@ return (
   </div>
 )}
 
+{gameClear && (
+  <div
+    className="
+      absolute inset-0
+      flex items-center justify-center
+      bg-black/60
+      z-10
+    "
+  >
+    <div className="text-center space-y-6">
+      <h1 className="text-5xl font-bold text-green-400">
+        {t("gameClear")}
+      </h1>
 
-{paused && !gameOver && (
+      <p className="text-xl text-white">
+        {t("allStagesCleared")}
+      </p>
+
+      <button
+        onClick={() => {
+          setGameClear(false);
+          setGameStarted(false);
+
+          requestAnimationFrame(() => {
+            setGameStarted(true);
+          });
+        }}
+        className="
+          rounded-xl
+          bg-sky-600
+          px-8
+          py-4
+          text-xl
+          text-white
+          hover:bg-sky-700
+          transition
+        "
+      >
+        ▶ {t("restart")}
+      </button>
+    </div>
+  </div>
+)}
+
+{paused && !gameOver && !gameClear && (
 <div
   className="
     absolute inset-0

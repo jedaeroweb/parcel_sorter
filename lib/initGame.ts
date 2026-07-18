@@ -4,18 +4,12 @@ import { beep, playCorrectSound, playWrongSound } from "./sound";
 
 export function initGame(
   canvas: HTMLCanvasElement,
-  onGameOver: (
-    result: {
-      score: number;
-      stage: number;
-      accuracy: number;
-      playTime: number;
-    }
-  ) => void,
+  onGameOver: (result) => void,
+  onGameClear: (result) => void,
   onStageClear: (message: string) => void,
   onPauseChange: (paused: boolean) => void,
   t: (key: string) => string
-) {
+){
  const ctx = canvas.getContext("2d")!;
   if (!ctx) return () => {};
 
@@ -82,7 +76,7 @@ const STACK_SPACING = 40;
   
   const STAGES = [
   {
-    time: 120,
+    time: 12,
     itemCount: 4,
     beltSpeed: 1,
     brokenChance: 0.1,
@@ -91,8 +85,8 @@ const STACK_SPACING = 40;
     itemHide: 0.1,
     clearText: "stage_clear_1"
   },
-  {
-    time: 140,
+  /* {
+    time: 14,
     itemCount: 6,
     beltSpeed: 1.3,
     brokenChance: 0.15,
@@ -102,7 +96,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_2"
   },
   {
-    time: 160,
+    time: 16,
     itemCount: 8,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -112,7 +106,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_3"
   },
   {
-    time: 180,
+    time: 18,
     itemCount: 10,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -122,7 +116,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_4"
   },
   {
-    time: 200,
+    time: 20,
     itemCount: 12,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -130,10 +124,13 @@ const STACK_SPACING = 40;
     spawnRandomDelay: 600,
     itemHide: 0.2,
     clearText: "stage_clear_5"
-  }
+  } */
 ];
 
   let currentStage = 0;
+
+  let finished = false;
+
 
   // 벨트 속도 (모든 아이템 동일)
   let BELT_SPEED = STAGES[0].beltSpeed;
@@ -719,7 +716,11 @@ if (
   stackedItems.length >= MAX_STACK &&
   blockedAtEntrance
 ) {
-paused = true;
+  if (finished) return;
+
+  finished = true;
+
+  paused = true;
 
 const totalPlayTime =
   STAGES
@@ -1241,12 +1242,36 @@ drawPausedButton(pauseHovered);
   animationId = requestAnimationFrame(loop);
 
 if (remainTime <= 0) {
+
+  if (finished) {
+    return;
+  }
+
   if (currentStage + 1 < STAGES.length) {
     paused = true;
 
     onStageClear(
       t(STAGES[currentStage].clearText)
     );
+  } else {
+    finished = true;
+
+    paused = true;
+
+const totalPlayTime =
+  STAGES
+    .slice(0, currentStage + 1)
+    .reduce(
+      (sum, stage) => sum + stage.time,
+      0
+    ) - remainTime;    
+
+  onGameClear({
+    score,
+    stage: currentStage + 1,
+    accuracy: Number(getAccuracy()),
+    playTime: totalPlayTime,
+  });
   }
 }
 
@@ -1271,6 +1296,9 @@ if (Math.abs(zone.targetY - zone.y) < 2) {
     zone.success = 0;
     zone.fail = 0;
 
+    // RT 교체 보상
+    score += 30;
+
     // 반대편에서 다시 등장
 zone.y =
   zone.originalY < HEIGHT / 2
@@ -1290,6 +1318,7 @@ zone.y =
 loop();
 
 function changeStage(stage: number) {
+  finished = false;
   currentStage = stage;
 
   remainTime = STAGES[stage].time;
