@@ -76,7 +76,7 @@ const STACK_SPACING = 40;
   
   const STAGES = [
   {
-    time: 12,
+    time: 120,
     itemCount: 4,
     beltSpeed: 1,
     brokenChance: 0.1,
@@ -85,8 +85,8 @@ const STACK_SPACING = 40;
     itemHide: 0.1,
     clearText: "stage_clear_1"
   },
-  /* {
-    time: 14,
+  {
+    time: 140,
     itemCount: 6,
     beltSpeed: 1.3,
     brokenChance: 0.15,
@@ -96,7 +96,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_2"
   },
   {
-    time: 16,
+    time: 160,
     itemCount: 8,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -106,7 +106,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_3"
   },
   {
-    time: 18,
+    time: 180,
     itemCount: 10,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -116,7 +116,7 @@ const STACK_SPACING = 40;
     clearText: "stage_clear_4"
   },
   {
-    time: 20,
+    time: 200,
     itemCount: 12,
     beltSpeed: 1.7,
     brokenChance: 0.2,
@@ -124,7 +124,7 @@ const STACK_SPACING = 40;
     spawnRandomDelay: 600,
     itemHide: 0.2,
     clearText: "stage_clear_5"
-  } */
+  }
 ];
 
   let currentStage = 0;
