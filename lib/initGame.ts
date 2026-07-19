@@ -13,7 +13,6 @@ export function initGame(
  const ctx = canvas.getContext("2d")!;
   if (!ctx) return () => {};
 
-
   const WIDTH = canvas.width;
   const HEIGHT = canvas.height;
 
@@ -43,9 +42,9 @@ export function initGame(
   const MULTI_SPAWN_RATE = 0.1;
 
   const items: Item[] = [];
-const stackedItems: Item[] = [];
+  const stackedItems: Item[] = [];
 
-const dropZones: DropZone[] = [];
+  const dropZones: DropZone[] = [];
 
 
 
@@ -1067,6 +1066,37 @@ if (success) {
     dropFail++;
 
     score -= 5;
+}
+
+const total = zone.success + zone.fail;
+const accuracy =
+  total > 0
+    ? (zone.success / total) * 100
+    : 100;
+
+if (
+  zone.count >= 10 &&
+  accuracy < 50
+) {
+  finished = true;
+  paused = true;
+
+  const totalPlayTime =
+    STAGES
+      .slice(0, currentStage + 1)
+      .reduce(
+        (sum, stage) => sum + stage.time,
+        0
+      ) - remainTime;
+
+  onGameOver({
+    score,
+    stage: currentStage + 1,
+    accuracy: Number(getAccuracy()),
+    playTime: totalPlayTime,
+  });
+
+  return;
 }
 
 const idx =
