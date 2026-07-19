@@ -76,7 +76,7 @@ const STACK_SPACING = 40;
   
   const STAGES = [
   {
-    time: 12,
+    time: 120,
     itemCount: 4,
     beltSpeed: 1,
     brokenChance: 0.1,
