@@ -27,6 +27,8 @@
   },
   "Game": {
     "gameOver": "你被解雇了！！",
+    "gameClear": "정규직(전용노예)이 되었습니다!!!",
+    "allStagesCleared": "모든 라인에서 경험을 쌓고 해고되지 않았습니다",
     "restart": "重新开始",
     "resume": "继续",
     "nextStage": "下一条流水线",

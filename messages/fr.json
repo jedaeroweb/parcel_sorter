@@ -27,6 +27,8 @@
   },
   "Game": {
     "gameOver": "Vous êtes viré !!",
+    "gameClear": "정규직(전용노예)이 되었습니다!!!",
+    "allStagesCleared": "모든 라인에서 경험을 쌓고 해고되지 않았습니다",    
     "restart": "Recommencer",
     "resume": "Continuer",
     "nextStage": "Ligne suivante",
