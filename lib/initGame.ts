@@ -85,8 +85,6 @@ const STACK_SPACING = 40;
     itemHide: 0.1,
     clearText: "stage_clear_1"
   },
-
-  /*
   {
     time: 140,
     itemCount: 6,
@@ -126,7 +124,7 @@ const STACK_SPACING = 40;
     spawnRandomDelay: 600,
     itemHide: 0.2,
     clearText: "stage_clear_5"
-  }*/
+  }
 ];
 
   let currentStage = 0;
