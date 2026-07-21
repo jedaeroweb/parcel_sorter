@@ -58,7 +58,7 @@ async function submitRanking() {
   }
 
   const nicknameToSend =
-    nickname.trim() || "Anonymous";
+    nickname.trim() || t("anonymous");
 
   try {
     const res = await fetch(
@@ -285,6 +285,7 @@ return (
         className="mt-4 w-full border p-2"
         maxLength={20}
         value={nickname}
+        placeholder={t("anonymous")}
         onChange={(e) =>
           setNickname(e.target.value)
         }
