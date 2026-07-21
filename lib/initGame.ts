@@ -66,13 +66,13 @@ const ITEM_TEXT_ALIGN = "center";
 
 const MAX_STACK = 30;
 
-const RT_CAPACITY = 30;
+const RT_CAPACITY = 20;
 const RT_CHANGE_THRESHOLD = Math.round(RT_CAPACITY * 0.9);
 const STACK_COLS = 4;
 const STACK_ROWS = Math.ceil(MAX_STACK / STACK_COLS);
 const STACK_SPACING = 40;
 
-  
+  const MAX_GROUP_SIZE = 3;
   const STAGES = [
   {
     time: 120,
@@ -186,15 +186,24 @@ let timeArea = {
   h: 36,
 };
 
+type ItemGroup = {
+  items: Item[];
+  leader: Item;
+};
+
 type Item = {
   x: number;
   y: number;
   size: number;
+
   color: string;
   itemNo: number;
+
   revealed: boolean;
   revealAttempts: number;
-   broken: boolean;
+  broken: boolean;
+
+  group?: ItemGroup;
 };
 
 type DropZone = {
@@ -246,6 +255,87 @@ items.push({
   revealAttempts: 0,
   broken: false
 });
+}
+
+function getGroupSize(item: Item) {
+  return item.group
+    ? item.group.items.length
+    : 1;
+}
+
+function normalizeGroup(group: ItemGroup) {
+  const baseY = group.leader.y;
+
+  for (let i = 0; i < group.items.length; i++) {
+    const item = group.items[i];
+
+    item.y = baseY;
+    item.x = group.leader.x - i * 6;
+  }
+}
+
+function mergeItems(a: Item, b: Item) {
+
+  const sizeA = getGroupSize(a);
+  const sizeB = getGroupSize(b);
+
+  if (
+    sizeA + sizeB > MAX_GROUP_SIZE
+  ) {
+    return false;
+  }
+
+  // 둘 다 단독
+
+  if (!a.group && !b.group) {
+
+    const group: ItemGroup = {
+      items: [a, b],
+      leader: b
+    };
+
+    a.group = group;
+    b.group = group;
+
+    normalizeGroup(group);
+
+    return true;
+  }
+
+if (a.group && !b.group) {
+  a.group.items.push(b);
+  b.group = a.group;
+
+  normalizeGroup(a.group);
+
+  return true;
+}
+
+if (!a.group && b.group) {
+  b.group.items.push(a);
+  a.group = b.group;
+
+  normalizeGroup(b.group);
+
+  return true;
+}
+
+if (
+  a.group &&
+  b.group &&
+  a.group !== b.group
+) {
+  for (const item of b.group.items) {
+    item.group = a.group;
+    a.group.items.push(item);
+  }
+
+  normalizeGroup(a.group);
+
+  return true;
+}
+
+  return false;
 }
 
 const TOP_COUNT =
@@ -520,44 +610,18 @@ function restackWarehouse() {
 }
 
 function drawStackedItems() {
+
   for (const item of stackedItems) {
 
-    ctx.fillStyle = item.color;
+    if (
+      item.group &&
+      item.group.leader !== item
+    ) {
+      continue;
+    }
 
-    ctx.fillRect(
-      item.x,
-      item.y,
-      item.size,
-      item.size
-    );
-
-    ctx.strokeStyle = "#000";
-    ctx.strokeRect(
-      item.x,
-      item.y,
-      item.size,
-      item.size
-    );
-
-    ctx.fillStyle = "#000";
-    ctx.font = ITEM_FONT;
-    ctx.textAlign = ITEM_TEXT_ALIGN;
-
-ctx.fillText(
-  item.revealed ? item.itemNo : "???",
-  item.x + item.size / 2,
-  item.y + 15
-);
-
-if (item.broken) {
-  ctx.fillStyle = "#ff3333";
-  ctx.font = "bold 11px Arial";
-  ctx.textAlign = "center";
-
-drawBrokenLabel(item);
-
+    drawItem(item);
   }
-}
 }
 
 function drawWarehouse() {
@@ -636,10 +700,11 @@ function updateItems() {
   let blockedAtEntrance = false;
 
 
-  const movingItems =
-  items.filter(
-    item => item !== draggingItem
-  );
+const movingItems = items.filter(
+  item =>
+    item !== draggingItem &&
+    !draggingItem?.group?.items.includes(item)
+);
 
 
   // 앞 아이템부터 처리
@@ -666,19 +731,60 @@ for (let i = 0; i < movingItems.length; i++) {
 const col = Math.floor(stackIndex / STACK_ROWS);
 const row = stackIndex % STACK_ROWS;
 
-stackedItems.push({
-  color: item.color,
-  size: item.size,
-  itemNo: item.itemNo,
-  revealed: Math.random() > ITEM_NUMBER_HIDE,
-  revealAttempts: 0,
-  broken: Math.random() < BROKEN_CHANCE,
+const itemsToStore = item.group
+  ? item.group.items
+  : [item];
 
-  x: WAREHOUSE_X + col * STACK_SPACING,
-  y: 350 - row * STACK_SPACING
-});
+for (const groupItem of itemsToStore) {
+
+  const stackIndex = stackedItems.length;
+
+  const col = Math.floor(
+    stackIndex / STACK_ROWS
+  );
+
+  const row =
+    stackIndex % STACK_ROWS;
+
+  stackedItems.push({
+    color: groupItem.color,
+    size: groupItem.size,
+    itemNo: groupItem.itemNo,
+    revealed:
+      Math.random() >
+      ITEM_NUMBER_HIDE,
+
+    revealAttempts: 0,
+
+    broken: groupItem.broken,
+
+    group: undefined,
+
+    x:
+      WAREHOUSE_X +
+      col * STACK_SPACING,
+
+    y:
+      350 -
+      row * STACK_SPACING
+  });
+}
+
+for (const groupItem of itemsToStore) {
+  groupItem.group = undefined;
+}
 
 score = Math.max(0, score - 1);
+
+restackWarehouse();
+
+for (const removeItem of itemsToStore) {
+  const idx = items.indexOf(removeItem);
+
+  if (idx >= 0) {
+    items.splice(idx, 1);
+  }
+}
 
 scoreEffects.push({
   text: "-1",
@@ -687,13 +793,18 @@ scoreEffects.push({
   life: 30,
 });
 
-restackWarehouse();
+const itemsToRemove = item.group
+  ? item.group.items
+  : [item];
 
-const realIndex =
-  items.indexOf(item);
+for (const removeItem of itemsToRemove) {
 
-if (realIndex >= 0) {
-  items.splice(realIndex, 1);
+  const idx =
+    items.indexOf(removeItem);
+
+  if (idx >= 0) {
+    items.splice(idx, 1);
+  }
 }
       continue;
     }
@@ -760,47 +871,97 @@ return;
 }
 }
 
+function drawItem(item: Item) {
 
-// 아이템 그리기
-function drawItems() {
-  for (const item of items) {
+  const groupSize =
+    item.group?.items.length ?? 1;
+
+  // 뒤에 있는 박스부터 그림
+  for (let i = groupSize - 1; i >= 0; i--) {
+
+    const x = item.x - i * 6;
+    const y = item.y - i * 6;
 
     ctx.fillStyle = item.color;
 
     ctx.fillRect(
-      item.x,
-      item.y,
+      x,
+      y,
       item.size,
       item.size
     );
 
     ctx.strokeStyle = "#000";
+
     ctx.strokeRect(
-      item.x,
-      item.y,
+      x,
+      y,
       item.size,
       item.size
     );
+  }
 
-    // 번호 표시
+  // 맨 위 박스에 번호 표시
+  ctx.fillStyle = "#000";
+  ctx.font = ITEM_FONT;
+  ctx.textAlign = ITEM_TEXT_ALIGN;
+
+  ctx.fillText(
+    item.revealed
+      ? item.itemNo
+      : "???",
+    item.x + item.size / 2,
+    item.y + 15
+  );
+
+  if (item.broken) {
+    drawBrokenLabel(item);
+  }
+
+  // 몇 개 묶음인지 표시
+  if (groupSize > 1) {
+
+    ctx.fillStyle = "#facc15";
+
+    ctx.beginPath();
+
+ctx.arc(
+  item.x + item.size / 2,
+  item.y + item.size + 10,
+  12,
+  0,
+  Math.PI * 2
+);
+
+
+
+    ctx.fill();
+
     ctx.fillStyle = "#000";
-    ctx.font = ITEM_FONT;
-    ctx.textAlign = ITEM_TEXT_ALIGN;
+    ctx.font = "bold 12px Arial";
 
 ctx.fillText(
-  item.revealed ? item.itemNo : "???",
+  String(groupSize),
   item.x + item.size / 2,
-  item.y + 15
-)
-
-if (item.broken) {
-  ctx.fillStyle = "#ff3333";
-  ctx.font = "bold 11px Arial";
-  ctx.textAlign = "center";
-
-drawBrokenLabel(item);
+  item.y + item.size + 14
+);
+  }
 }
 
+
+// 아이템 그리기
+function drawItems() {
+
+  for (const item of items) {
+
+    if (
+      item.group &&
+      item.group.leader !== item
+    ) {
+      continue;
+    }
+
+    drawItem(item);
   }
 }
 
@@ -972,14 +1133,22 @@ if (
   my <= item.y + item.size
 ) {
 
-  draggingItem = item;
+  draggingItem = item.group
+  ? item.group.leader
+  : item;
   draggingSource = items;
 
-  originalX = item.x;
-  originalY = item.y;
+const picked = item.group
+  ? item.group.leader
+  : item;
 
-  dragOffsetX = mx - item.x;
-  dragOffsetY = my - item.y;
+draggingItem = picked;
+
+originalX = picked.x;
+originalY = picked.y;
+
+dragOffsetX = mx - picked.x;
+dragOffsetY = my - picked.y;
 
   return;
 }
@@ -1007,8 +1176,30 @@ const onPointerMove = (e: PointerEvent) => {
   if (paused) return;
   if (!draggingItem) return;
 
-  draggingItem.x = mx - dragOffsetX;
-  draggingItem.y = my - dragOffsetY;
+const oldX = draggingItem.x;
+const oldY = draggingItem.y;
+
+draggingItem.x = mx - dragOffsetX;
+draggingItem.y = my - dragOffsetY;
+
+const dx =
+  draggingItem.x - oldX;
+
+const dy =
+  draggingItem.y - oldY;
+
+if (draggingItem.group) {
+
+  for (const item of draggingItem.group.items) {
+
+    if (item === draggingItem) {
+      continue;
+    }
+
+    item.x += dx;
+    item.y += dy;
+  }
+}
 };
 
 
@@ -1019,6 +1210,66 @@ const onPointerUp = (e: PointerEvent) => {
  
   if (!draggingItem) return;
 
+
+for (const target of [...items, ...stackedItems]) {
+
+  if (target === draggingItem) {
+    continue;
+  }
+
+  const overlap =
+    draggingItem.x < target.x + target.size &&
+    draggingItem.x + draggingItem.size > target.x &&
+    draggingItem.y < target.y + target.size &&
+    draggingItem.y + draggingItem.size > target.y;
+
+if (
+  overlap &&
+  draggingItem.revealed &&
+  target.revealed &&
+  draggingItem.itemNo === target.itemNo &&
+  draggingItem.broken === target.broken
+) {
+
+if (
+  mergeItems(
+    draggingItem,
+    target
+  )
+) {
+
+  // 창고에서 그룹 생성 시
+  if (
+    draggingSource === stackedItems &&
+    draggingItem.group
+  ) {
+
+    for (const groupItem of draggingItem.group.items) {
+
+      if (groupItem === draggingItem.group.leader) {
+        continue;
+      }
+
+      const idx =
+        stackedItems.indexOf(groupItem);
+
+      if (idx >= 0) {
+        stackedItems.splice(idx, 1);
+      }
+    }
+
+    restackWarehouse();
+  }
+
+  draggingItem = null;
+  draggingSource = null;
+
+  return;
+}
+  }
+}
+
+
   const centerX =
     draggingItem.x + draggingItem.size / 2;
 
@@ -1026,6 +1277,8 @@ const onPointerUp = (e: PointerEvent) => {
     draggingItem.y + draggingItem.size / 2;
 
   let dropped = false;
+
+  
 
   // ======================
   // 드롭존 검사
@@ -1059,7 +1312,9 @@ if (zone.count >= zone.capacity) {
   break;
 }
 
-zone.count++;
+zone.count += draggingItem.group
+  ? draggingItem.group.items.length
+  : 1;
 
 let success = false;
 
@@ -1137,15 +1392,28 @@ if (
   return;
 }
 
-const idx =
-  draggingSource.indexOf(draggingItem);
+const itemsToRemove = draggingItem.group
+  ? draggingItem.group.items
+  : [draggingItem];
 
-if (idx >= 0) {
-  draggingSource.splice(idx, 1);
+for (const item of itemsToRemove) {
 
-  if (draggingSource === stackedItems) {
-    restackWarehouse();
+  const idx =
+    draggingSource.indexOf(item);
+
+  if (idx >= 0) {
+    draggingSource.splice(idx, 1);
   }
+}
+
+if (draggingItem.group) {
+  for (const item of draggingItem.group.items) {
+    item.group = undefined;
+  }
+}
+
+if (draggingSource === stackedItems) {
+  restackWarehouse();
 }
 
 dropped = true;
