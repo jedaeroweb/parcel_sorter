@@ -157,8 +157,8 @@ const STACK_SPACING = 40;
   let dropFail = 0;
 
   let score = 0;
-
   let scoreBounce = 0;
+  let scoreEffectX = 260;
 
 type ScoreEffect = {
   text: string;
@@ -682,7 +682,7 @@ score = Math.max(0, score - 1);
 
 scoreEffects.push({
   text: "-1",
-  x: 260,
+  x: scoreEffectX,
   y: 30,
   life: 30,
 });
@@ -1085,7 +1085,7 @@ scoreBounce = 8;
 
 scoreEffects.push({
   text: "+5",
-  x: 260,
+  x: scoreEffectX,
   y: 30,
   life: 40,
 });
@@ -1100,7 +1100,7 @@ scoreEffects.push({
 
 scoreEffects.push({
   text: "-5",
-  x: 260,
+  x: scoreEffectX,
   y: 30,
   life: 40,
 });
@@ -1307,10 +1307,17 @@ remainTime = Math.max(0, remainTime);
 const minutes = Math.floor(remainTime / 60);
 const seconds = remainTime % 60;
 
-const timeText =
-  `${t("untilLeaving")} ${minutes}:${String(seconds).padStart(2, "0")}`;
+const prefixText = `${t("untilLeaving")}`;
+const secondsText =
+  minutes + ":" + String(seconds).padStart(2, "0");
 
-const timeWidth = ctx.measureText(timeText).width;
+const timePrefixWidth =
+  ctx.measureText(prefixText).width;
+
+const timeWidth =
+  timePrefixWidth +
+  ctx.measureText(secondsText).width;
+
 
 timeArea.w = timeWidth;
 
@@ -1324,11 +1331,31 @@ const pauseHovered =
     mouseY >= pauseButton.y &&
     mouseY <= pauseButton.y + pauseButton.h);
 
+let timeColor = "#00ff00";
+
+if (remainTime > 120) {
+  timeColor = "#ff0000";
+} else if (remainTime > 90) {
+  timeColor = "#ffff00";
+} else if (remainTime > 60) {
+  timeColor = "#ffffff";
+} else if (remainTime > 30) {
+  timeColor = "#66ccff";
+}
+
+// 앞부분은 항상 흰색
 ctx.fillStyle = "#ffffff";
+ctx.fillText(prefixText, 20, 60);
 
-ctx.fillText(timeText, 20, 60);
+// 초 부분만 색 변경
+ctx.fillStyle = timeColor;
+ctx.fillText(
+  secondsText,
+  20 + timePrefixWidth + 5,
+  60
+);
 
-pauseButton.x = 20 + timeWidth + 15;
+pauseButton.x = 20 + timeWidth + 20;
 pauseButton.y = 34;
 
 drawPausedButton(pauseHovered);
@@ -1377,6 +1404,13 @@ drawPausedButton(pauseHovered);
     scoreEffects.splice(i, 1);
   }
 }
+
+const scoreWidth =
+  ctx.measureText(String(score)).width;
+
+scoreEffectX =
+  20 + prefixWidth + scoreWidth + 10;
+
 
   animationId = requestAnimationFrame(loop);
 
@@ -1442,7 +1476,7 @@ if (Math.abs(zone.targetY - zone.y) < 2) {
 
 scoreEffects.push({
   text: "+30",
-  x: 260,
+  x: scoreEffectX,
   y: 30,
   life: 50,
 });
