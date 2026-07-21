@@ -667,6 +667,8 @@ stackedItems.push({
   y: 350 - row * STACK_SPACING
 });
 
+score = Math.max(0, score - 1);
+
 restackWarehouse();
 
 const realIndex =
@@ -1065,7 +1067,7 @@ if (success) {
     zone.fail++;
     dropFail++;
 
-    score -= 5;
+    score = Math.max(0, score - 5);
 }
 
 const total = zone.success + zone.fail;
