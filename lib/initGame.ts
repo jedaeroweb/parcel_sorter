@@ -82,6 +82,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 700,
     spawnRandomDelay: 1500,
     itemHide: 0.1,
+    itemMiss: 0.01,
     clearText: "stage_clear_1"
   },
   {
@@ -92,6 +93,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 600,
     spawnRandomDelay: 1300,
     itemHide: 0.15,
+    itemMiss: 0.02,    
     clearText: "stage_clear_2"
   },
   {
@@ -102,6 +104,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 500,
     spawnRandomDelay: 1100,
     itemHide: 0.2,
+    itemMiss: 0.03,        
     clearText: "stage_clear_3"
   },
   {
@@ -112,6 +115,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 400,
     spawnRandomDelay: 800,
     itemHide: 0.2,
+    itemMiss: 0.04,
     clearText: "stage_clear_4"
   },
   {
@@ -122,28 +126,28 @@ const STACK_SPACING = 40;
     spawnMinDelay: 350,
     spawnRandomDelay: 600,
     itemHide: 0.2,
+    itemMiss: 0.05,
     clearText: "stage_clear_5"
   }
 ];
 
   let currentStage = 0;
-
   let finished = false;
 
 
   // 벨트 속도 (모든 아이템 동일)
-  let BELT_SPEED = STAGES[0].beltSpeed;
+  let BELT_SPEED = STAGES[currentStage].beltSpeed;
 
-  let BROKEN_CHANCE = STAGES[0].brokenChance;
+  let BROKEN_CHANCE = STAGES[currentStage].brokenChance;
 
     // 아이템 번호 안 보일 확률
-  let ITEM_NUMBER_HIDE = STAGES[0].itemHide;
+  let ITEM_NUMBER_HIDE = STAGES[currentStage].itemHide;
 
-  let SPAWN_MIN_DELAY = STAGES[0].spawnMinDelay;
-  let SPAWN_RANDOM_DELAY = STAGES[0].spawnRandomDelay;
+  let SPAWN_MIN_DELAY = STAGES[currentStage].spawnMinDelay;
+  let SPAWN_RANDOM_DELAY = STAGES[currentStage].spawnRandomDelay;
 
   let stageStart = Date.now();
-  let remainTime = STAGES[0].time;
+  let remainTime = STAGES[currentStage].time;
   let lastTick = Date.now();
 
   let itemSize = 36;
@@ -350,9 +354,12 @@ const zoneWidth = 70;
 
 // 오른쪽 여백
 const brokenZoneWidth = 100;
+const wrongZoneWidth = 100;
 
 const rightPadding =
-  brokenZoneWidth + 20;
+  brokenZoneWidth +
+  wrongZoneWidth +
+  40;
 
 // 드롭존 사이 간격
 const gap = 30;
@@ -408,13 +415,43 @@ dropZones.push({
   y: 320,
 
   w: brokenZoneWidth,
-  h: 50,
+  h: 40,
 
   count: 0,
   capacity: RT_CAPACITY,
   success: 0,
   fail: 0,
 });
+/*
+dropZones.push({
+  itemNo: -2,
+  name: t("miss"),
+
+  x:
+    BELT_END_X -wrongZoneWidth, 
+
+  y: 50,
+
+  w: wrongZoneWidth,
+  h: 50,
+
+  count: 0,
+  capacity: RT_CAPACITY,
+  success: 0,
+  fail: 0,
+
+  replacing: false,
+  targetX:
+    BELT_END_X -
+    brokenZoneWidth -
+    wrongZoneWidth -
+    20,
+
+  targetY: 20,
+  originalY: 20,
+});
+*/
+
 }
 
 

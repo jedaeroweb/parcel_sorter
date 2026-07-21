@@ -36,6 +36,7 @@
     "clickAnywhereToResume": "Click anywhere to continue",
     "floor": "Dropped",
     "broken": "Broken",
+    "miss" : "Miss",
     "line": "Line",
     "untilLeaving": "Time Left",
     "performance": "Performance",
