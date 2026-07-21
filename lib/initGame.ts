@@ -158,6 +158,17 @@ const STACK_SPACING = 40;
 
   let score = 0;
 
+  let scoreBounce = 0;
+
+type ScoreEffect = {
+  text: string;
+  x: number;
+  y: number;
+  life: number;
+};
+
+const scoreEffects: ScoreEffect[] = [];
+
   let mouseX = -1;
   let mouseY = -1;
 
@@ -669,6 +680,13 @@ stackedItems.push({
 
 score = Math.max(0, score - 1);
 
+scoreEffects.push({
+  text: "-1",
+  x: 260,
+  y: 30,
+  life: 30,
+});
+
 restackWarehouse();
 
 const realIndex =
@@ -1062,12 +1080,30 @@ if (success) {
     dropSuccess++;
 
     score += 5;
+
+scoreBounce = 8;
+
+scoreEffects.push({
+  text: "+5",
+  x: 260,
+  y: 30,
+  life: 40,
+});
 } else {
     playWrongSound();
     zone.fail++;
     dropFail++;
 
     score = Math.max(0, score - 5);
+
+    scoreBounce = 8;
+
+scoreEffects.push({
+  text: "-5",
+  x: 260,
+  y: 30,
+  life: 40,
+});
 }
 
 const total = zone.success + zone.fail;
@@ -1224,11 +1260,48 @@ if (!paused) {
   }
 }
 
-const headerText =
-  `${t("line")} ${currentStage + 1} / ${t("performance")}: ${score}`;
+ctx.fillStyle = "white";
+ctx.font = "24px Arial";
 
+const prefix =
+  `${t("line")} ${currentStage + 1} / ${t("performance")}: `;
 
-ctx.fillText(headerText, 20, 30);
+ctx.textAlign = "left";
+
+ctx.fillText(prefix, 20, 30);
+
+const prefixWidth =
+  ctx.measureText(prefix).width;
+
+const scale =
+  1 + scoreBounce * 0.03;
+
+ctx.save();
+
+ctx.translate(
+  20 + prefixWidth,
+  30
+);
+
+ctx.scale(scale, scale);
+
+ctx.font = "bold 26px Arial";
+
+ctx.fillStyle = "#facc15";
+
+ctx.fillText(
+  String(score),
+  0,
+  0
+);
+
+ctx.restore();
+
+scoreBounce *= 0.85;
+
+if (scoreBounce < 0.1) {
+  scoreBounce = 0;
+}
 
 remainTime = Math.max(0, remainTime);
 const minutes = Math.floor(remainTime / 60);
@@ -1270,6 +1343,40 @@ drawPausedButton(pauseHovered);
   drawItems();
   drawStackedItems();
   drawDropZones();
+
+  for (let i = scoreEffects.length - 1; i >= 0; i--) {
+  const effect = scoreEffects[i];
+
+  ctx.save();
+
+  ctx.globalAlpha =
+    effect.life / 40;
+
+  ctx.font =
+    "bold 20px Arial";
+
+  ctx.fillStyle =
+    effect.text.startsWith("+")
+      ? "#4ade80"
+      : "#ef4444";
+
+  ctx.textAlign = "left";
+
+  ctx.fillText(
+    effect.text,
+    effect.x,
+    effect.y
+  );
+
+  ctx.restore();
+
+  effect.y -= 1.5;
+  effect.life--;
+
+  if (effect.life <= 0) {
+    scoreEffects.splice(i, 1);
+  }
+}
 
   animationId = requestAnimationFrame(loop);
 
@@ -1330,6 +1437,15 @@ if (Math.abs(zone.targetY - zone.y) < 2) {
 
     // RT 교체 보상
     score += 30;
+
+    scoreBounce = 12;
+
+scoreEffects.push({
+  text: "+30",
+  x: 260,
+  y: 30,
+  life: 50,
+});
 
     // 반대편에서 다시 등장
 zone.y =
