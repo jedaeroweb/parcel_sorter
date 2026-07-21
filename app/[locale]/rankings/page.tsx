@@ -72,11 +72,11 @@ export default async function Rankings({
         </th>
 
         <th className="p-4 text-right">
-          {t("score")}
+          {t("performance")}
         </th>
 
         <th className="p-4 text-right">
-          {t("stage")}
+          {t("line")}
         </th>
 
         <th className="p-4 text-right">

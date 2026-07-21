@@ -51,8 +51,8 @@
     "title": "Clasificación",
     "heading": "Clasificación",
     "nickname": "Apodo",
-    "score": "Puntuación",
-    "stage": "Nivel",
+    "performance": "Rendimiento",
+    "line": "Línea",
     "accuracy": "Precisión"
   }
 }

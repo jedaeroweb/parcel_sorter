@@ -51,8 +51,8 @@
     "title": "Rankings",
     "heading": "Rankings",
     "nickname": "Nickname",
-    "score": "Score",
-    "stage": "Stage",
+    "performance": "Performance",
+    "line": "Line",
     "accuracy": "Accuracy"
   }
 }

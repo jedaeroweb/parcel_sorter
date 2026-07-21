@@ -52,8 +52,8 @@
     "title": "순위",
     "heading": "순위",
     "nickname": "별명",
-    "score": "점수",
-    "stage": "단계",
+    "performance": "성과",
+    "line" : "라인",
     "accuracy": "정확도"
   }
 }

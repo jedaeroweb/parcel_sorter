@@ -51,8 +51,8 @@
     "title": "ランキング",
     "heading": "ランキング",
     "nickname": "ニックネーム",
-    "score": "スコア",
-    "stage": "ステージ",
+    "performance": "成果",
+    "line": "ライン",
     "accuracy": "正確度"
   }
 }

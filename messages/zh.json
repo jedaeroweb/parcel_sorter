@@ -51,8 +51,8 @@
     "title": "排行榜",
     "heading": "排行榜",
     "nickname": "昵称",
-    "score": "分数",
-    "stage": "阶段",
+    "performance": "绩效",
+    "line": "流水线",
     "accuracy": "准确率"
   }
 }

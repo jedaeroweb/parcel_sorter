@@ -51,8 +51,8 @@
     "title": "Bestenliste",
     "heading": "Bestenliste",
     "nickname": "Spitzname",
-    "score": "Punktzahl",
-    "stage": "Stufe",
+    "performance": "Leistung",
+    "line": "Linie",
     "accuracy": "Genauigkeit"
   }
 }

@@ -51,8 +51,8 @@
     "title": "Classement",
     "heading": "Classement",
     "nickname": "Pseudo",
-    "score": "Score",
-    "stage": "Niveau",
+    "performance": "Performance",
+    "line": "Ligne",
     "accuracy": "Précision"
   }
 }
