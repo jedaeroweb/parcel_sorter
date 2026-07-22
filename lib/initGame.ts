@@ -36,8 +36,6 @@ export function initGame(
   const PLAY_WIDTH =
   BELT_END_X - DROP_ZONE_START_X - DROP_ZONE_END_MARGIN;
 
-
-
   const NO_SPAWN_RATE = 0.2;
   const MULTI_SPAWN_RATE = 0.1;
 
@@ -45,10 +43,6 @@ export function initGame(
   const stackedItems: Item[] = [];
 
   const dropZones: DropZone[] = [];
-
-
-
-
 
 const ITEM_COLORS = [
   "#ff6b6b",
@@ -82,7 +76,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 700,
     spawnRandomDelay: 1500,
     itemHide: 0.1,
-    itemMiss: 0.01,
+    miss: 0.03,
     clearText: "stage_clear_1"
   },
   {
@@ -93,7 +87,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 600,
     spawnRandomDelay: 1300,
     itemHide: 0.15,
-    itemMiss: 0.02,    
+    miss: 0.04,    
     clearText: "stage_clear_2"
   },
   {
@@ -104,7 +98,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 500,
     spawnRandomDelay: 1100,
     itemHide: 0.2,
-    itemMiss: 0.03,        
+    miss: 0.05,        
     clearText: "stage_clear_3"
   },
   {
@@ -115,7 +109,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 400,
     spawnRandomDelay: 800,
     itemHide: 0.2,
-    itemMiss: 0.04,
+    miss: 0.06,
     clearText: "stage_clear_4"
   },
   {
@@ -126,7 +120,7 @@ const STACK_SPACING = 40;
     spawnMinDelay: 350,
     spawnRandomDelay: 600,
     itemHide: 0.2,
-    itemMiss: 0.05,
+    miss: 0.07,
     clearText: "stage_clear_5"
   }
 ];
@@ -207,6 +201,7 @@ type Item = {
   revealAttempts: number;
   broken: boolean;
 
+  miss: boolean;
   group?: ItemGroup;
 };
 
@@ -231,6 +226,32 @@ type DropZone = {
 let ITEM_NUMBERS: string[] = [];
 
 
+function getMissItemNumber() {
+
+  const otherStages: string[] = [];
+
+  for (let stage = 0; stage < STAGES.length; stage++) {
+
+    // 현재 스테이지 제외
+    if (stage === currentStage) {
+      continue;
+    }
+
+    const count = STAGES[stage].itemCount;
+
+    for (let i = 0; i < count; i++) {
+      otherStages.push(
+        `${stage + 1}${String(i + 1).padStart(2, "0")}`
+      );
+    }
+  }
+
+  return otherStages[
+    Math.floor(Math.random() * otherStages.length)
+  ];
+}
+
+
 function updateItemNumbers() {
   const count = STAGES[currentStage].itemCount;
 
@@ -240,25 +261,71 @@ function updateItemNumbers() {
   );
 }
 
+
+
 // 아이템 생성
 function spawnItem() {
-items.push({
-  x: -30,
-  y: 188,
-  size: itemSize,
 
-  color: ITEM_COLORS[
-    Math.floor(Math.random() * ITEM_COLORS.length)
-  ],
+  let itemNo =
+    ITEM_NUMBERS[
+      Math.floor(Math.random() * ITEM_NUMBERS.length)
+    ];
 
-  itemNo: ITEM_NUMBERS[
-    Math.floor(Math.random() * ITEM_NUMBERS.length)
-  ],
+  let miss = false;
 
-  revealed: Math.random() > ITEM_NUMBER_HIDE,
-  revealAttempts: 0,
-  broken: false
-});
+
+  if (Math.random() < STAGES[currentStage].miss) {
+
+    const wrongNumbers =
+      Array.from(
+        { length: STAGES.length },
+        (_, stageIndex) =>
+          Array.from(
+            { length: STAGES[stageIndex].itemCount },
+            (_, i) =>
+              `${stageIndex + 1}${String(i + 1).padStart(2, "0")}`
+          )
+      )
+      .flat()
+      .filter(no => !ITEM_NUMBERS.includes(no));
+
+
+    if (wrongNumbers.length > 0) {
+
+      itemNo =
+        wrongNumbers[
+          Math.floor(
+            Math.random() * wrongNumbers.length
+          )
+        ];
+
+      miss = true;
+    }
+  }
+
+
+  items.push({
+    x: -30,
+    y: 188,
+    size: itemSize,
+
+    color:
+      ITEM_COLORS[
+        Math.floor(Math.random() * ITEM_COLORS.length)
+      ],
+
+    itemNo,
+
+    revealed:
+      Math.random() > ITEM_NUMBER_HIDE,
+
+    revealAttempts: 0,
+
+    broken:
+      Math.random() < STAGES[currentStage].miss,
+
+    miss
+  });
 }
 
 function getGroupSize(item: Item) {
@@ -422,7 +489,7 @@ dropZones.push({
   success: 0,
   fail: 0,
 });
-/*
+
 dropZones.push({
   itemNo: -2,
   name: t("miss"),
@@ -432,7 +499,7 @@ dropZones.push({
 
   y: 50,
 
-  w: wrongZoneWidth,
+  w: brokenZoneWidth,
   h: 50,
 
   count: 0,
@@ -441,16 +508,10 @@ dropZones.push({
   fail: 0,
 
   replacing: false,
-  targetX:
-    BELT_END_X -
-    brokenZoneWidth -
-    wrongZoneWidth -
-    20,
-
-  targetY: 20,
-  originalY: 20,
+  targetX: BELT_END_X - brokenZoneWidth,
+  targetY: 380,
+  originalY: 380
 });
-*/
 
 }
 
@@ -1355,15 +1416,30 @@ zone.count += draggingItem.group
 
 let success = false;
 
-// 파손품 전용 존
+// 파손 존
 if (zone.itemNo === -1) {
-    success = draggingItem.broken;
+
+  success =
+    draggingItem.broken;
+
 }
-// 일반 존
+
+// miss 존
+else if (zone.itemNo === -2) {
+
+  success =
+    draggingItem.miss;
+
+}
+
+// 일반 번호 존
 else {
-    success =
-        !draggingItem.broken &&
-        draggingItem.itemNo === zone.itemNo;
+
+  success =
+    !draggingItem.broken &&
+    !draggingItem.miss &&
+    draggingItem.itemNo === zone.itemNo;
+
 }
 
 if (success) {
