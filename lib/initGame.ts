@@ -144,7 +144,7 @@ const STACK_SPACING = 40;
   let remainTime = STAGES[currentStage].time;
   let lastTick = Date.now();
 
-  let itemSize = 36;
+  let itemSize = 50;
 
   let animationId = 0;
   let paused = false;
@@ -306,7 +306,7 @@ function spawnItem() {
 
   items.push({
     x: -30,
-    y: 188,
+    y: 150,
     size: itemSize,
 
     color:
@@ -747,7 +747,7 @@ const WAREHOUSE_Y = 60;
 ctx.fillText(
   `${t("floor")} (${stackedItems.length}/${MAX_STACK})`,
   WAREHOUSE_X + WAREHOUSE_W / 2,
-  WAREHOUSE_Y - 15
+  WAREHOUSE_Y - 10
 );
 }
 
@@ -793,7 +793,8 @@ function drawConveyor() {
 // 아이템 이동
 function updateItems() {
   const WAIT_LINE_X = BELT_END_X - 36;
-  const ITEM_GAP = 28;
+  const ITEM_GAP = 35;
+  
 
   let blockedAtEntrance = false;
 
@@ -1009,41 +1010,46 @@ function drawItem(item: Item) {
       ? item.itemNo
       : "???",
     item.x + item.size / 2,
-    item.y + 15
+    item.y + 25
   );
 
   if (item.broken) {
-    drawBrokenLabel(item);
+    drawBrokenMark(item);
   }
 
-  // 몇 개 묶음인지 표시
-  if (groupSize > 1) {
+// 몇 개 묶음인지 표시
+if (groupSize > 1) {
 
-    ctx.fillStyle = "#facc15";
+  ctx.save();
 
-    ctx.beginPath();
+  const cx = item.x + item.size / 2;
+  const cy = item.y + item.size + 12;
 
-ctx.arc(
-  item.x + item.size / 2,
-  item.y + item.size + 10,
-  12,
-  0,
-  Math.PI * 2
-);
+  // 노란 원
+  ctx.fillStyle = "#facc15";
+  ctx.beginPath();
+  ctx.arc(cx, cy, 13, 0, Math.PI * 2);
+  ctx.fill();
 
+  // 검은 테두리
+  ctx.strokeStyle = "#222";
+  ctx.lineWidth = 2;
+  ctx.stroke();
 
+  // 숫자
+  ctx.fillStyle = "#000";
+  ctx.font = "bold 16px Arial";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
 
-    ctx.fill();
+  ctx.fillText(
+    String(groupSize),
+    cx,
+    cy
+  );
 
-    ctx.fillStyle = "#000";
-    ctx.font = "bold 12px Arial";
-
-ctx.fillText(
-  String(groupSize),
-  item.x + item.size / 2,
-  item.y + item.size + 14
-);
-  }
+  ctx.restore();
+}
 }
 
 
@@ -1063,20 +1069,34 @@ function drawItems() {
   }
 }
 
-function drawBrokenLabel(item: Item) {
-  if (!item.broken) {
-    return;
-  }
+function drawBrokenMark(item: Item) {
+  if (!item.broken) return;
 
-  ctx.fillStyle = "#ff3333";
-  ctx.font = "bold 11px Arial";
-  ctx.textAlign = "center";
+  ctx.save();
 
-  ctx.fillText(
-    t("broken"),
-    item.x + item.size / 2,
-    item.y + 30
-  );
+  const x = item.x;
+  const y = item.y;
+  const s = item.size;
+
+  // ==========================
+  // 빨간 X
+  // ==========================
+  ctx.globalAlpha = 0.8;
+  ctx.strokeStyle = "#ff2020";
+  ctx.lineWidth = 4;
+
+  const pad = 7;
+
+  ctx.beginPath();
+  ctx.moveTo(x + pad, y + pad);
+  ctx.lineTo(x + s - pad, y + s - pad);
+
+  ctx.moveTo(x + s - pad, y + pad);
+  ctx.lineTo(x + pad, y + s - pad);
+
+  ctx.stroke();
+
+  ctx.restore();
 }
 
 function tryReveal(item) {
@@ -1537,14 +1557,14 @@ break;
   // ======================
   // 창고 → 벨트
   // ======================
-  if (
-    !dropped &&
-    draggingSource === stackedItems &&
-    centerX >= 0 &&
-    centerX <= BELT_END_X &&
-    centerY >= 180 &&
-    centerY <= 280
-  ) {
+if (
+  !dropped &&
+  draggingSource === stackedItems &&
+  centerX >= 0 &&
+  centerX <= BELT_END_X &&
+  centerY >= BELT_Y &&
+  centerY <= BELT_Y + BELT_HEIGHT
+) {
 
     const idx =
       stackedItems.indexOf(draggingItem);
@@ -1557,9 +1577,34 @@ break;
     draggingItem.x =
       centerX - draggingItem.size / 2;
 
-    draggingItem.y = 188;
+    draggingItem.y = 150;
 
-    items.push(draggingItem);
+const newX =
+  centerX - draggingItem.size / 2;
+
+// 기존 위치에서 제거
+const oldIndex =
+  items.indexOf(draggingItem);
+
+if (oldIndex >= 0) {
+  items.splice(oldIndex, 1);
+}
+
+// 사용자가 놓은 위치 기준으로 정렬
+items.push(draggingItem);
+
+items.sort((a, b) => {
+
+  if (a === draggingItem) {
+    return newX - b.x;
+  }
+
+  if (b === draggingItem) {
+    return a.x - newX;
+  }
+
+  return a.x - b.x;
+});
 
     dropped = true;
   }
