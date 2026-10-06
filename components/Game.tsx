@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { initGame } from "@/lib/initGame";
+import { initGame } from "@/src/initGame";
 import { useTranslations } from "next-intl";
 
 export default function Game() {
@@ -18,7 +18,6 @@ const [rankingData, setRankingData] =
 
 const [nickname, setNickname] =
   useState("");
-const [score, setScore] = useState(0);  
 const [gameClear, setGameClear] = useState(false);
 const canvasRef = useRef<HTMLCanvasElement>(null);
 const gameRef = useRef<any>(null);
