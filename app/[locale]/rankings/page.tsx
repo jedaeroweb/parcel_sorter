@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
-import { getRankings } from "@/lib/rankings";
+import { getRankings } from "@/src/rankings";
 
 type Props = {
   searchParams: Promise<{
