@@ -55,6 +55,7 @@
     "nickname": "별명",
     "performance": "성과",
     "line" : "라인",
-    "accuracy": "정확도"
+    "accuracy": "정확도",
+    "submit": "등록"
   }
 }

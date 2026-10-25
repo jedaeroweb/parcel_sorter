@@ -24,6 +24,8 @@ import {
   getZoneAccuracy,
 } from "./dropzone";
 
+export type GameTheme = "light" | "dark";
+
 export type RenderContext = {
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
@@ -46,7 +48,54 @@ export type RenderContext = {
   };
 
   t: (key: string) => string;
+  getTheme: () => GameTheme;
 };
+
+export const THEME_COLORS = {
+  light: {
+    defaultText: "#333333",
+    itemGroupText: "#ffffff",
+    background: "#f3f4f6",
+    warehouse: "#d1d5db",
+    warehouseText: "#374151",
+    conveyor: "#9ca3af",
+    conveyorLine: "#d1d5db",
+    zone: "#e5e7eb",
+    zoneBorder: "#6b7280",
+    zoneText: "#111827",
+    itemBorder: "#374151",
+    itemText: "#111827",
+    secondaryText: "#4b5563",
+    pauseButton: "#374151",
+    pauseButtonHover: "#ca8a04",
+  },
+
+  dark: {
+    defaultText: "#ffffff",
+    itemGroupText: "#ffffff",
+    background: "#17191d",
+    warehouse: "#30343b",
+    warehouseText: "#f3f4f6",
+    conveyor: "#454a54",
+    conveyorLine: "#626975",
+    zone: "#252930",
+    zoneBorder: "#737b87",
+    zoneText: "#f9fafb",
+    itemBorder: "#111827",
+    itemText: "#111827",
+    secondaryText: "#d1d5db",
+    pauseButton: "#f3f4f6",
+    pauseButtonHover: "#fde047",
+  },
+} satisfies Record<GameTheme, Record<string, string>>;
+
+export function drawBackground(rc: RenderContext) {
+  const { ctx, canvas, getTheme } = rc;
+  const colors = THEME_COLORS[getTheme()];
+
+  ctx.fillStyle = colors.background;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
 
 export function drawConveyor(
   rc: RenderContext
@@ -55,9 +104,12 @@ export function drawConveyor(
     ctx,
     state,
     beltEndX,
+    getTheme
   } = rc;
 
-  ctx.fillStyle = "#555";
+  const colors = THEME_COLORS[getTheme()];
+
+  ctx.fillStyle = colors.conveyor;
 
   ctx.fillRect(
     0,
@@ -79,7 +131,7 @@ export function drawConveyor(
 
   ctx.clip();
 
-  ctx.strokeStyle = "#777";
+  ctx.strokeStyle = colors.conveyorLine;
   ctx.lineWidth = 2;
 
   for (
@@ -114,6 +166,7 @@ export function drawWarehouse(
     ctx,
     canvas,
     state,
+    getTheme,
     t,
   } = rc;
 
@@ -122,7 +175,9 @@ export function drawWarehouse(
 
   const warehouseY = 60;
 
-  ctx.fillStyle = "#888";
+  const colors = THEME_COLORS[getTheme()];
+
+  ctx.fillStyle = colors.warehouse;
 
   ctx.fillRect(
     warehouseX,
@@ -131,7 +186,7 @@ export function drawWarehouse(
     WAREHOUSE_H
   );
 
-  ctx.fillStyle = "#fff";
+  ctx.fillStyle = colors.warehouseText;
 
   ctx.font =
     "bold 18px Arial";
@@ -195,8 +250,11 @@ export function drawBrokenMark(
 
 export function drawItem(
   ctx: CanvasRenderingContext2D,
-  item: Item
+  item: Item,
+  theme: GameTheme
 ) {
+ const colors = THEME_COLORS[theme];
+
   const groupSize =
     item.group?.items.length ?? 1;
 
@@ -221,7 +279,7 @@ export function drawItem(
       item.size
     );
 
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = colors.itemBorder;
 
     ctx.strokeRect(
       x,
@@ -231,7 +289,7 @@ export function drawItem(
     );
   }
 
-  ctx.fillStyle = "#000";
+  ctx.fillStyle = colors.itemText;
 
   ctx.font = ITEM_FONT;
 
@@ -266,8 +324,7 @@ export function drawItem(
       item.size +
       12;
 
-    ctx.fillStyle =
-      "#facc15";
+    ctx.fillStyle = colors.itemText;
 
     ctx.beginPath();
 
@@ -281,14 +338,13 @@ export function drawItem(
 
     ctx.fill();
 
-    ctx.strokeStyle =
-      "#222";
+    ctx.strokeStyle = colors.itemBorder;
 
     ctx.lineWidth = 2;
 
     ctx.stroke();
 
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = colors.itemGroupText;
 
     ctx.font =
       "bold 16px Arial";
@@ -315,6 +371,7 @@ export function drawItems(
   const {
     ctx,
     state,
+    getTheme
   } = rc;
 
   for (const item of state.items) {
@@ -327,7 +384,8 @@ export function drawItems(
 
     drawItem(
       ctx,
-      item
+      item,
+      getTheme()
     );
   }
 }
@@ -338,6 +396,7 @@ export function drawStackedItems(
   const {
     ctx,
     state,
+    getTheme
   } = rc;
 
   for (
@@ -352,7 +411,8 @@ export function drawStackedItems(
 
     drawItem(
       ctx,
-      item
+      item,
+      getTheme()
     );
   }
 }
@@ -363,10 +423,13 @@ export function drawDropZones(
   const {
     ctx,
     state,
+    getTheme,
     t,
   } = rc;
 
-  ctx.fillStyle = "#fff";
+  const colors = THEME_COLORS[getTheme()];
+
+  ctx.fillStyle = colors.zone;
   ctx.font =
     "bold 18px Arial";
 
@@ -376,7 +439,7 @@ export function drawDropZones(
   for (
     const zone of state.dropZones
   ) {
-    ctx.fillStyle =
+    ctx.fillStyle = colors.zone;
       "#1b1616";
 
     ctx.fillRect(
@@ -386,8 +449,7 @@ export function drawDropZones(
       zone.h
     );
 
-    ctx.strokeStyle =
-      "#999";
+    ctx.strokeStyle = colors.zoneBorder;
 
     ctx.strokeRect(
       zone.x,
@@ -397,7 +459,7 @@ export function drawDropZones(
     );
 
     ctx.fillStyle =
-      "#fff";
+      THEME_COLORS[getTheme()].zoneText;
 
     ctx.font =
       "bold 16px Arial";
@@ -479,6 +541,7 @@ export function drawPausedButton(
   const {
     ctx,
     pauseButton,
+    getTheme
   } = rc;
 
   ctx.save();
@@ -489,10 +552,12 @@ export function drawPausedButton(
   ctx.textBaseline =
     "middle";
 
+  const colors = THEME_COLORS[getTheme()];
+
   ctx.fillStyle =
     hovered
-      ? "#fde047"
-      : "#ffffff";
+      ? colors.pauseButtonHover
+      : colors.pauseButton;
 
   const barWidth = 6;
   const barHeight = 22;

@@ -45,12 +45,11 @@ https://sorter.jedaeroweb.co.kr
 
 ## 🛠 Tech Stack
 
-* Next.js
 * TypeScript
+* Next.js
 * React
 * next-intl
 * HTML5 Canvas
-* CSS
 
 ---
 

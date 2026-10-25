@@ -55,6 +55,7 @@
     "nickname": "Nickname",
     "performance": "Performance",
     "line": "Line",
-    "accuracy": "Accuracy"
+    "accuracy": "Accuracy",
+    "submit": "Submit"
   }
 }

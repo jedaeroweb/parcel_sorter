@@ -45,6 +45,7 @@ import {
 
 
 import {
+  THEME_COLORS,
 
   drawConveyor,
 
@@ -59,6 +60,7 @@ import {
   drawScoreEffects,
 
   drawPausedButton,
+  drawBackground
 
 } from "./game/render";
 
@@ -106,7 +108,9 @@ export function initGame(
 
     key: string
 
-  ) => string
+  ) => string,
+
+  getTheme: () => "light" | "dark"
 
 ) {
 
@@ -464,9 +468,8 @@ export function initGame(
 
   function drawHud() {
 
-    ctx.fillStyle =
-
-      "white";
+     const colors = THEME_COLORS[getTheme()];
+    ctx.fillStyle = colors.zoneText;
 
 
 
@@ -690,59 +693,23 @@ export function initGame(
 
 
 
-    let timeColor =
+const isDark = getTheme() === "dark";
 
-      "#00ff00";
+let timeColor = isDark ? "#00ff00" : "#008000";
 
-
-
-    if (
-
-      state.remainTime > 120
-
-    ) {
-
-      timeColor =
-
-        "#ff0000";
-
-    } else if (
-
-      state.remainTime > 90
-
-    ) {
-
-      timeColor =
-
-        "#ffff00";
-
-    } else if (
-
-      state.remainTime > 60
-
-    ) {
-
-      timeColor =
-
-        "#ffffff";
-
-    } else if (
-
-      state.remainTime > 30
-
-    ) {
-
-      timeColor =
-
-        "#66ccff";
-
-    }
+if (state.remainTime > 120) {
+  timeColor = isDark ? "#ff0000" : "#cc0000";
+} else if (state.remainTime > 90) {
+  timeColor = isDark ? "#ffff00" : "#a16207";
+} else if (state.remainTime > 60) {
+  timeColor = isDark ? "#ffffff" : "#333333";
+} else if (state.remainTime > 30) {
+  timeColor = isDark ? "#66ccff" : "#0077aa";
+}
 
 
 
-    ctx.fillStyle =
-
-      "#ffffff";
+    ctx.fillStyle = colors.defaultText;
 
 
 
@@ -817,10 +784,8 @@ export function initGame(
         pauseButton,
 
         timeArea,
-
-
-
         t,
+       getTheme
 
       },
 
@@ -937,211 +902,34 @@ const onHudPointerDown = (e: PointerEvent): boolean => {
 
    */
 
-  function loop() {
-
-    ctx.clearRect(
-
-      0,
-
-      0,
-
-      WIDTH,
-
-      HEIGHT
-
-    );
-
-
-
-    drawHud();
-
-
-
-    updateGame(
-
-      runtime
-
-    );
-
-
-
-    drawConveyor({
-
-      canvas,
-
-      ctx,
-
-      state,
-
-
-
-      beltEndX:
-
-        BELT_END_X,
-
-
-
-      pauseButton,
-
-      timeArea,
-
-
-
-      t,
-
-    });
-
-
-
-    drawWarehouse({
-
-      canvas,
-
-      ctx,
-
-      state,
-
-
-
-      beltEndX:
-
-        BELT_END_X,
-
-
-
-      pauseButton,
-
-      timeArea,
-
-
-
-      t,
-
-    });
-
-
-
-    drawItems({
-
-      canvas,
-
-      ctx,
-
-      state,
-
-
-
-      beltEndX:
-
-        BELT_END_X,
-
-
-
-      pauseButton,
-
-      timeArea,
-
-
-
-      t,
-
-    });
-
-
-
-    drawStackedItems({
-
-      canvas,
-
-      ctx,
-
-      state,
-
-
-
-      beltEndX:
-
-        BELT_END_X,
-
-
-
-      pauseButton,
-
-      timeArea,
-
-
-
-      t,
-
-    });
-
-
-
-    drawDropZones({
-
-      canvas,
-
-      ctx,
-
-      state,
-
-
-
-      beltEndX:
-
-        BELT_END_X,
-
-
-
-      pauseButton,
-
-      timeArea,
-
-
-
-      t,
-
-    });
-
-
-
-    drawScoreEffects({
-
-      canvas,
-
-      ctx,
-
-      state,
-
-
-
-      beltEndX:
-
-        BELT_END_X,
-
-
-
-      pauseButton,
-
-      timeArea,
-
-
-
-      t,
-
-    });
-
-
-
-    animationId =
-
-      requestAnimationFrame(
-
-        loop
-
-      );
-
-  }
+function loop() {
+  ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+  const rc = {
+    canvas,
+    ctx,
+    state,
+    beltEndX: BELT_END_X,
+    pauseButton,
+    timeArea,
+    t,
+    getTheme,
+  };
+
+  drawBackground(rc);
+  drawHud();
+
+  updateGame(runtime);
+
+  drawConveyor(rc);
+  drawWarehouse(rc);
+  drawItems(rc);
+  drawStackedItems(rc);
+  drawDropZones(rc);
+  drawScoreEffects(rc);
+
+  animationId = requestAnimationFrame(loop);
+}
 
 
 

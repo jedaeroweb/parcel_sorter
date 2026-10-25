@@ -24,7 +24,13 @@ const gameRef = useRef<any>(null);
 const [paused, setPaused] = useState(false);
 const t = useTranslations("Game");
 const homeT = useTranslations("Home");
+const rankingsT = useTranslations("Rankings");
 
+function getCurrentTheme(): "light" | "dark" {
+  return document.documentElement.classList.contains("dark")
+    ? "dark"
+    : "light";
+}
 
 async function checkRanking(result: any) {
   try {
@@ -50,6 +56,8 @@ async function checkRanking(result: any) {
     console.error(err);
   }
 }
+
+
 
 async function submitRanking() {
   if (!rankingData) {
@@ -104,6 +112,20 @@ async function submitRanking() {
   }
 }
 
+
+useEffect(() => {
+  const observer = new MutationObserver(() => {
+    console.log("테마 변경:", getCurrentTheme());
+  });
+
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class", "data-theme"],
+  });
+
+  return () => observer.disconnect();
+}, []);
+
 useEffect(() => {
   const handleVisibility = () => {
     if (document.hidden) {
@@ -142,6 +164,9 @@ useEffect(() => {
   const canvas = canvasRef.current;
   if (!canvas) return;
 
+console.log("Initializing game...");
+console.log("Current theme:", getCurrentTheme());
+
 gameRef.current = initGame(
   canvas,
 
@@ -169,7 +194,8 @@ gameRef.current = initGame(
 
   setPaused,
 
-  t
+  t,
+  getCurrentTheme
 );
 
   return () => {
@@ -238,21 +264,21 @@ if (!gameStarted) {
 return (
 
   <div
-  className="
-    relative
-    w-full
-    max-w-[1200px]
-    mx-auto
-    rounded-xl
-    overflow-hidden
-    shadow-2xl
-    bg-black
-    select-none
-    touch-none
-    [-webkit-touch-callout:none]
-    [-webkit-user-select:none]
-  "
->
+    className="
+      relative
+      w-full
+      max-w-[1200px]
+      mx-auto
+      rounded-xl
+      overflow-hidden
+      shadow-2xl
+      bg-white dark:bg-black
+      select-none
+      touch-none
+      [-webkit-touch-callout:none]
+      [-webkit-user-select:none]
+    "
+  >
 <canvas
   ref={canvasRef}
   width={1160}
@@ -274,11 +300,11 @@ return (
         🏆 TOP 100
       </h2>
 
-      <p>성과: {rankingData.score}</p>
+      <p>{rankingsT("performance")}: {rankingData.score}</p>
 
-      <p>라인: {rankingData.stage}</p>
+      <p>{rankingsT("line")}: {rankingData.stage}</p>
 
-      <p>정확도: {rankingData.accuracy}%</p>
+      <p>{rankingsT("accuracy")}: {rankingData.accuracy}%</p>
 
       <input
         className="mt-4 w-full border p-2"
@@ -294,7 +320,7 @@ return (
         className="mt-4 w-full rounded bg-blue-600 p-2 text-white"
         onClick={submitRanking}
       >
-        등록
+        {rankingsT("submit")}
       </button>
     </div>
   </div>

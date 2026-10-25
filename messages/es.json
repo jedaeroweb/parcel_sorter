@@ -55,6 +55,7 @@
     "nickname": "Apodo",
     "performance": "Rendimiento",
     "line": "Línea",
-    "accuracy": "Precisión"
+    "accuracy": "Precisión",
+    "submit": "Enviar"
   }
 }

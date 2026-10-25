@@ -55,6 +55,7 @@
     "nickname": "Spitzname",
     "performance": "Leistung",
     "line": "Linie",
-    "accuracy": "Genauigkeit"
+    "accuracy": "Genauigkeit",
+    "submit": "Einreichen"
   }
 }
