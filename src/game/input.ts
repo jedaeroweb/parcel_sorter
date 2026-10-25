@@ -279,7 +279,7 @@ export function installInput(
      * 처리하고 바로 return 한다.
      */
 for (const zone of state.dropZones) {
-  if (zone.itemNo < 0) {
+  if (Number(zone.itemNo) < 0) {
     continue;
   }
 
